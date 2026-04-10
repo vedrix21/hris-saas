@@ -9,7 +9,10 @@ import (
 )
 
 func main() {
-    r := gin.Default()
+     r := gin.Default()
+
+    // 🔥 TAMBAHKAN INI
+    r.Static("/ui", "./ui")
 
     config.ConnectMasterDB()
     routes.SetupRoutes(r)
