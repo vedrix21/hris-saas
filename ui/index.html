@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>HRIS Employee</title>
+</head>
+<body>
+<h2>Employee CRUD</h2>
+
+<input id="name" placeholder="Name">
+<input id="position" placeholder="Position">
+<button onclick="save()">Save</button>
+
+<ul id="list"></ul>
+
+<script>
+let editId = null;
+
+async function load(){
+ const res = await fetch('/employees');
+ const data = await res.json();
+ const list = document.getElementById('list');
+ list.innerHTML = '';
+ data.forEach(e=>{
+   const li = document.createElement('li');
+   li.innerHTML = e.name + ' - ' + e.position + 
+   ' <button onclick="edit('+e.id+',\''+e.name+'\',\''+e.position+'\')">Edit</button>' +
+   ' <button onclick="del('+e.id+')">Delete</button>';
+   list.appendChild(li);
+ });
+}
+
+function edit(id,name,pos){
+ editId=id;
+ document.getElementById('name').value=name;
+ document.getElementById('position').value=pos;
+}
+
+async function save(){
+ const name = document.getElementById('name').value;
+ const position = document.getElementById('position').value;
+
+ const method = editId ? 'PUT':'POST';
+ const url = editId ? '/employees/'+editId:'/employees';
+
+ await fetch(url,{
+  method,
+  headers:{'Content-Type':'application/json'},
+  body: JSON.stringify({name,position})
+ });
+
+ editId=null;
+ load();
+}
+
+async function del(id){
+ await fetch('/employees/'+id,{method:'DELETE'});
+ load();
+}
+
+load();
+</script>
+
+</body>
+</html>
