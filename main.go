@@ -9,10 +9,14 @@ import (
 )
 
 func main() {
-     r := gin.Default()
+    r := gin.Default()
 
     // 🔥 TAMBAHKAN INI
     r.Static("/ui", "./ui")
+
+    r.GET("/", func(c *gin.Context) {
+        c.File("./ui/index.html")
+    })
 
     config.ConnectMasterDB()
     routes.SetupRoutes(r)
