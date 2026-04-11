@@ -21,6 +21,9 @@ func CreateAccount(c *gin.Context) {
     account := models.Account{
         Code:        code,
         CompanyName: company,
+		Package:     "basic",
+		UserLimit:   5,
+		IsActive:    true,
     }
 
     config.DB.Create(&account)
@@ -34,4 +37,14 @@ func CreateAccount(c *gin.Context) {
     config.DB.Create(&user)
 
     c.String(200, "Account berhasil dibuat")
+}
+
+func OwnerDashboard(c *gin.Context) {
+    var accounts []models.Account
+
+    config.DB.Find(&accounts)
+
+    c.HTML(200, "owner_dashboard.html", gin.H{
+        "accounts": accounts,
+    })
 }

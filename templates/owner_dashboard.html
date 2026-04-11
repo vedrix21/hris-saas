@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Owner Dashboard</title>
+</head>
+<body>
+
+<h1>Owner Dashboard</h1>
+
+<a href="/owner/create-account">+ Create Client</a>
+<a href="/logout">Logout</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Company</th>
+        <th>Code</th>
+        <th>Package</th>
+        <th>User Limit</th>
+        <th>Status</th>
+    </tr>
+
+    {{range .accounts}}
+    <tr>
+        <td>{{.CompanyName}}</td>
+        <td>{{.Code}}</td>
+        <td>{{.Package}}</td>
+        <td>{{.UserLimit}}</td>
+        <td>
+            {{if .IsActive}}Active{{else}}Suspend{{end}}
+        </td>
+    </tr>
+    {{end}}
+</table>
+
+</body>
+</html>

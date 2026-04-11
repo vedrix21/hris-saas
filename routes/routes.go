@@ -16,6 +16,8 @@ func SetupRoutes(r *gin.Engine) {
     r.POST("/login", controllers.Login)
     r.GET("/owner/create-account", controllers.ShowCreateAccount)
     r.POST("/owner/create-account", controllers.CreateAccount)
+    r.GET("/owner/dashboard", controllers.OwnerDashboard)
+    r.GET("/logout", controllers.Logout)
 
     auth := r.Group("/")
     auth.Use(middlewares.AuthMiddleware())

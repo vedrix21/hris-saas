@@ -39,3 +39,9 @@ func Dashboard(c *gin.Context) {
         "tenant": tenant,
     })
 }
+func Logout(c *gin.Context) {
+    c.SetCookie("user", "", -1, "/", "", false, true)
+    c.SetCookie("tenant", "", -1, "/", "", false, true)
+
+    c.Redirect(302, "/login")
+}
