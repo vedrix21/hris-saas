@@ -8,7 +8,9 @@ import (
 )
 
 func ShowLogin(c *gin.Context) {
-    c.HTML(http.StatusOK, "login.html", nil)
+    c.HTML(200, "login.html", gin.H{
+        "logo": "/static/logo.png",
+    })
 }
 
 func Login(c *gin.Context) {

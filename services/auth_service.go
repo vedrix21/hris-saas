@@ -4,6 +4,8 @@ import (
     "errors"
     "hris/config"
     "hris/models"
+
+    "golang.org/x/crypto/bcrypt"
 )
 
 func Login(accountCode, username, password string) (*models.User, *models.Account, error) {
@@ -19,8 +21,9 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
         return nil, nil, err
     }
 
-    // 🔥 FIX DI SINI
-    if user.Password != password {
+    // 🔥 GANTI VALIDASI DI SINI (bcrypt)
+    err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+    if err != nil {
         return nil, nil, errors.New("invalid password")
     }
 
