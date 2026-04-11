@@ -4,6 +4,8 @@ import (
     "fmt"
     "os"
 
+    "hris/models"
+
     "gorm.io/driver/mysql"
     "gorm.io/gorm"
 )
