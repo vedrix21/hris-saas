@@ -31,4 +31,5 @@ func ConnectMasterDB() {
     DB = database
 
     DB.AutoMigrate(&models.Account{}, &models.User{})
+    fmt.Println("MIGRATING...")
 }
