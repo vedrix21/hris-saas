@@ -1,4 +1,3 @@
-
 package config
 
 import (
@@ -6,14 +5,15 @@ import (
     "gorm.io/gorm"
 )
 
-var MasterDB *gorm.DB
+var DB *gorm.DB
 
 func ConnectMasterDB() {
-    dsn := "saas_user:password@tcp(127.0.0.1:3306)/master_db?charset=utf8mb4&parseTime=True&loc=Local"
-    db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-    MasterDB = db
-}
+    dsn := "user:password@tcp(host:port)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
 
-func ConnectTenantDB(dsn string) (*gorm.DB, error) {
-    return gorm.Open(mysql.Open(dsn), &gorm.Config{})
+    database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+    if err != nil {
+        panic("failed to connect database")
+    }
+
+    DB = database
 }

@@ -1,6 +1,7 @@
 package services
 
 import (
+    "errors"
     "hris/config"
     "hris/models"
 )
@@ -18,9 +19,9 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
         return nil, nil, err
     }
 
-    // sementara tanpa hash (nanti kita upgrade)
+    // 🔥 FIX DI SINI
     if user.Password != password {
-        return nil, nil, err
+        return nil, nil, errors.New("invalid password")
     }
 
     return &user, &account, nil
