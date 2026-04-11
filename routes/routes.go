@@ -1,19 +1,24 @@
-
 package routes
 
 import (
+    "hris/controllers"
+    "hris/middlewares"
+
     "github.com/gin-gonic/gin"
-    "hris/handlers"
-    "hris/middleware"
 )
 
 func SetupRoutes(r *gin.Engine) {
 
-    tenant := r.Group("/")
-    tenant.Use(middleware.TenantMiddleware())
+    
 
-    tenant.GET("/employees", handlers.GetEmployees)
-    tenant.POST("/employees", handlers.CreateEmployee)
-    tenant.PUT("/employees/:id", handlers.UpdateEmployee)
-    tenant.DELETE("/employees/:id", handlers.DeleteEmployee)
+    r.GET("/", controllers.ShowLogin)
+    r.GET("/login", controllers.ShowLogin)
+    r.POST("/login", controllers.Login)
+
+    auth := r.Group("/")
+    auth.Use(middlewares.AuthMiddleware())
+    {
+        auth.GET("/dashboard", controllers.Dashboard)
+    }
 }
+

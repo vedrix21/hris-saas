@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -11,12 +10,11 @@ import (
 func main() {
     r := gin.Default()
 
-    // 🔥 TAMBAHKAN INI
-    r.Static("/ui", "./ui")
+    // 🔥 static file (css/js kalau ada)
+    r.Static("/static", "./static")
 
-    r.GET("/", func(c *gin.Context) {
-        c.File("./ui/index.html")
-    })
+    // 🔥 load template HTML (WAJIB untuk login & dashboard)
+    r.LoadHTMLGlob("templates/*")
 
     config.ConnectMasterDB()
     routes.SetupRoutes(r)
