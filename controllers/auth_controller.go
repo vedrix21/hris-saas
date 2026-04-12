@@ -32,6 +32,9 @@ func Login(c *gin.Context) {
     // set session user (simple)
     c.SetCookie("user", user.Username, 3600, "/", "", false, true)
 
+	// set cookie role
+	c.SetCookie("role", user.Role, 3600, "/", "", false, true)
+
     c.Redirect(http.StatusFound, "/dashboard")
 }
 

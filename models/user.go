@@ -5,4 +5,5 @@ type User struct {
     Username  string
     Password  string
     AccountID uint
+	Role	  string
 }

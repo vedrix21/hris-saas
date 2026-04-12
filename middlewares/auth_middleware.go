@@ -1,13 +1,16 @@
 package middlewares
 
-import "github.com/gin-gonic/gin"
+import (
+    "net/http"
+
+    "github.com/gin-gonic/gin"
+)
 
 func AuthMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
-        _, err := c.Cookie("user")
-
-        if err != nil {
-            c.Redirect(302, "/login")
+        user, err := c.Cookie("user")
+        if err != nil || user == "" {
+            c.Redirect(http.StatusFound, "/login")
             c.Abort()
             return
         }
