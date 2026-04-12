@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type User struct {
     ID        uint
     Username  string
@@ -7,6 +9,6 @@ type User struct {
     AccountID uint
 	Role	  string
 	ResetToken     string
-	ResetTokenExp  time.Time
+	ResetTokenExp *time.Time
 	Email          string
 }
