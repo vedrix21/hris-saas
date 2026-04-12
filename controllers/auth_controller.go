@@ -121,10 +121,10 @@ func ResetPassword(c *gin.Context) {
         return
     }
 
-    if time.Now().After(user.ResetTokenExp) {
-        c.String(400, "Token expired")
-        return
-    }
+    if user.ResetTokenExp == nil || time.Now().After(*user.ResetTokenExp) {
+		c.String(400, "Token expired")
+		return
+	}
 
     hashed, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
