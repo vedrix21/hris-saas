@@ -3,6 +3,9 @@ package controllers
 import (
     "net/http"
     "hris/services"
+	"hris/config"
+    "hris/models"
+	
 
     "github.com/gin-gonic/gin"
 )
