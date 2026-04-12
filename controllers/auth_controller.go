@@ -34,13 +34,7 @@ func Login(c *gin.Context) {
 
     c.Redirect(http.StatusFound, "/dashboard")
 }
-func Dashboard(c *gin.Context) {
-    tenant, _ := c.Cookie("tenant")
 
-    c.HTML(200, "dashboard.html", gin.H{
-        "tenant": tenant,
-    })
-}
 func Logout(c *gin.Context) {
     c.SetCookie("user", "", -1, "/", "", false, true)
     c.SetCookie("tenant", "", -1, "/", "", false, true)
