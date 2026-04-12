@@ -44,6 +44,7 @@ func CreateAccount(c *gin.Context) {
     config.DB.Create(&user)
 
     c.String(200, "Account berhasil dibuat")
+	c.Redirect(302, "/OwnerDashboard")
 }
 
 func OwnerDashboard(c *gin.Context) {
