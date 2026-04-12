@@ -5,7 +5,7 @@ import (
     "hris/services"
 	"hris/config"
     "hris/models"
-	
+
 
     "github.com/gin-gonic/gin"
 )
@@ -54,7 +54,14 @@ func Login(c *gin.Context) {
 	// set cookie role
 	c.SetCookie("role", user.Role, 3600, "/", "", false, true)
 
-    c.Redirect(http.StatusFound, "/dashboard")
+    switch user.Role {
+	case "owner":
+		c.Redirect(http.StatusFound, "/owner/dashboard")
+	case "admin":
+		c.Redirect(http.StatusFound, "/dashboard")
+	default:
+		c.Redirect(http.StatusFound, "/dashboard")
+	}
 }
 
 func Logout(c *gin.Context) {
