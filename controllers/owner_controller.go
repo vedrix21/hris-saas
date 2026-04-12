@@ -6,6 +6,7 @@ import (
     "hris/models"
 
     "github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func ShowCreateAccount(c *gin.Context) {
@@ -17,6 +18,12 @@ func CreateAccount(c *gin.Context) {
     code := c.PostForm("account_code")
     username := c.PostForm("username")
     password := c.PostForm("password")
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+    if err != nil {
+        c.String(500, "Failed to hash password")
+        return
+    }
 
     account := models.Account{
         Code:        code,
@@ -30,7 +37,7 @@ func CreateAccount(c *gin.Context) {
 
     user := models.User{
         Username:  username,
-        Password:  password, // 🔥 sementara plain
+        Password:  string(hashedPassword), // 🔥 sementara plain
         AccountID: account.ID,
     }
 
