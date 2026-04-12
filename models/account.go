@@ -6,7 +6,7 @@ type Account struct {
     CompanyName  string
 	Package		 string
 	UserLimit	 int
-    PrimaryColor string
+    ThemeColor	 string
     LogoURL      string
 	IsActive	 bool
 }

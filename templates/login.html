@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #4F46E5, #9333EA);
+            background: linear-gradient(135deg, {{.color}}, #9333EA);
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,8 +24,12 @@
         }
 
         .logo {
-            height: 60px;
+            max-width: 160px;
+            height: auto;
             margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         input {
@@ -39,7 +43,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background: #4F46E5;
+            background: {{.color}};
             color: white;
             border: none;
             border-radius: 6px;
@@ -49,6 +53,7 @@
 
         button:hover {
             background: #4338CA;
+            opacity: 0.9;
         }
 
         button.loading {

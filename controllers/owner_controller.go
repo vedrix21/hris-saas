@@ -55,3 +55,19 @@ func OwnerDashboard(c *gin.Context) {
         "accounts": accounts,
     })
 }
+
+func SaveSettings(c *gin.Context) {
+    logo := c.PostForm("logo_url")
+    color := c.PostForm("theme_color")
+
+    tenant, _ := c.Cookie("tenant")
+
+    config.DB.Model(&models.Account{}).
+        Where("code = ?", tenant).
+        Updates(map[string]interface{}{
+            "logo_url": logo,
+            "theme_color": color,
+        })
+
+    c.Redirect(302, "/dashboard")
+}

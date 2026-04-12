@@ -8,8 +8,24 @@ import (
 )
 
 func ShowLogin(c *gin.Context) {
+    accountCode := c.Query("account_code")
+
+    var account models.Account
+    config.DB.Where("code = ?", accountCode).First(&account)
+
+    logo := account.LogoURL
+    if logo == "" {
+        logo = "/static/logo.png"
+    }
+
+    color := account.ThemeColor
+    if color == "" {
+        color = "#4F46E5"
+    }
+
     c.HTML(200, "login.html", gin.H{
-        "logo": "/static/logo.png",
+        "logo":  logo,
+        "color": color,
     })
 }
 
