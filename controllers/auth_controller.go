@@ -70,3 +70,66 @@ func Logout(c *gin.Context) {
 
     c.Redirect(302, "/login")
 }
+
+
+func ForgotPassword(c *gin.Context) {
+
+    email := c.PostForm("email")
+
+    var user models.User
+    if err := config.DB.Where("email = ?", email).First(&user).Error; err != nil {
+        c.String(404, "Email tidak ditemukan")
+        return
+    }
+
+    token := utils.GenerateToken()
+
+    config.DB.Model(&user).Updates(map[string]interface{}{
+        "reset_token":     token,
+        "reset_token_exp": time.Now().Add(1 * time.Hour),
+    })
+
+    resetLink := "https://app.hrflowapp.com/reset-password?token=" + token
+
+    body := `
+    <h3>Reset Password</h3>
+    <p>Klik link berikut untuk reset password:</p>
+    <a href="` + resetLink + `">Reset Password</a>
+    `
+
+    services.SendEmailHTML(user.Email, "Reset Password AitherHR", body)
+
+    c.String(200, "Link reset password telah dikirim ke email")
+}
+
+func ShowResetPassword(c *gin.Context) {
+    token := c.Query("token")
+    c.HTML(200, "reset_password.html", gin.H{"token": token})
+}
+
+func ResetPassword(c *gin.Context) {
+
+    token := c.PostForm("token")
+    password := c.PostForm("password")
+
+    var user models.User
+    if err := config.DB.Where("reset_token = ?", token).First(&user).Error; err != nil {
+        c.String(400, "Token tidak valid")
+        return
+    }
+
+    if time.Now().After(user.ResetTokenExp) {
+        c.String(400, "Token expired")
+        return
+    }
+
+    hashed, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+    config.DB.Model(&user).Updates(map[string]interface{}{
+        "password":        string(hashed),
+        "reset_token":     "",
+        "reset_token_exp": nil,
+    })
+
+    c.Redirect(302, "/login")
+}

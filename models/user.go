@@ -6,4 +6,7 @@ type User struct {
     Password  string
     AccountID uint
 	Role	  string
+	ResetToken     string
+	ResetTokenExp  time.Time
+	Email          string
 }

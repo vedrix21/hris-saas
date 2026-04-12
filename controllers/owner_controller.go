@@ -13,6 +13,10 @@ func ShowCreateAccount(c *gin.Context) {
     c.HTML(http.StatusOK, "create_account.html", nil)
 }
 
+func ShowSettings(c *gin.Context) {
+    c.HTML(200, "settings.html", nil)
+}
+
 func CreateAccount(c *gin.Context) {
     company := c.PostForm("company_name")
     code := c.PostForm("account_code")
@@ -43,8 +47,7 @@ func CreateAccount(c *gin.Context) {
 
     config.DB.Create(&user)
 
-    c.String(200, "Account berhasil dibuat")
-	c.Redirect(302, "/OwnerDashboard")
+    c.Redirect(302, "/owner/dashboard?success=1")
 }
 
 func OwnerDashboard(c *gin.Context) {
@@ -52,8 +55,11 @@ func OwnerDashboard(c *gin.Context) {
 
     config.DB.Find(&accounts)
 
+    success := c.Query("success")
+
     c.HTML(200, "owner_dashboard.html", gin.H{
         "accounts": accounts,
+        "success":  success,
     })
 }
 

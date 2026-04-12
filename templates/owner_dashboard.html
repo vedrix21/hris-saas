@@ -1,36 +1,193 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Owner Dashboard</title>
+    <title>AitherHR - Owner Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: #f5f7fb;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background: #111827;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar a:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        /* CARD */
+        .cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            flex: 1;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #16A34A;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes fadeOut {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>Owner Dashboard</h1>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>AitherHR</h2>
 
-<a href="/owner/create-account">+ Create Client</a>
-<a href="/logout">Logout</a>
+    <a href="/owner/dashboard">Dashboard</a>
+    <a href="/owner/settings">⚙️ Settings</a>
+    <a href="/logout">Logout</a>
+</div>
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Company</th>
-        <th>Code</th>
-        <th>Package</th>
-        <th>User Limit</th>
-        <th>Status</th>
-    </tr>
+<!-- MAIN -->
+<div class="main">
 
-    {{range .accounts}}
-    <tr>
-        <td>{{.CompanyName}}</td>
-        <td>{{.Code}}</td>
-        <td>{{.Package}}</td>
-        <td>{{.UserLimit}}</td>
-        <td>
-            {{if .IsActive}}Active{{else}}Suspend{{end}}
-        </td>
-    </tr>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h2>Owner Dashboard</h2>
+    </div>
+
+    <!-- TOAST -->
+    {{if .success}}
+    <div id="toast">✅ Account berhasil dibuat</div>
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById("toast");
+            if (toast) toast.style.display = "none";
+        }, 3000);
+    </script>
     {{end}}
-</table>
+
+    <!-- CARDS -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Client</h3>
+            <p>{{len .accounts}}</p>
+        </div>
+
+        <div class="card">
+            <h3>Active</h3>
+            <p>
+                {{/* bisa kita hitung nanti */}}
+                -
+            </p>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <h3>Client List</h3>
+
+    <table>
+        <tr>
+            <th>Company</th>
+            <th>Code</th>
+            <th>Package</th>
+            <th>User Limit</th>
+            <th>Status</th>
+        </tr>
+
+        {{range .accounts}}
+        <tr>
+            <td>{{.CompanyName}}</td>
+            <td>{{.Code}}</td>
+            <td>{{.Package}}</td>
+            <td>{{.UserLimit}}</td>
+            <td>
+                {{if .IsActive}}
+                    <span style="color:green;">Active</span>
+                {{else}}
+                    <span style="color:red;">Suspend</span>
+                {{end}}
+            </td>
+        </tr>
+        {{end}}
+    </table>
+
+</div>
 
 </body>
 </html>
