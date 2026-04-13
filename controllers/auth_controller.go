@@ -74,6 +74,9 @@ func Logout(c *gin.Context) {
     c.Redirect(302, "/login")
 }
 
+func ShowForgotPassword(c *gin.Context) {
+    c.HTML(200, "forgot_password.html", nil)
+}
 
 func ForgotPassword(c *gin.Context) {
 
