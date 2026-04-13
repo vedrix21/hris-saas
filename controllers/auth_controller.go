@@ -122,28 +122,31 @@ func ShowResetPassword(c *gin.Context) {
 }
 
 func ResetPassword(c *gin.Context) {
-
-    token := c.PostForm("token")
-    password := c.PostForm("password")
+    token := c.Query("token")
+    newPassword := c.PostForm("password")
 
     var user models.User
     if err := config.DB.Where("reset_token = ?", token).First(&user).Error; err != nil {
-        c.String(400, "Token tidak valid")
+        c.String(400, "Invalid token")
         return
     }
 
     if user.ResetTokenExp == nil || time.Now().After(*user.ResetTokenExp) {
-		c.String(400, "Token expired")
-		return
-	}
+        c.String(400, "Token expired")
+        return
+    }
 
-    hashed, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+    hashed, _ := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+    user.Password = string(hashed)
 
-    config.DB.Model(&user).Updates(map[string]interface{}{
-        "password":        string(hashed),
-        "reset_token":     "",
-        "reset_token_exp": nil,
-    })
+    user.ResetToken = ""
+    user.ResetTokenExp = nil
 
-    c.Redirect(302, "/login")
+    if err := config.DB.Save(&user).Error; err != nil {
+        fmt.Println("SAVE ERROR:", err)
+        c.String(500, "Failed update password")
+        return
+    }
+
+    c.String(200, "Password berhasil direset")
 }
