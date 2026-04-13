@@ -9,9 +9,8 @@ func SendEmailHTML(to, subject, body string) error {
 
     from := os.Getenv("EMAIL_SENDER")
     password := os.Getenv("EMAIL_PASSWORD")
-
-    smtpHost := "smtp.gmail.com"
-    smtpPort := "587"
+    smtpHost := os.Getenv("SMTP_HOST")
+    smtpPort := os.Getenv("SMTP_PORT")
 
     msg := "MIME-Version: 1.0\r\n" +
         "Content-type: text/html; charset=\"UTF-8\";\r\n" +
