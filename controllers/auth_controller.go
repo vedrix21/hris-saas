@@ -107,6 +107,8 @@ func ForgotPassword(c *gin.Context) {
     err := services.SendEmailHTML(user.Email, "Reset Password AitherHR", body)
 	if err != nil {
         fmt.Println("EMAIL ERROR:", err)
+        fmt.Println("SMTP HOST:", os.Getenv("SMTP_HOST"))
+        fmt.Println("SMTP PORT:", os.Getenv("SMTP_PORT"))
     } else {
         fmt.Println("EMAIL SENT SUCCESS")
     }
