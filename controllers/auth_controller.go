@@ -15,7 +15,7 @@ import (
 )
 
 func ShowLogin(c *gin.Context) {
-    accountCode := c.Query("account_code")
+    accountCode := c.PostForm("account_code")
 
     var account models.Account
     config.DB.Where("code = ?", accountCode).First(&account)
