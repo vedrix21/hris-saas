@@ -14,6 +14,8 @@ func SendEmailHTML(to, subject, body string) error {
 
     msg := "MIME-Version: 1.0\r\n" +
         "Content-type: text/html; charset=\"UTF-8\";\r\n" +
+        "From: " + from + "\r\n" +
+        "To: " + to + "\r\n" +
         "Subject: " + subject + "\r\n\r\n" +
         body
 
