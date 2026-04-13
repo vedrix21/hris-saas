@@ -10,7 +10,6 @@ import (
     "hris/models"
 	"hris/utils"
 
-
     "github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
