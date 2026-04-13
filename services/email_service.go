@@ -1,31 +1,50 @@
 package services
 
 import (
-    "net/smtp"
+    "bytes"
+    "encoding/json"
+    "net/http"
     "os"
 )
 
+type EmailRequest struct {
+    Sender struct {
+        Email string `json:"email"`
+    } `json:"sender"`
+    To []struct {
+        Email string `json:"email"`
+    } `json:"to"`
+    Subject string `json:"subject"`
+    HtmlContent string `json:"htmlContent"`
+}
+
 func SendEmailHTML(to, subject, body string) error {
 
-    from := os.Getenv("EMAIL_SENDER")
-    password := os.Getenv("EMAIL_PASSWORD")
-    smtpHost := os.Getenv("SMTP_HOST")
-    smtpPort := os.Getenv("SMTP_PORT")
+    apiKey := os.Getenv("BREVO_API_KEY")
 
-    msg := "MIME-Version: 1.0\r\n" +
-        "Content-type: text/html; charset=\"UTF-8\";\r\n" +
-        "From: " + from + "\r\n" +
-        "To: " + to + "\r\n" +
-        "Subject: " + subject + "\r\n\r\n" +
-        body
+    email := EmailRequest{}
+    email.Sender.Email = os.Getenv("EMAIL_SENDER")
+    email.Subject = subject
+    email.HtmlContent = body
 
-    auth := smtp.PlainAuth("", from, password, smtpHost)
+    email.To = append(email.To, struct {
+        Email string `json:"email"`
+    }{Email: to})
 
-    return smtp.SendMail(
-        smtpHost+":"+smtpPort,
-        auth,
-        from,
-        []string{to},
-        []byte(msg),
-    )
+    jsonData, _ := json.Marshal(email)
+
+    req, _ := http.NewRequest("POST", "https://api.brevo.com/v3/smtp/email", bytes.NewBuffer(jsonData))
+
+    req.Header.Set("accept", "application/json")
+    req.Header.Set("api-key", apiKey)
+    req.Header.Set("content-type", "application/json")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        return err
+    }
+    defer resp.Body.Close()
+
+    return nil
 }
