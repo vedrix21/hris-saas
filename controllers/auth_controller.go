@@ -103,7 +103,10 @@ func ForgotPassword(c *gin.Context) {
     <a href="` + resetLink + `">Reset Password</a>
     `
 
-    services.SendEmailHTML(user.Email, "Reset Password AitherHR", body)
+    err := services.SendEmailHTML(user.Email, "Reset Password AitherHR", body)
+	if err != nil {
+		fmt.Println("EMAIL ERROR:", err)
+	}
 
     c.String(200, "Link reset password telah dikirim ke email")
 }
