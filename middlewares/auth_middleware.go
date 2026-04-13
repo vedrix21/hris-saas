@@ -10,7 +10,7 @@ func AuthMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
         user, err := c.Cookie("user")
         if err != nil || user == "" {
-            c.Redirect(http.StatusFound, "/login")
+            c.Redirect(http.StatusFound, "/")
             c.Abort()
             return
         }
