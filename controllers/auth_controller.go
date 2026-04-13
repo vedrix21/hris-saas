@@ -122,7 +122,7 @@ func ShowResetPassword(c *gin.Context) {
 }
 
 func ResetPassword(c *gin.Context) {
-    token := c.Query("token")
+    token := c.PostForm("token")
     newPassword := c.PostForm("password")
 
     var user models.User
