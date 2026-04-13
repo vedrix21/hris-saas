@@ -127,6 +127,7 @@ func ResetPassword(c *gin.Context) {
 
     var user models.User
     if err := config.DB.Where("reset_token = ?", token).First(&user).Error; err != nil {
+        fmt.Println("DB ERROR:", err)
         c.String(400, "Invalid token")
         return
     }
