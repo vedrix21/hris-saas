@@ -41,6 +41,8 @@ func Login(c *gin.Context) {
     username := c.PostForm("username")
     password := c.PostForm("password")
 
+    fmt.Println("account code:", accountCode)
+
     user, account, err := services.Login(accountCode, username, password)
     if err != nil {
         c.HTML(http.StatusUnauthorized, "login.html", gin.H{
