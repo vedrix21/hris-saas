@@ -9,6 +9,18 @@ import (
     "golang.org/x/crypto/bcrypt"
 )
 
+fmt.Println("🔥 MASUK KE LOGIN SERVICE")
+
+fmt.Println("INPUT:")
+fmt.Println("accountCode:", accountCode)
+fmt.Println("username:", username)
+fmt.Println("password:", password)
+
+fmt.Println("ACCOUNT FOUND:", account.ID)
+
+fmt.Println("DB USER:", user.Username)
+fmt.Println("DB PASSWORD:", user.Password)
+
 func Login(accountCode, username, password string) (*models.User, *models.Account, error) {
     db := config.DB
 
