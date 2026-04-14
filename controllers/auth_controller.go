@@ -18,7 +18,7 @@ func ShowLogin(c *gin.Context) {
     accountCode := c.PostForm("account_code")
 
     var account models.Account
-    config.DB.Where("code = ?", accountCode).First(&account)
+    //config.DB.Where("code = ?", accountCode).First(&account)
 
     logo := account.LogoURL
     if logo == "" {
@@ -37,7 +37,7 @@ func ShowLogin(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-    accountCode := c.PostForm("account_code")
+    accountCode := strings.ToLower(c.PostForm("account_code"))
     username := c.PostForm("username")
     password := c.PostForm("password")
 

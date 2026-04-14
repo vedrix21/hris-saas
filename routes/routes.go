@@ -13,7 +13,7 @@ func SetupRoutes(r *gin.Engine) {
 
     r.GET("/", controllers.ShowLogin)
     r.POST("/login", controllers.Login)
-    r.GET("/login", controllers.ShowLogin)
+    //r.GET("/login", controllers.ShowLogin)
     
     r.GET("/logout", controllers.Logout)
     r.GET("/forgot-password", controllers.ShowForgotPassword)
