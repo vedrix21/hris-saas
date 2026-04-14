@@ -5,6 +5,7 @@ import (
     "net/http"
 	"time"
     "os"
+    "strings"
     "hris/services"
 	"hris/config"
     "hris/models"
@@ -15,24 +16,10 @@ import (
 )
 
 func ShowLogin(c *gin.Context) {
-    accountCode := c.PostForm("account_code")
-
-    var account models.Account
-    //config.DB.Where("code = ?", accountCode).First(&account)
-
-    logo := account.LogoURL
-    if logo == "" {
-        logo = "/static/logo.png"
-    }
-
-    color := account.ThemeColor
-    if color == "" {
-        color = "#4F46E5"
-    }
 
     c.HTML(200, "login.html", gin.H{
-        "logo":  logo,
-        "color": color,
+        "logo":  "/static/logo.png",
+        "color": "#4F46E5",
     })
 }
 
@@ -115,7 +102,7 @@ func ForgotPassword(c *gin.Context) {
         fmt.Println("EMAIL SENT SUCCESS")
     }
 
-    //c.String(200, "Link reset password telah dikirim ke email")
+    c.String(200, "Link reset password telah dikirim ke email")
 }
 
 func ShowResetPassword(c *gin.Context) {
@@ -128,7 +115,7 @@ func ResetPassword(c *gin.Context) {
     newPassword := c.PostForm("password")
 
     var user models.User
-    if err := config.DB.Where("reset_token = ?", token).First(&user).Error; err != nil {
+    if err := config.DB.Where("TRIM(reset_token) = ?", token).First(&user).Error; err != nil {
         fmt.Println("DB ERROR:", err)
         c.String(400, "Invalid token")
         return
@@ -151,5 +138,7 @@ func ResetPassword(c *gin.Context) {
         return
     }
 
-    c.String(200, "Password berhasil direset")
+    c.HTML(200, "login.html", gin.H{
+        "success": "Password berhasil direset, silakan login",
+    })
 }
