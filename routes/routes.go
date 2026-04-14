@@ -9,26 +9,28 @@ import (
 
 func SetupRoutes(r *gin.Engine) {
 
-    
-
-    r.GET("/", controllers.ShowLogin)
+    // ===== PUBLIC =====
+    r.GET("/", controllers.Home)
+    r.GET("/login", controllers.ShowLogin)
     r.POST("/login", controllers.Login)
-    //r.GET("/login", controllers.ShowLogin)
-    
+
     r.GET("/logout", controllers.Logout)
+
     r.GET("/forgot-password", controllers.ShowForgotPassword)
     r.POST("/forgot-password", controllers.ForgotPassword)
     r.GET("/reset-password", controllers.ShowResetPassword)
     r.POST("/reset-password", controllers.ResetPassword)
 
+    // ===== AUTH (SEMUA USER LOGIN) =====
     auth := r.Group("/")
-    auth.Use(middlewares.AuthMiddleware())
+    auth.Use(middlewares.AuthRequired())
     {
         auth.GET("/dashboard", controllers.Dashboard)
     }
 
+    // ===== OWNER ONLY =====
     owner := r.Group("/owner")
-    owner.Use(middlewares.AuthMiddleware())
+    owner.Use(middlewares.AuthRequired())
     owner.Use(middlewares.OwnerOnly())
     {
         owner.GET("/dashboard", controllers.OwnerDashboard)

@@ -14,13 +14,34 @@ import (
     "github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
+func Home(c *gin.Context) {
+
+    user, err := c.Cookie("user")
+    role, _ := c.Cookie("role")
+
+    if err != nil || user == "" {
+        c.Redirect(302, "/login")
+        return
+    }
+
+    if role == "owner" {
+        c.Redirect(302, "/owner/dashboard")
+        return
+    }
+
+    c.Redirect(302, "/dashboard")
+}
 
 func ShowLogin(c *gin.Context) {
+    user, err := c.Cookie("user")
 
-    c.HTML(200, "login.html", gin.H{
-        "logo":  "/static/logo.png",
-        "color": "#4F46E5",
-    })
+    if err == nil && user != "" {
+        // sudah login → langsung ke dashboard
+        c.Redirect(302, "/dashboard")
+        return
+    }
+
+    renderLogin(c, "")
 }
 
 func Login(c *gin.Context) {
@@ -32,9 +53,7 @@ func Login(c *gin.Context) {
 
     user, account, err := services.Login(accountCode, username, password)
     if err != nil {
-        c.HTML(http.StatusUnauthorized, "login.html", gin.H{
-            "error": "Login gagal",
-        })
+        renderLogin(c, "Login gagal")
         return
     }
 
@@ -140,5 +159,13 @@ func ResetPassword(c *gin.Context) {
 
     c.HTML(200, "login.html", gin.H{
         "success": "Password berhasil direset, silakan login",
+    })
+}
+
+func renderLogin(c *gin.Context, errorMsg string) {
+    c.HTML(200, "login.html", gin.H{
+        "error": errorMsg,
+        "logo":  "/static/logo.png",
+        "color": "#4F46E5",
     })
 }
