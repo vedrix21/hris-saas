@@ -34,18 +34,18 @@ func Home(c *gin.Context) {
 }
 
 func ShowLogin(c *gin.Context) {
-	user, err := c.Cookie("user")
+	// user, err := c.Cookie("user")
 
-	if err == nil && user != "" {
-		role, _ := c.Cookie("role")
+	// if err == nil && user != "" {
+	// 	role, _ := c.Cookie("role")
 
-		if role == "owner" {
-			c.Redirect(302, "/owner/dashboard")
-		} else {
-			c.Redirect(302, "/dashboard")
-		}
-		return
-	}
+	// 	if role == "owner" {
+	// 		c.Redirect(302, "/owner/dashboard")
+	// 	} else {
+	// 		c.Redirect(302, "/dashboard")
+	// 	}
+	// 	return
+	// }
 
 	renderLogin(c, "")
 }
