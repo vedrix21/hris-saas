@@ -35,6 +35,7 @@ func Home(c *gin.Context) {
 
 func ShowLogin(c *gin.Context) {
 	user, err := c.Cookie("user")
+	fmt.Println("Masuk ke show login")
 
 	if err == nil && user != "" {
 		role, _ := c.Cookie("role")
