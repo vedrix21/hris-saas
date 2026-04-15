@@ -4,6 +4,8 @@ import (
     "github.com/gin-gonic/gin"
     "hris/services/modules"
     "hris/utils"
+    "hris/services/modules"
+    
 )
 
 func Dashboard(c *gin.Context) {
@@ -14,11 +16,6 @@ func Dashboard(c *gin.Context) {
         "totalEmployee": 120, // 🔥 nanti diganti dari DB
     })
 }
-
-import (
-    "hris/services/modules"
-    "hris/utils"
-)
 
 func RunProcess(c *gin.Context) {
 
