@@ -15,23 +15,23 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// func Home(c *gin.Context) {
+func Home(c *gin.Context) {
 
-// 	user, err := c.Cookie("user")
-// 	role, _ := c.Cookie("role")
+	user, err := c.Cookie("user")
+	role, _ := c.Cookie("role")
 
-// 	if err != nil || user == "" {
-// 		c.Redirect(302, "/login")
-// 		return
-// 	}
+	if err != nil || user == "" {
+		c.Redirect(302, "/login")
+		return
+	}
 
-// 	if role == "owner" {
-// 		c.Redirect(302, "/owner/dashboard")
-// 		return
-// 	}
+	if role == "owner" {
+		c.Redirect(302, "/owner/dashboard")
+		return
+	}
 
-// 	c.Redirect(302, "/dashboard")
-// }
+	c.Redirect(302, "/dashboard")
+}
 
 func ShowLogin(c *gin.Context) {
 	user, err := c.Cookie("user")
