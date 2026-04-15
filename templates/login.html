@@ -127,9 +127,13 @@
     const btn = document.getElementById('loginBtn');
 
     form.addEventListener('submit', function() {
-        btn.classList.add('loading');
-        btn.innerHTML = '<div class="spinner"></div>';
+        showLoading("Authenticating...");
     });
+
+    //form.addEventListener('submit', function() {
+      //  btn.classList.add('loading');
+       // btn.innerHTML = '<div class="spinner"></div>';
+    //});
 </script>
 
 </body>
