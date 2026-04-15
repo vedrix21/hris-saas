@@ -1,28 +1,29 @@
 package main
 
 import (
-    "os"
-    "github.com/gin-gonic/gin"
-    "hris/config"
-    "hris/routes"
+	"hris/config"
+	"hris/routes"
+	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    r := gin.Default()
+	r := gin.Default()
 
-    // 🔥 static file (css/js kalau ada)
-    r.Static("/static", "./static")
+	// 🔥 static file (css/js kalau ada)
+	r.Static("/static", "./static")
 
-    // 🔥 load template HTML (WAJIB untuk login & dashboard)
-    r.LoadHTMLGlob("templates/*")
+	// 🔥 load template HTML (WAJIB untuk login & dashboard)
+	r.LoadHTMLGlob("templates/**/*.html")
 
-    config.ConnectMasterDB()
-    routes.SetupRoutes(r)
+	config.ConnectMasterDB()
+	routes.SetupRoutes(r)
 
-    port := os.Getenv("PORT")
-    if port == "" {
-        port = "8080"
-    }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-    r.Run(":" + port)
+	r.Run(":" + port)
 }
