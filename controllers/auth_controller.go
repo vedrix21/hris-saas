@@ -15,42 +15,37 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Home(c *gin.Context) {
+// func Home(c *gin.Context) {
 
-	user, err := c.Cookie("user")
-	role, _ := c.Cookie("role")
+// 	user, err := c.Cookie("user")
+// 	role, _ := c.Cookie("role")
 
-	if err != nil || user == "" {
-		c.Redirect(302, "/login")
-		return
-	}
+// 	if err != nil || user == "" {
+// 		c.Redirect(302, "/login")
+// 		return
+// 	}
 
-	if role == "owner" {
-		c.Redirect(302, "/owner/dashboard")
-		return
-	}
+// 	if role == "owner" {
+// 		c.Redirect(302, "/owner/dashboard")
+// 		return
+// 	}
 
-	c.Redirect(302, "/dashboard")
-}
+// 	c.Redirect(302, "/dashboard")
+// }
 
 func ShowLogin(c *gin.Context) {
-	c.HTML(200, "login.html", gin.H{
+	user, err := c.Cookie("user")
 
-		"logo":  "/static/logo.png",
-		"color": "#4F46E5",
-	})
-	// user, err := c.Cookie("user")
+	if err == nil && user != "" {
+		role, _ := c.Cookie("role")
 
-	// if err == nil && user != "" {
-	// 	role, _ := c.Cookie("role")
-
-	// 	if role == "owner" {
-	// 		c.Redirect(302, "/owner/dashboard")
-	// 	} else {
-	// 		c.Redirect(302, "/dashboard")
-	// 	}
-	// 	return
-	// }
+		if role == "owner" {
+			c.Redirect(302, "/owner/dashboard")
+		} else {
+			c.Redirect(302, "/dashboard")
+		}
+		return
+	}
 
 	renderLogin(c, "")
 }

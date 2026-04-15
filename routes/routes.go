@@ -10,7 +10,7 @@ import (
 func SetupRoutes(r *gin.Engine) {
 
 	// ===== PUBLIC =====
-	r.GET("/", controllers.Home)
+	r.GET("/", controllers.ShowLogin)
 	r.GET("/login", controllers.ShowLogin)
 	r.POST("/login", controllers.Login)
 
