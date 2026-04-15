@@ -23,9 +23,11 @@ func SetupRoutes(r *gin.Engine) {
 
     // ===== AUTH (SEMUA USER LOGIN) =====
     auth := r.Group("/")
+    
     auth.Use(middlewares.AuthRequired())
     {
         auth.GET("/dashboard", controllers.Dashboard)
+        auth.GET("/switch-env/:env",controllers.SwitchEnv)
     }
 
     // ===== OWNER ONLY =====

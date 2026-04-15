@@ -169,3 +169,11 @@ func renderLogin(c *gin.Context, errorMsg string) {
         "color": "#4F46E5",
     })
 }
+
+func SwitchEnv(c *gin.Context) {
+    env := c.Param("env") // dev / prod
+
+    c.SetCookie("env", env, 3600, "/", "", false, true)
+
+    c.Redirect(302, "/dashboard")
+}

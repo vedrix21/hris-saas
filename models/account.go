@@ -6,7 +6,12 @@ type Account struct {
     CompanyName  string
 	Package		 string
 	UserLimit	 int
-    ThemeColor	 string
+    IsActive	 bool
+    
     LogoURL      string
-	IsActive	 bool
+    ThemeColor	 string
+    Environment	 string
+
+    Features     string // JSON string
+	
 }

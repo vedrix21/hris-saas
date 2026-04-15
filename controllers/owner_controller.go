@@ -35,6 +35,7 @@ func CreateAccount(c *gin.Context) {
 		Package:     "basic",
 		UserLimit:   5,
 		IsActive:    true,
+        Environment: "prod",
     }
 
     config.DB.Create(&account)
