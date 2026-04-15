@@ -2,71 +2,81 @@ package controllers
 
 import (
 	"fmt"
-    "net/http"
-	"time"
-    "os"
-    "strings"
-    "hris/services"
 	"hris/config"
-    "hris/models"
+	"hris/models"
+	"hris/services"
 	"hris/utils"
+	"net/http"
+	"os"
+	"strings"
+	"time"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
+
 func Home(c *gin.Context) {
 
-    user, err := c.Cookie("user")
-    role, _ := c.Cookie("role")
+	user, err := c.Cookie("user")
+	role, _ := c.Cookie("role")
 
-    if err != nil || user == "" {
-        c.Redirect(302, "/login")
-        return
-    }
+	if err != nil || user == "" {
+		c.Redirect(302, "/login")
+		return
+	}
 
-    if role == "owner" {
-        c.Redirect(302, "/owner/dashboard")
-        return
-    }
+	if role == "owner" {
+		c.Redirect(302, "/owner/dashboard")
+		return
+	}
 
-    c.Redirect(302, "/dashboard")
+	c.Redirect(302, "/dashboard")
 }
 
 func ShowLogin(c *gin.Context) {
-    user, err := c.Cookie("user")
+	user, err := c.Cookie("user")
 
-    if err == nil && user != "" {
-        // sudah login → langsung ke dashboard
-        c.Redirect(302, "/dashboard")
-        return
-    }
+	if err == nil && user != "" {
+		role, _ := c.Cookie("role")
 
-    renderLogin(c, "")
+		if role == "owner" {
+			c.Redirect(302, "/owner/dashboard")
+		} else {
+			c.Redirect(302, "/dashboard")
+		}
+		return
+	}
+
+	renderLogin(c, "")
 }
 
 func Login(c *gin.Context) {
-    accountCode := strings.ToLower(c.PostForm("account_code"))
-    username := c.PostForm("username")
-    password := c.PostForm("password")
+	accountCode := strings.ToLower(c.PostForm("account_code"))
+	username := c.PostForm("username")
+	password := c.PostForm("password")
 
-    fmt.Println("account code:", accountCode)
+	if accountCode == "" || username == "" || password == "" {
+		renderLogin(c, "Semua field wajib diisi")
+		return
+	}
 
-    user, account, err := services.Login(accountCode, username, password)
-    if err != nil {
-        renderLogin(c, "Login gagal")
-        return
-    }
+	user, account, err := services.Login(accountCode, username, password)
+	if err != nil {
+		renderLogin(c, "Login gagal")
+		return
+	}
 
-    // set cookie tenant
-    c.SetCookie("tenant", account.Code, 3600, "/", "", false, true)
+	domain := "" // default
 
-    // set session user (simple)
-    c.SetCookie("user", user.Username, 3600, "/", "", false, true)
+	if os.Getenv("ENV") == "production" {
+		domain = "app.aitherhr.com"
+	}
 
-	// set cookie role
-	c.SetCookie("role", user.Role, 3600, "/", "", false, true)
+	c.SetCookie("tenant", account.Code, 3600, "/", domain, true, true)
+	c.SetCookie("user", user.Username, 3600, "/", domain, true, true)
+	c.SetCookie("role", user.Role, 3600, "/", domain, true, true)
 
-    switch user.Role {
+	switch user.Role {
 	case "owner":
 		c.Redirect(http.StatusFound, "/owner/dashboard")
 	case "admin":
@@ -77,103 +87,109 @@ func Login(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-    c.SetCookie("user", "", -1, "/", "", false, true)
-    c.SetCookie("tenant", "", -1, "/", "", false, true)
+	c.SetCookie("user", "", -1, "/", "", false, true)
+	c.SetCookie("tenant", "", -1, "/", "", false, true)
+	c.SetCookie("role", "", -1, "/", "", false, true)
 
-    c.Redirect(302, "/login")
+	c.Redirect(302, "/login")
 }
 
 func ShowForgotPassword(c *gin.Context) {
-    c.HTML(200, "forgot_password.html", nil)
+	c.HTML(200, "forgot_password.html", nil)
 }
 
 func ForgotPassword(c *gin.Context) {
 
-    email := c.PostForm("email")
+	email := c.PostForm("email")
 
-    var user models.User
-    if err := config.DB.Where("email = ?", email).First(&user).Error; err != nil {
-        c.String(404, "Email tidak ditemukan")
-        return
-    }
+	var user models.User
+	if err := config.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		c.String(404, "Email tidak ditemukan")
+		return
+	}
 
-    token := utils.GenerateToken()
+	token := utils.GenerateToken()
 
-    config.DB.Model(&user).Updates(map[string]interface{}{
-        "reset_token":     token,
-        "reset_token_exp": time.Now().Add(1 * time.Hour),
-    })
+	config.DB.Model(&user).Updates(map[string]interface{}{
+		"reset_token":     token,
+		"reset_token_exp": time.Now().Add(1 * time.Hour),
+	})
 
-    resetLink := "https://app.hrflowapp.com/reset-password?token=" + token
+	baseURL := os.Getenv("BASE_URL")
+	if baseURL == "" {
+		baseURL = "http://localhost:8080"
+	}
 
-    body := `
+	resetLink := baseURL + "/reset-password?token=" + token
+
+	body := `
     <h3>Reset Password</h3>
     <p>Klik link berikut untuk reset password:</p>
     <a href="` + resetLink + `">Reset Password</a>
     `
 
-    err := services.SendEmailHTML(user.Email, "Reset Password AitherHR", body)
+	err := services.SendEmailHTML(user.Email, "Reset Password AitherHR", body)
 	if err != nil {
-        fmt.Println("EMAIL ERROR:", err)
-        fmt.Println("SMTP HOST:", os.Getenv("SMTP_HOST"))
-        fmt.Println("SMTP PORT:", os.Getenv("SMTP_PORT"))
-    } else {
-        fmt.Println("EMAIL SENT SUCCESS")
-    }
+		fmt.Println("EMAIL ERROR:", err)
+		fmt.Println("SMTP HOST:", os.Getenv("SMTP_HOST"))
+		fmt.Println("SMTP PORT:", os.Getenv("SMTP_PORT"))
+	} else {
+		fmt.Println("EMAIL SENT SUCCESS")
+	}
 
-    c.String(200, "Link reset password telah dikirim ke email")
+	c.String(200, "Link reset password telah dikirim ke email")
 }
 
 func ShowResetPassword(c *gin.Context) {
-    token := c.Query("token")
-    c.HTML(200, "reset_password.html", gin.H{"token": token})
+	token := c.Query("token")
+	c.HTML(200, "reset_password.html", gin.H{"token": token})
 }
 
 func ResetPassword(c *gin.Context) {
-    token := c.PostForm("token")
-    newPassword := c.PostForm("password")
+	token := c.PostForm("token")
+	newPassword := c.PostForm("password")
 
-    var user models.User
-    if err := config.DB.Where("TRIM(reset_token) = ?", token).First(&user).Error; err != nil {
-        fmt.Println("DB ERROR:", err)
-        c.String(400, "Invalid token")
-        return
-    }
+	var user models.User
+	if err := config.DB.Where("TRIM(reset_token) = ?", token).First(&user).Error; err != nil {
+		fmt.Println("DB ERROR:", err)
+		c.String(400, "Invalid token")
+		return
+	}
 
-    if user.ResetTokenExp == nil || time.Now().After(*user.ResetTokenExp) {
-        c.String(400, "Token expired")
-        return
-    }
+	if user.ResetTokenExp == nil || time.Now().After(*user.ResetTokenExp) {
+		c.String(400, "Token expired")
+		return
+	}
 
-    hashed, _ := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
-    user.Password = string(hashed)
+	hashed, _ := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	user.Password = string(hashed)
 
-    user.ResetToken = ""
-    user.ResetTokenExp = nil
+	user.ResetToken = ""
+	user.ResetTokenExp = nil
 
-    if err := config.DB.Save(&user).Error; err != nil {
-        fmt.Println("SAVE ERROR:", err)
-        c.String(500, "Failed update password")
-        return
-    }
+	if err := config.DB.Save(&user).Error; err != nil {
+		fmt.Println("SAVE ERROR:", err)
+		c.String(500, "Failed update password")
+		return
+	}
 
-    c.HTML(200, "login.html", gin.H{
-        "success": "Password berhasil direset, silakan login",
-    })
+	c.HTML(200, "login.html", gin.H{
+		"success": "Password berhasil direset, silakan login",
+	})
 }
 
 func renderLogin(c *gin.Context, errorMsg string) {
-    c.HTML(200, "login.html", gin.H{
-        "error": errorMsg,
-        "logo":  "/static/logo.png",
-        "color": "#4F46E5",
-    })
+	c.HTML(200, "login.html", gin.H{
+		"error": errorMsg,
+		"logo":  "/static/logo.png",
+		"color": "#4F46E5",
+	})
 }
 
 func SwitchEnv(c *gin.Context) {
-    env := c.Param("env") // dev / prod
+	env := c.Param("env") // dev / prod
 
-    c.SetCookie("env", env, 3600, "/", "", false, true)
+	c.SetCookie("env", env, 3600, "/", "", false, true)
 
-    c.Redirect(302, "/dashboard")
+	c.Redirect(302, "/dashboard")
 }
