@@ -34,6 +34,11 @@ func Home(c *gin.Context) {
 }
 
 func ShowLogin(c *gin.Context) {
+	c.HTML(200, "login.html", gin.H{
+
+		"logo":  "/static/logo.png",
+		"color": "#4F46E5",
+	})
 	// user, err := c.Cookie("user")
 
 	// if err == nil && user != "" {
