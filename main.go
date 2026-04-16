@@ -15,7 +15,7 @@ func main() {
 	r.Static("/static", "./static")
 
 	// 🔥 load template HTML (WAJIB untuk login & dashboard)
-	r.LoadHTMLGlob("templates/*")
+	r.LoadHTMLGlob("templates/**/*")
 
 	config.ConnectMasterDB()
 	routes.SetupRoutes(r)

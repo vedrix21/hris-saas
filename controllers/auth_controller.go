@@ -180,7 +180,7 @@ func ResetPassword(c *gin.Context) {
 }
 
 func renderLogin(c *gin.Context, errorMsg string) {
-	c.HTML(200, "login.html", gin.H{
+	c.HTML(200, "login/login.html", gin.H{
 		"error": errorMsg,
 		"logo":  "/static/logo.png",
 		"color": "#4F46E5",
