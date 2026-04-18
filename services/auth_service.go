@@ -28,20 +28,21 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
     // 🔥 GANTI VALIDASI DI SINI (bcrypt)
     err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
     if err != nil {
+        fmt.Println("INPUT:")
+        fmt.Println("accountCode:", accountCode)
+        fmt.Println("username:", username)
+        fmt.Println("password:", password)
+
+        fmt.Println("ACCOUNT FOUND:", account.ID)
+
+        fmt.Println("DB USER:", user.Username)
+        fmt.Println("DB PASSWORD:", user.Password)
         return nil, nil, errors.New("invalid password")
     }
 
     // fmt.Println("🔥 MASUK KE LOGIN SERVICE")
 
-    fmt.Println("INPUT:")
-    fmt.Println("accountCode:", accountCode)
-    fmt.Println("username:", username)
-    fmt.Println("password:", password)
-
-    fmt.Println("ACCOUNT FOUND:", account.ID)
-
-    fmt.Println("DB USER:", user.Username)
-    fmt.Println("DB PASSWORD:", user.Password)
+    
 
     return &user, &account, nil
 }
