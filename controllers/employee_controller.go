@@ -1,18 +1,10 @@
 package controllers
 
 import (
-	"fmt"
 	"hris/config"
 	"hris/models"
-	"hris/services"
-	"hris/utils"
-	"net/http"
-	"os"
-	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func Employees(c *gin.Context) {

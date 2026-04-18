@@ -3,16 +3,10 @@ package controllers
 import (
 	
 	"hris/config"
-	"hris/models"
-
-	
-	
-	"os"
-	"strings"
+	"hris/models"	
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CheckIn(c *gin.Context) {

@@ -11,7 +11,7 @@ import (
 )
 
 func RunPayroll(c *gin.Context) {
-    err := services.ProcessPayroll()
+    err := modules.ProcessPayroll()
     if err != nil {
         c.String(500, "Payroll failed")
         return
