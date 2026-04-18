@@ -164,7 +164,7 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	// hashed, _ := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	// user.Password = string(hashed)
 	user.Password = string(newPassword)
 
