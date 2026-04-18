@@ -181,6 +181,8 @@ func ResetPassword(c *gin.Context) {
 }
 
 func renderLogin(c *gin.Context, errorMsg string) {
+	hash, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
+	fmt.Println(string(hash))
     
 	c.HTML(200, "login.html", gin.H{
 		"error": errorMsg,
