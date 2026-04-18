@@ -5,6 +5,7 @@ import (
     "hris/config"
     "hris/models"
     "hris/utils"
+    "hris/services"
 
     "github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -19,37 +20,19 @@ func ShowSettings(c *gin.Context) {
 }
 
 func CreateAccount(c *gin.Context) {
-    company := c.PostForm("company_name")
-    // code := c.PostForm("account_code")
-    username := c.PostForm("username")
-    password := c.PostForm("password")
+    companyName := c.PostForm("company_name")
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+    account, username, password, err := services.CreateTenant(companyName)
     if err != nil {
-        c.String(500, "Failed to hash password")
+        c.String(500, "Failed create account")
         return
     }
 
-    account := models.Account{
-        Code:        utils.GenerateCode(),
-        CompanyName: company,
-		Package:     "basic",
-		UserLimit:   5,
-		IsActive:    true,
-        Environment: "prod",
-    }
-
-    config.DB.Create(&account)
-
-    user := models.User{
-        Username:  username,
-        Password:  string(hashedPassword), // 🔥 sementara plain
-        AccountID: account.ID,
-    }
-
-    config.DB.Create(&user)
-
-    c.Redirect(302, "/owner/dashboard?success=1")
+    c.JSON(200, gin.H{
+        "account_code": account.Code,
+        "username":     username,
+        "password":     password,
+    })
 }
 
 func OwnerDashboard(c *gin.Context) {
