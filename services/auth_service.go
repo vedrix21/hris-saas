@@ -1,7 +1,7 @@
 package services
 
 import (
-    // "fmt"
+    "fmt"
     "errors"
     "strings"
     "hris/config"
@@ -33,15 +33,15 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
 
     // fmt.Println("🔥 MASUK KE LOGIN SERVICE")
 
-    // fmt.Println("INPUT:")
-    // fmt.Println("accountCode:", accountCode)
-    // fmt.Println("username:", username)
-    // fmt.Println("password:", password)
+    fmt.Println("INPUT:")
+    fmt.Println("accountCode:", accountCode)
+    fmt.Println("username:", username)
+    fmt.Println("password:", password)
 
-    // fmt.Println("ACCOUNT FOUND:", account.ID)
+    fmt.Println("ACCOUNT FOUND:", account.ID)
 
-    // fmt.Println("DB USER:", user.Username)
-    // fmt.Println("DB PASSWORD:", user.Password)
+    fmt.Println("DB USER:", user.Username)
+    fmt.Println("DB PASSWORD:", user.Password)
 
     return &user, &account, nil
 }

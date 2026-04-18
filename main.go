@@ -11,6 +11,8 @@ import (
 func main() {
 	r := gin.Default()
 
+	r.SetTrustedProxies(nil)
+
 	// 🔥 static file (css/js kalau ada)
 	r.Static("/static", "./static")
 
