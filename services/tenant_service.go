@@ -1,13 +1,17 @@
 package services
 
-import "hris/models"
+import (
+    "hris/config"
+    "hris/models"
+)
 
-// 🔥 ambil account berdasarkan code (tenant)
 func GetAccountByCode(code string) (*models.Account, error) {
     var account models.Account
-    err := DB.Where("code = ?", code).First(&account).Error
+
+    err := config.DB.Where("code = ?", code).First(&account).Error
     if err != nil {
         return nil, err
     }
+
     return &account, nil
 }
