@@ -4,6 +4,8 @@ import (
     "github.com/gin-gonic/gin"
     "hris/services/modules"
     "hris/utils"
+    "hris/config"
+    "hris/models"
     
 )
 

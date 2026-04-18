@@ -25,7 +25,7 @@ func UpgradePlan(c *gin.Context) {
 
     config.DB.Model(&acc).Update("package", newPlan)
 
-    config.DB.Create(&models.SubscriptionHistory{
+    config.DB.Create(&models.Subscription{
         AccountID: acc.ID,
         FromPlan:  acc.Package,
         ToPlan:    newPlan,

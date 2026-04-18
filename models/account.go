@@ -5,6 +5,8 @@ type Account struct {
     ID           uint
     Code         string `gorm:"uniqueIndex"`
 
+    CompanyName string
+
     // 🔥 subscription
     Package      string // basic, pro, premium
     MonthlyFee   int

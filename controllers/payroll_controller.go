@@ -5,6 +5,7 @@ import (
 	"hris/config"
 	"hris/models"
 	"hris/services"
+	"hris/services/modules"
 	"hris/utils"
 	"net/http"
 	"os"

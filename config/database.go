@@ -30,7 +30,7 @@ func ConnectMasterDB() {
 
     DB = database
 
-    err = DB.AutoMigrate(&models.Account{}, &models.User{},&models.Company{},&models.Subscription{},)
+    err = DB.AutoMigrate(&models.Account{}, &models.User{},&models.Company{},&models.Subscription{},&models.Payroll{},)
     if err != nil {
         panic("❌ migration failed: " + err.Error())
     }
