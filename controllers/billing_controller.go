@@ -1,18 +1,14 @@
 package controllers
 
 import (
-	"fmt"
+	
 	"hris/config"
 	"hris/models"
-	"hris/services"
-	"hris/utils"
-	"net/http"
-	"os"
-	"strings"
-	"time"
+	"hris/services/modules"
+	
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
+	
 )
 
 func UpgradePlan(c *gin.Context) {

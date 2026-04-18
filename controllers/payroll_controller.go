@@ -4,7 +4,7 @@ import (
 	
 	"hris/config"
 	"hris/models"
-	"hris/services"
+	"hris/services/modules"
 	
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
