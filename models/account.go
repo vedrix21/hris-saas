@@ -3,7 +3,7 @@ import "time"
 
 type Account struct {
     ID           uint
-    Code         string `gorm:"uniqueIndex"`
+    Code         string `gorm:"type:varchar(20);uniqueIndex"`
 
     CompanyName string
 
@@ -25,7 +25,7 @@ type Account struct {
     Environment  string // dev / prod
 
     // 🔥 feature flags (AI, payroll, dll)
-    Features     string // JSON
+    Features     string `gorm:"type:json"` // JSON
 
     CreatedAt    time.Time
     UpdatedAt    time.Time
