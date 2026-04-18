@@ -1,25 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+    <title>Login AitherHR</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, {{if .color}}{{.color}}{{else}}#4F46E5{{end}}, #9333EA);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 340px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .logo {
+            max-width: 160px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: {{.color}};
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button.loading {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="card">
-    <img src="{{.logo}}">
+    <img src="{{.logo}}" class="logo">
 
-    <form method="POST" action="/login">
-        <input name="account_code">
-        <input name="username">
-        <input name="password">
-        <button type="submit">Login</button>
+    <h2>Welcome Back</h2>
+
+    <form id="loginForm" method="POST" action="/login">
+        <input type="text" name="account_code" placeholder="Account Code" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+
+        <button id="loginBtn" type="submit">Login</button>
     </form>
 
+    <a href="/forgot-password">Lupa password?</a>
+
     {{if .error}}
-    <div>{{.error}}</div>
+    <div class="error">{{.error}}</div>
     {{end}}
 </div>
+
+<script>
+    const form = document.getElementById('loginForm');
+    const btn = document.getElementById('loginBtn');
+
+    form.addEventListener('submit', function() {
+        btn.classList.add('loading');
+        btn.innerHTML = '<div class="spinner"></div>';
+    });
+</script>
 
 </body>
 </html>
