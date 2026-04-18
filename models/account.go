@@ -3,7 +3,7 @@ import "time"
 
 type Account struct {
     ID           uint
-    Code         string `gorm:"type:varchar(20);uniqueIndex"`
+    Code string `gorm:"type:varchar(20);uniqueIndex:idx_accounts_code"`
 
     CompanyName string
 
