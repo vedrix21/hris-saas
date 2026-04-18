@@ -30,6 +30,11 @@ func ConnectMasterDB() {
 
     DB = database
 
-    DB.AutoMigrate(&models.Account{}, &models.User{})
-    fmt.Println("MIGRATING...")
+    err = DB.AutoMigrate(&models.Account{}, &models.User{},&models.Company{},&models.Subscription{},)
+    if err != nil {
+        panic("❌ migration failed: " + err.Error())
+    }
+
+    fmt.Println("✅ Database connected & migrated")
+
 }

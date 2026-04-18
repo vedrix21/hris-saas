@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+</head>
+
+<body>
+
+<div class="card">
+    <img src="{{.logo}}">
+
+    <form method="POST" action="/login">
+        <input name="account_code">
+        <input name="username">
+        <input name="password">
+        <button type="submit">Login</button>
+    </form>
+
+    {{if .error}}
+    <div>{{.error}}</div>
+    {{end}}
+</div>
+
+</body>
+</html>

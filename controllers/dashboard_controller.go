@@ -10,9 +10,12 @@ import (
 func Dashboard(c *gin.Context) {
     tenant, _ := c.Cookie("tenant")
 
+    var totalEmployee int64
+    config.DB.Model(&models.Employee{}).Count(&totalEmployee)
+
     c.HTML(200, "dashboard.html", gin.H{
         "tenant": tenant,
-        "totalEmployee": 120, // 🔥 nanti diganti dari DB
+        "totalEmployee": totalEmployee,
     })
 }
 

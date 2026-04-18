@@ -1,7 +1,11 @@
-<h2>White Label Settings</h2>
+{{define "content"}}
+<h2>Settings</h2>
 
 <form method="POST">
-    <input type="text" name="logo_url" placeholder="Logo URL">
-    <input type="text" name="theme_color" placeholder="#4F46E5">
+    <input placeholder="Company Name">
     <button>Save</button>
 </form>
+
+{{end}}
+
+{{template "base" .}}

@@ -15,38 +15,21 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Home(c *gin.Context) {
-
-	user, err := c.Cookie("user")
-	role, _ := c.Cookie("role")
-
-	if err != nil || user == "" {
-		c.Redirect(302, "/login")
-		return
-	}
-
-	if role == "owner" {
-		c.Redirect(302, "/owner/dashboard")
-		return
-	}
-
-	c.Redirect(302, "/dashboard")
-}
 
 func ShowLogin(c *gin.Context) {
-	user, err := c.Cookie("user")
-	fmt.Println("Masuk ke show login")
+	// user, err := c.Cookie("user")
+	// fmt.Println("Masuk ke show login")
 
-	if err == nil && user != "" {
-		role, _ := c.Cookie("role")
+	// if err == nil && user != "" {
+	// 	role, _ := c.Cookie("role")
 
-		if role == "owner" {
-			c.Redirect(302, "/owner/dashboard")
-		} else {
-			c.Redirect(302, "/dashboard")
-		}
-		return
-	}
+	// 	if role == "owner" {
+	// 		c.Redirect(302, "/owner/dashboard")
+	// 	} else {
+	// 		c.Redirect(302, "/dashboard")
+	// 	}
+	// 	return
+	// }
 
 	renderLogin(c, "")
 }
@@ -180,12 +163,12 @@ func ResetPassword(c *gin.Context) {
 }
 
 func renderLogin(c *gin.Context, errorMsg string) {
-    c.HTML(200, "login.html", data)
-	// c.HTML(200, "login/login.html", gin.H{
-	// 	"error": errorMsg,
-	// 	"logo":  "/static/logo.png",
-	// 	"color": "#4F46E5",
-	// })
+    
+	c.HTML(200, "login/login.html", gin.H{
+		"error": errorMsg,
+		"logo":  "/static/logo.png",
+		"color": "#4F46E5",
+	})
 }
 
 func SwitchEnv(c *gin.Context) {

@@ -19,7 +19,7 @@ func ShowSettings(c *gin.Context) {
 
 func CreateAccount(c *gin.Context) {
     company := c.PostForm("company_name")
-    code := c.PostForm("account_code")
+    // code := c.PostForm("account_code")
     username := c.PostForm("username")
     password := c.PostForm("password")
 
@@ -30,7 +30,7 @@ func CreateAccount(c *gin.Context) {
     }
 
     account := models.Account{
-        Code:        code,
+        Code:        utils.GenerateCode(),
         CompanyName: company,
 		Package:     "basic",
 		UserLimit:   5,

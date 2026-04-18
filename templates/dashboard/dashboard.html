@@ -1,0 +1,14 @@
+{{define "content"}}
+
+<h2>Dashboard</h2>
+<p>Welcome, {{.tenant}}</p>
+
+<div class="cards">
+    <div>Total Employee: {{.totalEmployee}}</div>
+    <div>Attendance Today: 98</div>
+    <div>Pending Payroll: 12</div>
+</div>
+
+{{end}}
+
+{{template "base" .}}
