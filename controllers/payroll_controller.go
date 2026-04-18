@@ -7,17 +7,21 @@ import (
 	"hris/services/modules"
 	
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func RunPayroll(c *gin.Context) {
-    err := modules.ProcessPayroll()
+
+    account, _ := c.Cookie("tenant")
+    env := utils.GetEnv(c)
+
+    err := modules.ProcessPayroll(account, env)
+
     if err != nil {
-        c.String(500, "Payroll failed")
+        c.String(500, "Payroll failed: "+err.Error())
         return
     }
 
-    c.String(200, "Payroll success")
+    c.String(200, "Payroll success 🚀")
 }
 
 func PayrollPage(c *gin.Context) {
