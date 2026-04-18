@@ -8,7 +8,7 @@ import (
 )
 
 // generate 7 char dari nama company
-func generateBaseCode(name string) string {
+func GenerateAccountCode(name string) string {
     clean := ""
 
     for _, r := range name {

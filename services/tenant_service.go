@@ -27,7 +27,7 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
 
     // 🔥 LOOP SAMPAI DAPET CODE YANG UNIK
     for {
-        code = utils.GenerateCompanyCode(companyName)
+        code = utils.GenerateAccountCode(companyName)
 
         var count int64
         db.Model(&models.Account{}).
