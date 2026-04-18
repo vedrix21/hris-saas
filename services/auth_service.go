@@ -37,6 +37,7 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
 
         fmt.Println("DB USER:", user.Username)
         fmt.Println("DB PASSWORD:", user.Password)
+        fmt.Println("Errornya:", err)
         return nil, nil, errors.New("invalid password")
     }
 
