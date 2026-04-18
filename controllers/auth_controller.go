@@ -64,7 +64,7 @@ func Login(c *gin.Context) {
 
 	user, account, err := services.Login(accountCode, username, password)
 	if err != nil {
-		renderLogin(c, "Login gagal")
+		renderLogin(c, err)
 		return
 	}
 
