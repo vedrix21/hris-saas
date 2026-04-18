@@ -64,7 +64,8 @@ func Login(c *gin.Context) {
 
 	user, account, err := services.Login(accountCode, username, password)
 	if err != nil {
-		renderLogin(c, err)
+		fmt.Println("LOGIN ERROR:", err.Error()) // 🔥 log ke terminal
+    	renderLogin(c, err.Error())              // 🔥 tampilkan ke UI
 		return
 	}
 

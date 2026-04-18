@@ -21,7 +21,7 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
     }
 
     var user models.User
-    if err := db.Where("username = ? AND account_id = ?", strings.ToLower(username), account.ID).First(&user).Error; err != nil {
+    if err := db.Where("lower(username) = ? AND account_id = ?", strings.ToLower(username), account.ID).First(&user).Error; err != nil {
         return nil, nil, err
     }
 
@@ -33,15 +33,15 @@ func Login(accountCode, username, password string) (*models.User, *models.Accoun
 
     // fmt.Println("🔥 MASUK KE LOGIN SERVICE")
 
-    fmt.Println("INPUT:")
-    fmt.Println("accountCode:", accountCode)
-    fmt.Println("username:", username)
-    fmt.Println("password:", password)
+    // fmt.Println("INPUT:")
+    // fmt.Println("accountCode:", accountCode)
+    // fmt.Println("username:", username)
+    // fmt.Println("password:", password)
 
-    fmt.Println("ACCOUNT FOUND:", account.ID)
+    // fmt.Println("ACCOUNT FOUND:", account.ID)
 
-    fmt.Println("DB USER:", user.Username)
-    fmt.Println("DB PASSWORD:", user.Password)
+    // fmt.Println("DB USER:", user.Username)
+    // fmt.Println("DB PASSWORD:", user.Password)
 
     return &user, &account, nil
 }
