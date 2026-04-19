@@ -49,6 +49,7 @@ func SeedOwner() {
 	db.Create(&user)
 
 	fmt.Println("🔥 OWNER CREATED")
-	fmt.Println("Username:", user.Username)
-	fmt.Println("Password:", rawPassword)
+	fmt.Println("Username :", user.Username)
+	fmt.Println("Password :", rawPassword)
+
 }
