@@ -3,6 +3,7 @@ package main
 import (
 	"hris/config"
 	"hris/routes"
+	"hris/utils"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,7 @@ func main() {
 	r.LoadHTMLGlob("templates/**/*.html")
 
 	config.ConnectMasterDB()
+	utils.SeedOwner()
 	routes.SetupRoutes(r)
 
 	port := os.Getenv("PORT")
