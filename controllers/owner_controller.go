@@ -5,6 +5,7 @@ import (
     "hris/config"
     "hris/models"
     "hris/services"
+    "fmt"
 
     "github.com/gin-gonic/gin"
 	
@@ -40,6 +41,7 @@ func OwnerDashboard(c *gin.Context) {
     config.DB.Find(&accounts)
 
     success := c.Query("success")
+    fmt.Println("Masuk Owner Dashboard")
 
     c.HTML(200, "owner_dashboard.html", gin.H{
         "accounts": accounts,
