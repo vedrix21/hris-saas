@@ -4,6 +4,9 @@ function showLoading(message = "Processing...") {
 
     if (text) text.innerText = message;
     if (el) el.style.display = "flex";
+    setTimeout(() => {
+        window.location.href = url;
+    }, 1000); // delay biar animasi keliatan
 }
 
 function hideLoading() {
@@ -18,5 +21,5 @@ function handleNav(e, url) {
 
     setTimeout(() => {
         window.location.href = url;
-    }, 1000); // delay biar animasi keliatan
+    }, 3000); // delay biar animasi keliatan
 }
