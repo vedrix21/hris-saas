@@ -18,5 +18,5 @@ function handleNav(e, url) {
 
     setTimeout(() => {
         window.location.href = url;
-    }, 300); // delay biar animasi keliatan
+    }, 1000); // delay biar animasi keliatan
 }
