@@ -1,14 +1,14 @@
-function showLoading(text = "Processing...") {
-    const loader = document.getElementById("globalLoading");
-    const loadingText = document.getElementById("loadingText");
+function showLoading(message = "Processing...") {
+    const el = document.getElementById("aiLoading");
+    const text = document.getElementById("loadingMessage");
 
-    if (loader) loader.style.display = "flex";
-    if (loadingText) loadingText.innerText = text;
+    if (text) text.innerText = message;
+    if (el) el.style.display = "flex";
 }
 
 function hideLoading() {
-    const loader = document.getElementById("globalLoading");
-    if (loader) loader.style.display = "none";
+    const el = document.getElementById("aiLoading");
+    if (el) el.style.display = "none";
 }
 
 function handleNav(e, url) {

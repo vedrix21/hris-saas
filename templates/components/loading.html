@@ -1,7 +1,7 @@
-{{ define "loading" }}
+<div id="aiLoading" class="ai-loading-overlay">
 
-<div id="globalLoading" class="loading-overlay" style="display:none;">
-  <div class="container">
+  <div class="ai-loading-container">
+
     <div class="glow"></div>
     <div class="glow purple"></div>
 
@@ -15,14 +15,17 @@
       <span>Aither</span><span>HR</span>
     </div>
 
+    <div class="tagline">
+      AI POWERED WORKFORCE INTELLIGENCE
+    </div>
+
     <div class="loading">
       <div class="loading-bar"></div>
     </div>
 
-    <div class="loading-text" id="loadingText">
-      Processing...
+    <div class="loading-text" id="loadingMessage">
+      Initializing...
     </div>
+
   </div>
 </div>
-
-{{ end }}

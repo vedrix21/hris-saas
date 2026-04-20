@@ -1,0 +1,342 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f1f5f9;
+    display: flex;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(180deg, #0f172a, #1e293b);
+    color: white;
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px;
+    margin: 8px 0;
+    color: #cbd5f5;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: #334155;
+    color: white;
+}
+
+.sidebar a.active {
+    background: #4f46e5;
+    color: white;
+}
+
+/* ===== CONTENT ===== */
+.content {
+    margin-left: 240px;
+    padding: 30px;
+    width: 100%;
+}
+
+/* ===== HEADER ===== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* ===== BUTTON ===== */
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #4338ca;
+}
+
+button.secondary {
+    background: #e5e7eb;
+    color: #111;
+}
+
+button.danger {
+    background: #ef4444;
+}
+
+/* ===== FORM ===== */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 8px 0;
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+table th {
+    background: #f9fafb;
+}
+
+/* ===== KPI CARDS ===== */
+.kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.kpi {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.kpi h3 {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.kpi p {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* ===== AI LOADING OVERLAY ===== */
+.ai-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(2, 6, 23, 0.65); /* 🔥 transparan */
+    backdrop-filter: blur(6px); /* efek glass */
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.ai-loading-container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+/* Glow */
+.glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(34, 211, 238, 0.08);
+    filter: blur(60px);
+    animation: pulseGlow 4s infinite;
+}
+
+.glow.purple {
+    background: rgba(168, 85, 247, 0.08);
+    animation-delay: 1s;
+}
+
+/* Logo */
+.logo {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+}
+
+.logo-text {
+    font-size: 70px;
+    font-weight: 900;
+    background: linear-gradient(to bottom, #67e8f9, #3b82f6, #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Orbit */
+.orbit {
+    position: absolute;
+    width: 110px;
+    height: 55px;
+    border: 3px solid rgba(34, 211, 238, 0.7);
+    border-radius: 50%;
+    top: 30px;
+    left: 5px;
+    transform: rotate(-20deg);
+    animation: spin 6s linear infinite;
+}
+
+/* Pulse ring */
+.pulse-ring {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 50%;
+    top: -10px;
+    left: -10px;
+    animation: pulseRing 2.5s infinite;
+}
+
+/* Brand */
+.brand {
+    font-size: 26px;
+    margin-top: 15px;
+}
+
+.brand span:first-child {
+    color: #22d3ee;
+}
+
+.brand span:last-child {
+    color: #a855f7;
+}
+
+.tagline {
+    margin-top: 5px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #94a3b8;
+}
+
+/* Loading bar */
+.loading {
+    margin-top: 20px;
+    width: 160px;
+    height: 3px;
+    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loading-bar {
+    height: 100%;
+    width: 50%;
+    background: linear-gradient(to right, #22d3ee, #3b82f6, #9333ea);
+    animation: loadingMove 2s infinite;
+}
+
+.loading-text {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* Animations */
+@keyframes spin {
+    from { transform: rotate(-20deg); }
+    to { transform: rotate(340deg); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes pulseRing {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes loadingMove {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+}
+
+/* Spinner */
+.spinner {
+    border: 5px solid rgba(255,255,255,0.2);
+    border-top: 5px solid #4f46e5;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+/* Loading text */
+.loading-text {
+    margin-top: 15px;
+    color: white;
+    font-size: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== LOGIN PAGE ===== */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.login-card img {
+    max-width: 140px;
+    margin-bottom: 20px;
+}

@@ -1,4 +1,4 @@
-{{define "base"}}
+{{define "owner_base"}}
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,10 +36,10 @@
 
 <body>
 
-    {{template "sidebar" .}}
+    {{template "owner_sidebar" .}}
 
     <div class="main">
-        {{template "content" .}}
+        {{template "owner_content" .}}
     </div>
 
     {{ template "components/loading.html" . }}
