@@ -16,7 +16,7 @@ func ShowCreateAccount(c *gin.Context) {
 }
 
 func ShowSettings(c *gin.Context) {
-    c.HTML(200, "owner_settings.html", nil)
+    c.HTML(200, "owner/owner_settings.html", nil)
 }
 
 func CreateAccount(c *gin.Context) {
