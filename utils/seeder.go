@@ -39,6 +39,7 @@ func SeedOwner() {
 	}
 
 	db.Create(&account)
+	
 
 	// 🔥 create owner
 	user := models.User{
