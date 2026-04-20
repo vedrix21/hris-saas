@@ -5,7 +5,7 @@ import (
     "hris/config"
     "hris/models"
     "hris/services"
-    "fmt"
+    
 
     "github.com/gin-gonic/gin"
 	
@@ -16,7 +16,7 @@ func ShowCreateAccount(c *gin.Context) {
 }
 
 func ShowSettings(c *gin.Context) {
-    c.HTML(200, "settings.html", nil)
+    c.HTML(200, "owner_settings.html", nil)
 }
 
 func CreateAccount(c *gin.Context) {
@@ -41,11 +41,17 @@ func OwnerDashboard(c *gin.Context) {
     config.DB.Find(&accounts)
 
     success := c.Query("success")
-    fmt.Println("Masuk Owner Dashboard")
+    db := config.DB
+
+    var totalClients int64
+    db.Model(&models.Account{}).
+        Where("is_owner = ?", false).
+        Count(&totalClients)
 
     c.HTML(200, "owner_dashboard.html", gin.H{
-        "accounts": accounts,
-        "success":  success,
+        "accounts":      accounts,
+        "success":       success,
+        "total_clients": totalClients,
     })
 }
 
@@ -62,5 +68,5 @@ func SaveSettings(c *gin.Context) {
             "theme_color": color,
         })
 
-    c.Redirect(302, "/dashboard")
+    c.Redirect(302, "/owner/dashboard")
 }

@@ -49,6 +49,7 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
         Code:        code,
         CompanyName: companyName,
         IsActive:    true,
+        IsOwner:     false,
     }
 
     if err := db.Create(&account).Error; err != nil {

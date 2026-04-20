@@ -12,6 +12,7 @@ type Account struct {
     MonthlyFee   int
     UserLimit    int
     IsActive     bool
+    IsOwner     bool
 
     // 🔥 billing
     ExpiredAt    *time.Time

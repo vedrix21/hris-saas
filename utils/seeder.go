@@ -34,6 +34,7 @@ func SeedOwner() {
 		Code:        "aitherhr",
 		CompanyName: "Aither HR",
 		IsActive:    true,
+		IsOwner:     true,
 	}
 
 	db.Create(&account)
