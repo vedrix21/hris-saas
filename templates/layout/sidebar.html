@@ -1,16 +1,34 @@
 {{define "sidebar"}}
-<div style="width:220px;background:#111827;color:white;height:100vh;padding:20px;">
-    
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <!-- LOGO -->
     <img src="{{.logo}}" style="width:120px; margin-bottom:20px;">
 
-    <a href="/dashboard" onclick="showLoading('Dashboard...')">Dashboard</a>
-    <a href="/employees" onclick="showLoading('Employees...')">Employees</a>
-    <a href="/attendance" onclick="showLoading('Attendance...')">Attendance</a>
-    <a href="/payroll" onclick="showLoading('Payroll...')">Payroll</a>
-    <a href="/settings" onclick="showLoading('Settings...')">Settings</a>
+    <!-- MENU -->
+    <a href="/dashboard" onclick="showLoading('Dashboard...')">
+        🏠 <span>Dashboard</span>
+    </a>
+    <a href="/employees" onclick="showLoading('Employees...')">
+        🏠 <span>Employees</span>
+    </a>
+    <a href="/attendance" onclick="showLoading('Attendance...')">
+        🏠 <span>Attendance</span>
+    </a>
+    <a href="/payroll" onclick="showLoading('Payroll...')">
+        🏠 <span>Payroll</span>
+    </a>
 
-    <form method="POST" action="/logout">
+    <a href="/settings" onclick="showLoading('Settings...')">
+        ⚙️ <span>Settings</span>
+    </a>
+
+    <!-- LOGOUT -->
+    <form method="POST" action="/logout" style="margin-top:20px;">
         <button type="submit">Logout</button>
     </form>
+
 </div>
+
 {{end}}

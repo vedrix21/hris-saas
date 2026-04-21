@@ -1,20 +1,25 @@
 {{define "owner_sidebar"}}
-<div style="width:220px;background:#111827;color:white;height:100vh;padding:20px;">
-    
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <!-- LOGO -->
     <img src="{{.logo}}" style="width:120px; margin-bottom:20px;">
 
-    <a href="/owner/dashboard" onclick="showLoading('Dashboard...')">Dashboard</a>
-    <!-- <a href="/employees" onclick="showLoading('Employees...')">Employees</a>
-    <a href="/attendance" onclick="showLoading('Attendance...')">Attendance</a>
-    <a href="/payroll" onclick="showLoading('Payroll...')">Payroll</a> -->
-    <a href="/owner/settings" onclick="showLoading('Settings...')">Settings</a>
+    <!-- MENU -->
+    <a href="/owner/dashboard" onclick="showLoading('Dashboard...')">
+        🏠 <span>Dashboard</span>
+    </a>
 
-    <a href="https://s.shopee.co.id/5VRXkwvkyf" target="_blank">
-  <button>Checkout</button>
-</a>
+    <a href="/owner/settings" onclick="showLoading('Settings...')">
+        ⚙️ <span>Settings</span>
+    </a>
 
-    <form method="POST" action="/logout">
+    <!-- LOGOUT -->
+    <form method="POST" action="/logout" style="margin-top:20px;">
         <button type="submit">Logout</button>
     </form>
+
 </div>
+
 {{end}}

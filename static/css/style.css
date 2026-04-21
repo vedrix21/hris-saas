@@ -19,6 +19,21 @@ body {
     color: white;
     padding: 20px;
     position: fixed;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar.collapsed a span {
+    display: none;
+}
+
+.sidebar.collapsed h2 {
+    font-size: 14px;
+    text-align: center;
 }
 
 .sidebar h2 {
@@ -51,6 +66,11 @@ body {
     margin-left: 240px;
     padding: 30px;
     width: 100%;
+    transition: 0.3s;
+}
+
+.content.expanded {
+    margin-left: 70px;
 }
 
 /* ===== HEADER ===== */
@@ -339,4 +359,26 @@ table th {
 .login-card img {
     max-width: 140px;
     margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        left: -240px;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+
+.toggle-btn {
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 15px;
 }
