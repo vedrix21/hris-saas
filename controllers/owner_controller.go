@@ -18,7 +18,7 @@ func ShowCreateAccount(c *gin.Context) {
 func ShowSettings(c *gin.Context) {
     c.HTML(200, "owner_settings.html", gin.H{
     "title": "Settings",
-    "contentTemplate": "owner_settings_content",
+    "ContentTemplate": "owner_settings_content",
 })
 }
 
@@ -56,7 +56,7 @@ func OwnerDashboard(c *gin.Context) {
         "accounts":      accounts,
         "success":       success,
         "total_clients": totalClients,
-        "contentTemplate": "owner_dashboard_content",
+        "ContentTemplate": "owner_dashboard_content",
     })
 }
 
