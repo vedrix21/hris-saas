@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <title>{{.title}}</title>
 
-    <style>
+    <!-- <style>
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
@@ -31,15 +31,21 @@
             align-items: center;
             z-index: 9999;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
 
     {{template "sidebar" .}}
 
-    <div class="main">
-        {{template "content" .}}
+    <div class="content">
+        <div class="header">
+            <h1>{{.Title}}</h1>
+        </div>
+
+        <!-- 🔥 INI FIXED, TIDAK DINAMIC -->
+        {{block "content" .}}{{end}}
+
     </div>
 
     {{ template "loading.html" . }}

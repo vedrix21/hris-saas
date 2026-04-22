@@ -16,9 +16,10 @@ func ShowCreateAccount(c *gin.Context) {
 }
 
 func ShowSettings(c *gin.Context) {
-    c.HTML(200, "owner_settings.html", gin.H{
+    c.HTML(200, "owner/settings.html", gin.H{
     "title": "Settings",
-    "ContentTemplate": "owner_settings_content",
+    "Menus": menus,
+    "CurrentPath": c.Request.URL.Path,
 })
 }
 
@@ -51,12 +52,18 @@ func OwnerDashboard(c *gin.Context) {
         Where("is_owner = ?", false).
         Count(&totalClients)
 
-    c.HTML(200, "owner_dashboard.html", gin.H{
+    user := c.MustGet("user").(models.User)
+
+    menus := services.GetSidebarByRole(user.Role)
+
+    c.HTML(200, "owner/dashboard.html", gin.H{
         "title": "Dashboard",
+        "Menus": menus,
+        "CurrentPath": c.Request.URL.Path,
         "accounts":      accounts,
         "success":       success,
         "total_clients": totalClients,
-        "ContentTemplate": "owner_dashboard_content",
+        
     })
 }
 

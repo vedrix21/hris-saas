@@ -1,33 +1,14 @@
 {{define "sidebar"}}
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
-    <!-- LOGO -->
-    <img src="{{.logo}}" style="width:120px; margin-bottom:20px;">
+    <h2>AitherHR</h2>
 
-    <!-- MENU -->
-    <a href="/dashboard" onclick="showLoading('Dashboard...')">
-        🏠 <span>Dashboard</span>
+    {{range .Menus}}
+    <a href="{{.Link}}" class="{{if eq $.CurrentPath .Link}}active{{end}}">
+        {{.Name}}
     </a>
-    <a href="/employees" onclick="showLoading('Employees...')">
-        🏠 <span>Employees</span>
-    </a>
-    <a href="/attendance" onclick="showLoading('Attendance...')">
-        🏠 <span>Attendance</span>
-    </a>
-    <a href="/payroll" onclick="showLoading('Payroll...')">
-        🏠 <span>Payroll</span>
-    </a>
-
-    <a href="/settings" onclick="showLoading('Settings...')">
-        ⚙️ <span>Settings</span>
-    </a>
-
-    <!-- LOGOUT -->
-    <form method="POST" action="/logout" style="margin-top:20px;">
-        <button type="submit">Logout</button>
-    </form>
+    {{end}}
 
 </div>
 
