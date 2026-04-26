@@ -1,14 +1,16 @@
-{{define "content"}}
+{{define "user/dashboard.html"}}
+    {{define "content"}}
 
-<h2>Dashboard</h2>
-<p>Welcome, {{.tenant}}</p>
+    <h2>Dashboard</h2>
+    <p>Welcome, {{.tenant}}</p>
 
-<div class="cards">
-    <div>Total Employee: {{.totalEmployee}}</div>
-    <div>Attendance Today: 98</div>
-    <div>Pending Payroll: 12</div>
-</div>
+    <div class="cards">
+        <div>Total Employee: {{.totalEmployee}}</div>
+        <div>Attendance Today: 98</div>
+        <div>Pending Payroll: 12</div>
+    </div>
 
+    {{end}}
+
+    {{template "base" .}}
 {{end}}
-
-{{template "base" .}}
