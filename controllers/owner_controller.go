@@ -16,6 +16,9 @@ func ShowCreateAccount(c *gin.Context) {
 }
 
 func ShowSettings(c *gin.Context) {
+    user := c.MustGet("user").(models.User)
+
+    menus := services.GetSidebarByRole(user.Role)
     c.HTML(200, "owner/settings.html", gin.H{
     "title": "Settings",
     "Menus": menus,
