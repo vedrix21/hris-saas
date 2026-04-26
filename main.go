@@ -19,6 +19,7 @@ func main() {
 
 	// 🔥 load template HTML (WAJIB untuk login & dashboard)
 	r.LoadHTMLGlob("templates/**/*")
+	
 
 	config.ConnectMasterDB()
 	utils.SeedOwner()
