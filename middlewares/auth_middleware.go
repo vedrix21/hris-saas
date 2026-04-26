@@ -19,7 +19,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// 🔥 Ambil user dari database
-		var user models.Users
+		var user models.User
 		if err := config.DB.Where("username = ?", username).First(&user).Error; err != nil {
 			c.Redirect(http.StatusFound, "/login")
 			c.Abort()
