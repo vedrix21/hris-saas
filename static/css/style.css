@@ -382,3 +382,17 @@ table th {
     cursor: pointer;
     margin-right: 15px;
 }
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
