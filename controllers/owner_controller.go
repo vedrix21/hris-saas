@@ -66,6 +66,7 @@ func OwnerDashboard(c *gin.Context) {
         "accounts":      accounts,
         "success":       success,
         "total_clients": totalClients,
+        "ContentTemplate": "owner_content",
         
     })
 }
