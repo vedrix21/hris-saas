@@ -1,20 +1,34 @@
 package middlewares
 
 import (
-    "net/http"
+	"net/http"
 
-    "github.com/gin-gonic/gin"
+	"hris/config"
+	"hris/models"
+
+	"github.com/gin-gonic/gin"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        user, err := c.Cookie("user")
-        if err != nil || user == "" {
-            c.Redirect(http.StatusFound, "/login")
-            c.Abort()
-            return
-        }
+	return func(c *gin.Context) {
+		username, err := c.Cookie("user")
+		if err != nil || username == "" {
+			c.Redirect(http.StatusFound, "/login")
+			c.Abort()
+			return
+		}
 
-        c.Next()
-    }
+		// 🔥 Ambil user dari database
+		var user models.Users
+		if err := config.DB.Where("username = ?", username).First(&user).Error; err != nil {
+			c.Redirect(http.StatusFound, "/login")
+			c.Abort()
+			return
+		}
+
+		// 🔥 SET ke context (INI YANG PENTING)
+		c.Set("user", user)
+
+		c.Next()
+	}
 }

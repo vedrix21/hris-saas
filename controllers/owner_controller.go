@@ -16,7 +16,7 @@ func ShowCreateAccount(c *gin.Context) {
 }
 
 func ShowSettings(c *gin.Context) {
-    user := c.MustGet("user").(models.User)
+    user := c.MustGet("user").(models.Users)
 
     menus := services.GetSidebarByRole(user.Role)
     c.HTML(200, "owner/settings.html", gin.H{
@@ -55,7 +55,7 @@ func OwnerDashboard(c *gin.Context) {
         Where("is_owner = ?", false).
         Count(&totalClients)
 
-    user := c.MustGet("user").(models.User)
+    user := c.MustGet("user").(models.Users)
 
     menus := services.GetSidebarByRole(user.Role)
 
