@@ -1,32 +1,41 @@
 package controllers
 
 import (
-	
 	"hris/config"
-	"hris/models"	
+	"hris/models"
+	"hris/services"
+	"hris/utils"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func CheckIn(c *gin.Context) {
-    user, _ := c.Cookie("user")
+	user, _ := c.Cookie("user")
 
-    attendance := models.Attendance{
-        Username: user,
-        CheckIn:  time.Now(),
-    }
+	attendance := models.Attendance{
+		Username: user,
+		CheckIn:  time.Now(),
+	}
 
-    config.DB.Create(&attendance)
-    c.JSON(200, gin.H{"message": "Check-in success"})
+	config.DB.Create(&attendance)
+	c.JSON(200, gin.H{"message": "Check-in success"})
 }
 
 func AttendancePage(c *gin.Context) {
-    var data []models.Attendance
-    config.DB.Order("created_at desc").Find(&data)
+	user := c.MustGet("user").(models.User)
+	menus := services.GetSidebarByRole(user.Role)
 
-    c.HTML(200, "attendance.html", gin.H{
-        "data": data,
-    })
+	var attendance []models.Attendance
+	config.DB.Find(&attendance)
+
+	utils.Render(c, []string{
+		"templates/layout/base.html",
+		"templates/layout/sidebar.html",
+		"templates/admin/attendance.html",
+	}, gin.H{
+		"Title":      "Attendance",
+		"Menus":      menus,
+		"attendance": attendance,
+	})
 }
-

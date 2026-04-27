@@ -1,0 +1,39 @@
+{{define "content"}}
+
+<div class="card">
+
+    <div class="card-header">
+        <h2>Employee Management</h2>
+        <button class="btn-primary">+ Add Employee</button>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" placeholder="Search employee..." class="input-search">
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Position</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .employees}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Email}}</td>
+                <td>{{.Position}}</td>
+                <td>
+                    <span class="badge active">Active</span>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+</div>
+
+{{end}}

@@ -1,0 +1,43 @@
+{{define "content"}}
+
+<div class="card center">
+
+    <h2>Today's Attendance</h2>
+
+    <div class="status">
+        <p>Status:</p>
+        <span class="badge success">Checked In</span>
+    </div>
+
+    <button class="btn-checkin">Check In</button>
+
+    <p class="time">08:45 AM</p>
+
+</div>
+
+<div class="card">
+
+    <h3>Recent Attendance</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .attendance}}
+            <tr>
+                <td>{{.Date}}</td>
+                <td>{{.CheckIn}}</td>
+                <td><span class="badge success">On Time</span></td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+</div>
+
+{{end}}
