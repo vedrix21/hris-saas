@@ -12,6 +12,7 @@ import (
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		username, err := c.Cookie("user")
+        role, _ := c.Cookie("role")
 		if err != nil || username == "" {
 			c.Redirect(http.StatusFound, "/login")
 			c.Abort()
@@ -27,7 +28,10 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// 🔥 SET ke context (INI YANG PENTING)
-		c.Set("user", user)
+		c.Set("user", models.User{
+            Username: username,
+            Role:     role,
+        })
 
 		c.Next()
 	}

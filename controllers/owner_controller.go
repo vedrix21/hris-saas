@@ -5,6 +5,7 @@ import (
     "hris/config"
     "hris/models"
     "hris/services"
+    "hris/utils"
     
 
     "github.com/gin-gonic/gin"
@@ -59,14 +60,18 @@ func OwnerDashboard(c *gin.Context) {
 
     menus := services.GetSidebarByRole(user.Role)
 
-    c.HTML(200, "owner/dashboard.html", gin.H{
-        "title": "Dashboard",
+    utils.Render(c, []string{
+		"templates/layout/base.html",
+		"templates/layout/sidebar.html",
+		"templates/owner/dashboard.html",
+	}, gin.H{
+        "title": "Owner Dashboard",
         "Menus": menus,
         "CurrentPath": c.Request.URL.Path,
         "accounts":      accounts,
         "success":       success,
         "total_clients": totalClients,
-        "ContentTemplate": "owner_content",
+        
         
     })
 }
