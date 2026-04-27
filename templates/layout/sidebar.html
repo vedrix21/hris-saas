@@ -5,9 +5,24 @@
     <h2>AitherHR</h2>
 
     {{range .Menus}}
-    <a href="{{.Link}}" class="{{if eq $.CurrentPath .Link}}active{{end}}">
-        {{.Name}}
-    </a>
+        {{if .Children}}
+            <!-- Parent Menu -->
+            <div class="menu-group">
+                <p class="menu-title">{{.Name}}</p>
+
+                {{range .Children}}
+                    <a href="{{.Link}}" class="{{if eq $.CurrentPath .Link}}active{{end}}">
+                        {{.Name}}
+                    </a>
+                {{end}}
+            </div>
+
+        {{else}}
+            <!-- Single Menu -->
+            <a href="{{.Link}}" class="{{if eq $.CurrentPath .Link}}active{{end}}">
+                {{.Name}}
+            </a>
+        {{end}}
     {{end}}
 
     <form action="/logout" method="POST" style="margin-top:20px;">

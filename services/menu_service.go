@@ -1,8 +1,9 @@
 package services
 
 type MenuItem struct {
-	Name string
-	Link string
+	Name     string
+	Link     string
+	Children []MenuItem
 }
 
 func GetSidebarByRole(role string) []MenuItem {
@@ -11,26 +12,43 @@ func GetSidebarByRole(role string) []MenuItem {
 
 	case "owner":
 		return []MenuItem{
-			{"Dashboard", "/owner/dashboard"},
-			{"Clients", "/owner/clients"},
-			{"Sales", "/owner/sales"},
-			{"Settings", "/owner/settings"},
+			{
+				Name: "Dashboard",
+				Link: "/owner/dashboard",
+			},
+			{
+				Name: "Clients",
+				Children: []MenuItem{
+					{"All Clients", "/owner/clients", nil},
+					{"Create Client", "/owner/clients/create", nil},
+					{"Licenses", "/owner/clients/licenses", nil},
+					{"Marketing", "/owner/clients/marketing", nil},
+				},
+			},
+			{
+				Name: "Sales",
+				Link: "/owner/sales",
+			},
+			{
+				Name: "Settings",
+				Link: "/owner/settings",
+			},
 		}
 
 	case "admin":
 		return []MenuItem{
-			{"Dashboard", "/dashboard"},
-			{"Employees", "/employees"},
-			{"Attendance", "/attendance"},
-			{"Payroll", "/payroll"},
-			{"Settings", "/settings"},
+			{"Dashboard", "/dashboard", nil},
+			{"Employees", "/employees", nil},
+			{"Attendance", "/attendance", nil},
+			{"Payroll", "/payroll", nil},
+			{"Settings", "/settings", nil},
 		}
 
 	case "user":
 		return []MenuItem{
-			{"Dashboard", "/dashboard"},
-			{"My Attendance", "/attendance"},
-			{"Payslip", "/payslip"},
+			{"Dashboard", "/dashboard", nil},
+			{"My Attendance", "/attendance", nil},
+			{"Payslip", "/payslip", nil},
 		}
 	}
 
