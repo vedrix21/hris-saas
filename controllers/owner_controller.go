@@ -63,6 +63,7 @@ func OwnerDashboard(c *gin.Context) {
     utils.Render(c, []string{
 		"templates/layout/base.html",
 		"templates/layout/sidebar.html",
+        "templates/components/loading.html",
 		"templates/owner/dashboard.html",
 	}, gin.H{
         "title": "Owner Dashboard",
