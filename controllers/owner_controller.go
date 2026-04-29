@@ -87,7 +87,7 @@ func CreateAccount(c *gin.Context) {
 
 	// 🔥 REDIRECT
     c.Redirect(302,
-        "/owner/create-account?success=1&code="+account.Code+
+        "/owner/create_account?success=1&code="+account.Code+
         "&user="+username+
         "&pass="+password,
     )

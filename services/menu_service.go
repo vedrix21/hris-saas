@@ -20,7 +20,7 @@ func GetSidebarByRole(role string) []MenuItem {
 				Name: "Clients",
 				Children: []MenuItem{
 					{"All Clients", "/owner/clients", nil},
-					{"Create Client", "/owner/clients/create", nil},
+					{"Create Client", "/owner/create-account", nil},
 					{"Licenses", "/owner/clients/licenses", nil},
 					{"Marketing", "/owner/clients/marketing", nil},
 				},
