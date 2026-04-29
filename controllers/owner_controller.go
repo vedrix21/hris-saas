@@ -84,9 +84,6 @@ func CreateAccount(c *gin.Context) {
         return
     }
 
-	// 🔥 tampilkan di UI juga (biar gampang copy)
-	user := c.MustGet("user").(models.User)
-	menus := services.GetSidebarByRole(user.Role)
 
 	// 🔥 REDIRECT
     c.Redirect(302,
