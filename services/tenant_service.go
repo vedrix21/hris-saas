@@ -84,7 +84,7 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
         <p>Login: https://app.aitherhr.com</p>
         `, companyName, code, code, rawPassword)
 
-        services.SendEmailHTML("fauzanakbarpr@gmail.com", subject, body)
+        SendEmailHTML("fauzanakbarpr@gmail.com", subject, body)
     }()
 
     return &account, code, rawPassword, nil
