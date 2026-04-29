@@ -233,8 +233,14 @@ table th {
     font-size: 70px;
     font-weight: 900;
     background: linear-gradient(to bottom, #67e8f9, #3b82f6, #9333ea);
+
+    background-clip: text;
     -webkit-background-clip: text;
+
+    color: transparent;
     -webkit-text-fill-color: transparent;
+
+    text-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
 }
 
 /* Orbit */
