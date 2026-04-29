@@ -15,6 +15,11 @@ func ShowCreateAccount(c *gin.Context) {
 
 	menus := services.GetSidebarByRole(user.Role)
 
+    success := c.Query("success")
+    accountCode := c.Query("code")
+    username := c.Query("user")
+    password := c.Query("pass")
+
 	utils.Render(c, []string{
 		"templates/layout/base.html",
 		"templates/layout/sidebar.html",
@@ -24,6 +29,10 @@ func ShowCreateAccount(c *gin.Context) {
 		"title":       "Create Account",
 		"Menus":       menus,
 		"CurrentPath": c.Request.URL.Path,
+        "success":     success,
+        "accountCode": accountCode,
+        "username":    username,
+        "password":    password,
 	})
 }
 
@@ -52,11 +61,39 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{
-		"account_code": account.Code,
-		"username":     username,
-		"password":     password,
-	})
+    // 🔥 Email content
+	body := `
+	<h2>New Client Created 🚀</h2>
+	<p><b>Company:</b> ` + companyName + `</p>
+	<p><b>Account Code:</b> ` + account.Code + `</p>
+	<p><b>Username:</b> ` + username + `</p>
+	<p><b>Password:</b> ` + password + `</p>
+
+	<br>
+	<a href="https://app.aitherhr.com">Login AitherHR</a>
+	`
+
+	// 🔥 kirim ke email kamu
+	err = services.SendEmailHTML(
+		"fauzanakbarpr@gmail.com",
+		"New Client AitherHR",
+		body,
+	)
+    if err != nil {
+        c.String(500, "Account created but email failed")
+        return
+    }
+
+	// 🔥 tampilkan di UI juga (biar gampang copy)
+	user := c.MustGet("user").(models.User)
+	menus := services.GetSidebarByRole(user.Role)
+
+	// 🔥 REDIRECT
+    c.Redirect(302,
+        "/owner/create-account?success=1&code="+account.Code+
+        "&user="+username+
+        "&pass="+password,
+    )
 }
 
 func OwnerDashboard(c *gin.Context) {

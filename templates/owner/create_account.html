@@ -1,12 +1,38 @@
 {{define "content"}}
+<div class="card">
     <h2>Create Client Account</h2>
 
-    <form method="POST" action="/owner/create-account">
-        <input type="text" name="company_name" placeholder="Company Name" required><br><br>
-        <input type="text" name="account_code" placeholder="Account Code" required><br><br>
-        <input type="text" name="username" placeholder="Username" required><br><br>
-        <input type="password" name="password" placeholder="Password" required><br><br>
+    {{if .success}}
+        <div style="background:#dcfce7;padding:10px;border-radius:8px;margin-bottom:15px;">
+            ✅ {{.success}}
+        </div>
 
-        <button type="submit">Create</button>
+        <div class="card">
+            <h3>{{.success}}</h3>
+
+            <p><b>Account Code:</b> {{.account_code}}</p>
+            <p><b>Username:</b> {{.username}}</p>
+            <p><b>Password:</b> {{.password}}</p>
+
+            <button onclick="copyText()">Copy All</button>
+        </div>
+
+        <script>
+        function copyText() {
+            const text = `Account: {{.account_code}}
+        Username: {{.username}}
+        Password: {{.password}}`;
+
+            navigator.clipboard.writeText(text);
+            alert("Copied!");
+        }
+        </script>
+    {{end}}
+
+    <form method="POST" action="/owner/create-account">
+        <input type="text" name="company_name" placeholder="Company Name" required>
+        <br><br>
+        <button type="submit">Create Account</button>
     </form>
+</div>
 {{end}}
