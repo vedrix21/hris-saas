@@ -46,12 +46,18 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
 
     hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(rawPassword), bcrypt.DefaultCost)
 
+    plan := GetPlanConfig("basic")
+
+    featuresJSON, _ := json.Marshal(plan.Features)
+
     // 🔥 create account
     account := models.Account{
         Code:        code,
         CompanyName: companyName,
         IsActive:    true,
         IsOwner:     false,
+        Plan:        plan.Name,
+        Features:    string(featuresJSON),
     }
 
     if err := db.Create(&account).Error; err != nil {
