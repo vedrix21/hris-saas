@@ -1,7 +1,7 @@
 package services
 
 import (
-    "fmt"
+    // "fmt"
     "hris/config"
     "hris/models"
 	"hris/utils" 
@@ -98,7 +98,7 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
 
     //     SendEmailHTML("fauzanakbarpr@gmail.com", subject, body)
     // }()
-    
+
 
     return &account, code, rawPassword, nil
 }
