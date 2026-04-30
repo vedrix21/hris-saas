@@ -82,6 +82,34 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
         return nil, "", "", err
     }
 
+    var companyID string
+
+    for {
+        companyID = utils.GenerateCompanyID()
+
+        var count int64
+        db.Model(&models.Company{}).
+            Where("company_id = ?", companyID).
+            Count(&count)
+
+        if count == 0 {
+            break
+        }
+    }
+
+    // 🔥 create first company
+    company := models.Company{
+        AccountID: account.ID,
+        CompanyID: companyID,
+        Name:      companyName,
+        Address:   "Default Address",
+        
+    }
+
+    if err := db.Create(&company).Error; err != nil {
+        return nil, "", "", err
+    }
+
     // 🔥 SEND EMAIL
     // go func() {
     //     subject := "New Client Account - AitherHR"

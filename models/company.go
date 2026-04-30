@@ -4,6 +4,7 @@ import "time"
 
 type Company struct {
     ID        uint
+    CompanyID string `gorm:"unique"`
     AccountID uint
 
     Name      string

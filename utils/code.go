@@ -5,6 +5,7 @@ import (
     "strings"
     "time"
     "unicode"
+    "strconv"
 )
 
 // generate 7 char dari nama company
@@ -32,4 +33,14 @@ func GenerateAccountCode(name string) string {
     }
 
     return clean + string(suffix) // total 7 char
+}
+
+// generate 6 char company id
+func GenerateCompanyID() string {
+	rand.Seed(time.Now().UnixNano())
+
+	min := 100000
+	max := 999999
+
+	return strconv.Itoa(rand.Intn(max-min+1) + min)
 }
