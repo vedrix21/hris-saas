@@ -81,7 +81,7 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
     if err := db.Create(&user).Error; err != nil {
         return nil, "", "", err
     }
-    var accountcode := code
+    var accountcode = code
 
     // 🔥 SEND EMAIL
     // go func() {
