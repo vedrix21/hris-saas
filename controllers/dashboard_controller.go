@@ -15,7 +15,13 @@ func Dashboard(c *gin.Context) {
     var totalEmployee int64
     config.DB.Model(&models.Employee{}).Count(&totalEmployee)
 
-    c.HTML(200, "dashboard.html", gin.H{
+    utils.Render(c, []string{
+        "templates/layout/base.html",
+        "templates/layout/sidebar.html",
+        "templates/components/loading.html",
+        "templates/admin/dashboard.html",
+    }, gin.H{
+        "title": "Dashboard",
         "tenant": tenant,
         "totalEmployee": totalEmployee,
     })
