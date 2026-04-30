@@ -36,25 +36,22 @@ func SetupRoutes(r *gin.Engine) {
 		auth.GET("/dashboard", controllers.Dashboard)
 
 		// Env switch
-		auth.GET("/switch-env/:env", controllers.SwitchEnv)
+		// auth.GET("/switch-env/:env", controllers.SwitchEnv)
 
-		// =============================
-		// 👨‍💼 EMPLOYEE MODULE
-		// =============================
-		auth.GET("/employees", controllers.Employees)
-		auth.POST("/employees", controllers.CreateEmployee)
+		auth.GET("/employees",
+			middlewares.RequireFeature("employee"),
+			controllers.Employees,
+		)
 
-		// =============================
-		// ⏱️ ATTENDANCE MODULE
-		// =============================
-		auth.GET("/attendance", controllers.AttendancePage)
-		auth.POST("/attendance/checkin", controllers.CheckIn)
+		auth.GET("/attendance",
+			middlewares.RequireFeature("attendance"),
+			controllers.AttendancePage,
+		)
 
-		// =============================
-		// 💰 PAYROLL MODULE
-		// =============================
-		auth.GET("/payroll", controllers.PayrollPage)
-		auth.POST("/payroll/run", controllers.RunPayroll)
+		auth.GET("/payroll",
+			middlewares.RequireFeature("payroll"),
+			controllers.PayrollPage,
+		)
 
 		// =============================
 		// 💳 BILLING / SUBSCRIPTION
@@ -71,9 +68,8 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		owner.GET("/dashboard", controllers.OwnerDashboard)
 
-
 		owner.GET("/create_account", controllers.ShowCreateAccount)
-    	owner.POST("/create_account", controllers.CreateAccount)
+		owner.POST("/create_account", controllers.CreateAccount)
 
 		owner.GET("/settings", controllers.ShowSettings)
 	}

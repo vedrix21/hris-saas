@@ -10,8 +10,9 @@ import (
 )
 
 func Employees(c *gin.Context) {
+	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
-	menus := services.GetSidebarByRole(user.Role)
+	menus := services.GetSidebar(user.Role, tenant)
 
 	var employees []models.Employee
 	config.DB.Find(&employees)

@@ -1,7 +1,8 @@
 package middlewares
 
 import (
-	"hris/models"
+	"net/http"
+
 	"hris/services"
 
 	"github.com/gin-gonic/gin"
@@ -10,11 +11,18 @@ import (
 func RequireFeature(feature string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		account := c.MustGet("account").(models.Account)
+		tenant, err := c.Cookie("tenant")
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": "Tenant not found",
+			})
+			return
+		}
 
-		if !services.HasFeature(account, feature) {
-			c.String(403, "Upgrade plan to access this feature 🚀")
-			c.Abort()
+		if !services.HasFeature(tenant, feature) {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
+				"error": "Upgrade plan to access this feature",
+			})
 			return
 		}
 

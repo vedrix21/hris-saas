@@ -23,8 +23,9 @@ func CheckIn(c *gin.Context) {
 }
 
 func AttendancePage(c *gin.Context) {
+	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
-	menus := services.GetSidebarByRole(user.Role)
+	menus := services.GetSidebar(user.Role, tenant)
 
 	var attendance []models.Attendance
 	config.DB.Find(&attendance)

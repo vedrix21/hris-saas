@@ -11,14 +11,14 @@ import (
 
 func ShowCreateAccount(c *gin.Context) {
 
+	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
+	menus := services.GetSidebar(user.Role, tenant)
 
-	menus := services.GetSidebarByRole(user.Role)
-
-    success := c.Query("success")
-    accountCode := c.Query("code")
-    username := c.Query("user")
-    password := c.Query("pass")
+	success := c.Query("success")
+	accountCode := c.Query("code")
+	username := c.Query("user")
+	password := c.Query("pass")
 
 	utils.Render(c, []string{
 		"templates/layout/base.html",
@@ -29,17 +29,17 @@ func ShowCreateAccount(c *gin.Context) {
 		"title":       "Create Account",
 		"Menus":       menus,
 		"CurrentPath": c.Request.URL.Path,
-        "success":     success,
-        "accountCode": accountCode,
-        "username":    username,
-        "password":    password,
+		"success":     success,
+		"accountCode": accountCode,
+		"username":    username,
+		"password":    password,
 	})
 }
 
 func ShowSettings(c *gin.Context) {
+	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
-
-	menus := services.GetSidebarByRole(user.Role)
+	menus := services.GetSidebar(user.Role, tenant)
 	utils.Render(c, []string{
 		"templates/layout/base.html",
 		"templates/layout/sidebar.html",
@@ -61,7 +61,7 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-    // 🔥 Email content
+	// 🔥 Email content
 	body := `
 	<h2>New Client Created 🚀</h2>
 	<p><b>Company:</b> ` + companyName + `</p>
@@ -79,18 +79,17 @@ func CreateAccount(c *gin.Context) {
 		"New Client AitherHR",
 		body,
 	)
-    if err != nil {
-        c.String(500, "Account created but email failed")
-        return
-    }
-
+	if err != nil {
+		c.String(500, "Account created but email failed")
+		return
+	}
 
 	// 🔥 REDIRECT
-    c.Redirect(302,
-        "/owner/create_account?success=1&code="+account.Code+
-        "&user="+username+
-        "&pass="+password,
-    )
+	c.Redirect(302,
+		"/owner/create_account?success=1&code="+account.Code+
+			"&user="+username+
+			"&pass="+password,
+	)
 }
 
 func OwnerDashboard(c *gin.Context) {
@@ -106,9 +105,9 @@ func OwnerDashboard(c *gin.Context) {
 		Where("is_owner = ?", false).
 		Count(&totalClients)
 
+	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
-
-	menus := services.GetSidebarByRole(user.Role)
+	menus := services.GetSidebar(user.Role, tenant)
 
 	utils.Render(c, []string{
 		"templates/layout/base.html",

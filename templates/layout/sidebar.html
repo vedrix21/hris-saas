@@ -1,29 +1,31 @@
 {{define "sidebar"}}
 
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
 
-    <h2>AitherHR</h2>
+    <!-- HEADER -->
+    <div class="sidebar-header">
+        <h2 class="logo">AitherHR</h2>
+        <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+    </div>
 
-    {{range .Menus}}
-        {{if .Children}}
-            <!-- Parent Menu -->
-            <div class="menu-group">
-                <p class="menu-title">{{.Name}}</p>
+    <!-- MENU -->
+    <div class="menu">
+        {{ range .Menus }}
+        <a href="{{ .Link }}" 
+           class="{{ if eq $.CurrentPath .Link }}active{{ end }}">
+            
+            <span class="icon">
+                {{ if eq .Name "Dashboard" }}🏠{{ end }}
+                {{ if eq .Name "Employees" }}👥{{ end }}
+                {{ if eq .Name "Attendance" }}⏱️{{ end }}
+                {{ if eq .Name "Payroll" }}💰{{ end }}
+                {{ if eq .Name "Settings" }}⚙️{{ end }}
+            </span>
 
-                {{range .Children}}
-                    <a href="{{.Link}}" class="{{if eq $.CurrentPath .Link}}active{{end}}">
-                        {{.Name}}
-                    </a>
-                {{end}}
-            </div>
-
-        {{else}}
-            <!-- Single Menu -->
-            <a href="{{.Link}}" class="{{if eq $.CurrentPath .Link}}active{{end}}">
-                {{.Name}}
-            </a>
-        {{end}}
-    {{end}}
+            <span class="text">{{ .Name }}</span>
+        </a>
+        {{ end }}
+    </div>
 
     <form action="/logout" method="POST" style="margin-top:20px;">
         <button type="submit" class="logout-btn">Logout</button>

@@ -1,56 +1,47 @@
 package services
 
 type MenuItem struct {
-	Name     string
-	Link     string
-	Children []MenuItem
+	Name string
+	Link string
+	// Children []MenuItem
 }
 
-func GetSidebarByRole(role string) []MenuItem {
+func GetSidebar(role string, tenant string) []MenuItem {
 
-	switch role {
-
-	case "owner":
+	// 👑 OWNER (NO GATING)
+	if role == "owner" {
 		return []MenuItem{
-			{
-				Name: "Dashboard",
-				Link: "/owner/dashboard",
-			},
-			{
-				Name: "Clients",
-				Children: []MenuItem{
-					{"All Clients", "/owner/clients", nil},
-					{"Create Client", "/owner/create_account", nil},
-					{"Licenses", "/owner/clients/licenses", nil},
-					{"Marketing", "/owner/clients/marketing", nil},
-				},
-			},
-			{
-				Name: "Sales",
-				Link: "/owner/sales",
-			},
-			{
-				Name: "Settings",
-				Link: "/owner/settings",
-			},
-		}
-
-	case "superadmin":
-		return []MenuItem{
-			{"Dashboard", "/dashboard", nil},
-			{"Employees", "/employees", nil},
-			{"Attendance", "/attendance", nil},
-			{"Payroll", "/payroll", nil},
-			{"Settings", "/settings", nil},
-		}
-
-	case "user":
-		return []MenuItem{
-			{"Dashboard", "/dashboard", nil},
-			{"My Attendance", "/attendance", nil},
-			{"Payslip", "/payslip", nil},
+			{"Dashboard", "/owner/dashboard"},
+			{"Create Client", "/owner/create_account"},
+			{"Settings", "/owner/settings"},
 		}
 	}
 
-	return []MenuItem{}
+	// 🔥 ambil features dari DB
+	features, _ := GetFeatures(tenant)
+
+	menu := []MenuItem{
+		{"Dashboard", "/dashboard"},
+	}
+
+	// 🔥 FEATURE BASED MENU
+	if features["employee"] {
+		menu = append(menu, MenuItem{"Employees", "/employees"})
+	}
+
+	if features["attendance"] {
+		menu = append(menu, MenuItem{"Attendance", "/attendance"})
+	}
+
+	if features["payroll"] {
+		menu = append(menu, MenuItem{"Payroll", "/payroll"})
+	}
+
+	// nanti future
+	// if features["loan"] { ... }
+	// if features["reimbursement"] { ... }
+
+	menu = append(menu, MenuItem{"Settings", "/settings"})
+
+	return menu
 }
