@@ -49,6 +49,9 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
 
     plan := GetPlanConfig("basic")
 
+    var subplan models.Subscriptionplan
+    db.Model(&models.Subscriptionplan{}).Where("plan_name = ?", plan.Name).First(&subplan)
+
     featuresJSON, _ := json.Marshal(plan.Features)
 
     // 🔥 create account
@@ -57,8 +60,10 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
         CompanyName: companyName,
         IsActive:    true,
         IsOwner:     false,
-        Plan:        plan.Name,
+        Package:     plan.Name,
         Features:    string(featuresJSON),
+        MonthlyFee:  subplan.Price,
+        UserLimit:   subplan.Limituser,
     }
 
     if err := db.Create(&account).Error; err != nil {
