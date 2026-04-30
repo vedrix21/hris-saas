@@ -72,8 +72,8 @@ func SetupRoutes(r *gin.Engine) {
 		owner.GET("/dashboard", controllers.OwnerDashboard)
 
 
-		owner.GET("/create-account", controllers.ShowCreateAccount)
-    	owner.POST("/create-account", controllers.CreateAccount)
+		owner.GET("/create_account", controllers.ShowCreateAccount)
+    	owner.POST("/create_account", controllers.CreateAccount)
 
 		owner.GET("/settings", controllers.ShowSettings)
 	}
