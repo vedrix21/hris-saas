@@ -15,6 +15,11 @@ func Dashboard(c *gin.Context) {
     var totalEmployee int64
     config.DB.Model(&models.Employee{}).Count(&totalEmployee)
 
+
+	user := c.MustGet("user").(models.User)
+
+	menus := services.GetSidebarByRole(user.Role)
+
     utils.Render(c, []string{
         "templates/layout/base.html",
         "templates/layout/sidebar.html",
@@ -24,6 +29,8 @@ func Dashboard(c *gin.Context) {
         "title": "Dashboard",
         "tenant": tenant,
         "totalEmployee": totalEmployee,
+        "Menus":         menus,
+        "CurrentPath":   c.Request.URL.Path,
     })
 }
 

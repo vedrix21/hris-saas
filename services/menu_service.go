@@ -35,7 +35,7 @@ func GetSidebarByRole(role string) []MenuItem {
 			},
 		}
 
-	case "admin":
+	case "superadmin":
 		return []MenuItem{
 			{"Dashboard", "/dashboard", nil},
 			{"Employees", "/employees", nil},
