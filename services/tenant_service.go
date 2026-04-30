@@ -81,23 +81,24 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
     if err := db.Create(&user).Error; err != nil {
         return nil, "", "", err
     }
+    var accountcode := code
 
     // 🔥 SEND EMAIL
-    go func() {
-        subject := "New Client Account - AitherHR"
+    // go func() {
+    //     subject := "New Client Account - AitherHR"
 
-        body := fmt.Sprintf(`
-        <h3>Client Account Created</h3>
-        <p><b>Company:</b> %s</p>
-        <p><b>Account Code:</b> %s</p>
-        <p><b>Username:</b> %s</p>
-        <p><b>Password:</b> %s</p>
-        <br>
-        <p>Login: https://app.aitherhr.com</p>
-        `, companyName, code, code, rawPassword)
+    //     body := fmt.Sprintf(`
+    //     <h3>Client Account Created</h3>
+    //     <p><b>Company:</b> %s</p>
+    //     <p><b>Account Code:</b> %s</p>
+    //     <p><b>Username:</b> %s</p>
+    //     <p><b>Password:</b> %s</p>
+    //     <br>
+    //     <p>Login: https://app.aitherhr.com</p>
+    //     `, companyName, code, code, rawPassword)
 
-        SendEmailHTML("fauzanakbarpr@gmail.com", subject, body)
-    }()
+    //     SendEmailHTML("fauzanakbarpr@gmail.com", subject, body)
+    // }()
 
-    return &account, code, rawPassword, nil
+    return accountcode, code, rawPassword, nil
 }

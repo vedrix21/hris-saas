@@ -55,7 +55,7 @@ func ShowSettings(c *gin.Context) {
 func CreateAccount(c *gin.Context) {
 	companyName := c.PostForm("company_name")
 
-	account, username, password, err := services.CreateTenant(companyName)
+	accountcode, username, password, err := services.CreateTenant(companyName)
 	if err != nil {
 		c.String(500, "Failed create account")
 		return
@@ -65,7 +65,7 @@ func CreateAccount(c *gin.Context) {
 	body := `
 	<h2>New Client Created 🚀</h2>
 	<p><b>Company:</b> ` + companyName + `</p>
-	<p><b>Account Code:</b> ` + account.Code + `</p>
+	<p><b>Account Code:</b> ` + accountcode + `</p>
 	<p><b>Username:</b> ` + username + `</p>
 	<p><b>Password:</b> ` + password + `</p>
 
@@ -87,7 +87,7 @@ func CreateAccount(c *gin.Context) {
 
 	// 🔥 REDIRECT
     c.Redirect(302,
-        "/owner/create_account?success=1&code="+account.Code+
+        "/owner/create_account?success=1&code="+accountcode+
         "&user="+username+
         "&pass="+password,
     )
