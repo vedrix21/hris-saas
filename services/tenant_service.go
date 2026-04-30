@@ -4,7 +4,8 @@ import (
     "fmt"
     "hris/config"
     "hris/models"
-	"hris/utils"    
+	"hris/utils" 
+    "encoding/json"   
     
 
 	"golang.org/x/crypto/bcrypt"
