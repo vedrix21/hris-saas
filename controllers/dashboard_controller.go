@@ -19,9 +19,6 @@ func Dashboard(c *gin.Context) {
 	menus := services.GetSidebar(user.Role, tenant)
 
 	utils.Render(c, []string{
-		"templates/layout/base.html",
-		"templates/layout/sidebar.html",
-		"templates/components/loading.html",
 		"templates/admin/dashboard.html",
 	}, gin.H{
 		"title":         "Dashboard",

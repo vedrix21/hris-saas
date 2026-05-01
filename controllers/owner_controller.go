@@ -21,9 +21,6 @@ func ShowCreateAccount(c *gin.Context) {
 	password := c.Query("pass")
 
 	utils.Render(c, []string{
-		"templates/layout/base.html",
-		"templates/layout/sidebar.html",
-		"templates/components/loading.html",
 		"templates/owner/create_account.html",
 	}, gin.H{
 		"title":       "Create Account",
@@ -41,9 +38,6 @@ func ShowSettings(c *gin.Context) {
 	user := c.MustGet("user").(models.User)
 	menus := services.GetSidebar(user.Role, tenant)
 	utils.Render(c, []string{
-		"templates/layout/base.html",
-		"templates/layout/sidebar.html",
-		"templates/components/loading.html",
 		"templates/owner/settings.html",
 	}, gin.H{
 		"title":       "Owner Settings",
@@ -110,9 +104,6 @@ func OwnerDashboard(c *gin.Context) {
 	menus := services.GetSidebar(user.Role, tenant)
 
 	utils.Render(c, []string{
-		"templates/layout/base.html",
-		"templates/layout/sidebar.html",
-		"templates/components/loading.html",
 		"templates/owner/dashboard.html",
 	}, gin.H{
 		"title":         "Owner Dashboard",

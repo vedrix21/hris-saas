@@ -18,13 +18,12 @@ func Employees(c *gin.Context) {
 	config.DB.Find(&employees)
 
 	utils.Render(c, []string{
-		"templates/layout/base.html",
-		"templates/layout/sidebar.html",
-		"templates/admin/employee.html",
+		"templates/employee/index.html",
 	}, gin.H{
 		"Title":     "Employees",
 		"Menus":     menus,
 		"employees": employees,
+		"Role":      user.Role,
 	})
 }
 

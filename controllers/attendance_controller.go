@@ -31,12 +31,11 @@ func AttendancePage(c *gin.Context) {
 	config.DB.Find(&attendance)
 
 	utils.Render(c, []string{
-		"templates/layout/base.html",
-		"templates/layout/sidebar.html",
-		"templates/admin/attendance.html",
+		"templates/attendance/index.html",
 	}, gin.H{
 		"Title":      "Attendance",
 		"Menus":      menus,
 		"attendance": attendance,
+		"Role":       user.Role,
 	})
 }
