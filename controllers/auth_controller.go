@@ -187,11 +187,17 @@ func renderLogin(c *gin.Context, errorMsg string) {
 	// hash, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
 	// fmt.Println(string(hash))
     
-	c.HTML(200, "login.html", gin.H{
-		"error": errorMsg,
-		"logo":  "/static/logo.png",
-		"color": "#4F46E5",
-	})
+	//c.HTML(200, "login.html", gin.H{
+	//	"error": errorMsg,
+	//	"logo":  "/static/logo.png",
+	//	"color": "#4F46E5",
+	//})
+
+	utils.Render(c, []string{
+    "templates/login.html",
+}, gin.H{
+    "error": errMsg,
+})
 }
 
 func SwitchEnv(c *gin.Context) {
