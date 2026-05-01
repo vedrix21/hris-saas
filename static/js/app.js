@@ -1,0 +1,77 @@
+// ===== SIDEBAR =====
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("collapsed")
+    document.querySelector(".content").classList.toggle("expanded")
+}
+
+// ===== DROPDOWN =====
+function toggleDropdown() {
+    const menu = document.getElementById("dropdownMenu");
+
+    if (menu.style.display === "block") {
+        menu.style.display = "none";
+    } else {
+        menu.style.display = "block";
+    }
+}
+// klik luar nutup dropdown
+window.onclick = function(e) {
+    if (!e.target.closest(".user-dropdown")) {
+        const menu = document.getElementById("dropdownMenu");
+        if (menu) menu.style.display = "none";
+    }
+}
+
+// ===== REALTIME CLOCK =====
+function updateTime() {
+    const now = new Date()
+
+    const date = now.toLocaleDateString("id-ID", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    })
+
+    const time = now.toLocaleTimeString("id-ID")
+
+    document.getElementById("currentDate").innerText = date
+    document.getElementById("currentTime").innerText = time
+}
+
+setInterval(updateTime, 1000)
+updateTime()
+
+// ===== LOADING =====
+function showLoading(message = "Processing...") {
+    const el = document.getElementById("aiLoading");
+    const text = document.getElementById("loadingMessage");
+
+    if (text) text.innerText = message;
+    if (el) el.style.display = "flex";
+}
+
+function hideLoading() {
+    const el = document.getElementById("aiLoading");
+    if (el) el.style.display = "none";
+}
+
+// auto trigger saat submit form
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", () => {
+            showLoading()
+        })
+    })
+})
+
+// NAVIGATION HANDLER
+function handleNav(e, url) {
+    e.preventDefault();
+
+    showLoading("Opening...");
+
+    setTimeout(() => {
+        window.location.href = url;
+    }, 700);
+}
