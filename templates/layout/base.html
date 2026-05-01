@@ -39,6 +39,30 @@
     {{template "sidebar" .}}
 
     <div class="content">
+        <!-- 🔥 TOP NAVBAR -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <span id="currentDate"></span>
+                <span id="currentTime"></span>
+            </div>
+
+            <div class="topbar-right">
+                <div class="user-dropdown">
+                    <div class="user-info" onclick="toggleDropdown()">
+                        <img src="/static/img/avatar.png" class="avatar">
+                        <span>{{.User.Username}}</span>
+                    </div>
+
+                    <div id="dropdownMenu" class="dropdown-menu">
+                        <a href="/profile">Profile</a>
+
+                        <form method="POST" action="/logout">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="header">
             <h1>{{.Title}}</h1>
         </div>
@@ -47,7 +71,7 @@
 
     </div>
 
-    {{ template "loading" . }}
+    {{ template "loading" .}}
     <script src="/static/js/loading.js"></script>
     <script src="/static/js/sidebar.js"></script>
 

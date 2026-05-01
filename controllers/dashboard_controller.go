@@ -29,6 +29,7 @@ func Dashboard(c *gin.Context) {
 		"totalEmployee": totalEmployee,
 		"Menus":         menus,
 		"CurrentPath":   c.Request.URL.Path,
+		"User":          user,
 	})
 }
 
