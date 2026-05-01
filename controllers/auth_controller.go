@@ -99,7 +99,9 @@ func Logout(c *gin.Context) {
 }
 
 func ShowForgotPassword(c *gin.Context) {
-	c.HTML(200, "forgot_password.html", nil)
+	utils.Render(c, []string{
+		"templates/forgot_password.html",
+	}, gin.H{})
 }
 
 func ForgotPassword(c *gin.Context) {
@@ -146,7 +148,11 @@ func ForgotPassword(c *gin.Context) {
 
 func ShowResetPassword(c *gin.Context) {
 	token := c.Query("token")
-	c.HTML(200, "reset_password.html", gin.H{"token": token})
+	utils.Render(c, []string{
+		"templates/reset_password.html",
+	}, gin.H{
+		"token": token,
+	})
 }
 
 func ResetPassword(c *gin.Context) {
@@ -178,7 +184,9 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	c.HTML(200, "login.html", gin.H{
+	utils.Render(c, []string{
+		"templates/login.html",
+	}, gin.H{
 		"success": "Password berhasil direset, silakan login",
 	})
 }
@@ -194,10 +202,12 @@ func renderLogin(c *gin.Context, errorMsg string) {
 	//})
 
 	utils.Render(c, []string{
-    "templates/login.html",
-}, gin.H{
-    "error": errMsg,
-})
+		"templates/login.html",
+	}, gin.H{
+		"error": errorMsg,
+		"logo":  "/static/logo.png",
+		"color": "#4F46E5",
+	})
 }
 
 func SwitchEnv(c *gin.Context) {
