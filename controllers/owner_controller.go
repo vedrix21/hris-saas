@@ -122,7 +122,7 @@ func OwnerDashboard(c *gin.Context) {
 		"CurrentPath":   c.Request.URL.Path,
 		"accounts":      accounts,
 		"success":       success,
-		"total_clients": totalClients,
+		"TotalClients": totalClients,
 	})
 }
 

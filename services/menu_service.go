@@ -13,6 +13,7 @@ func GetSidebar(role string, tenant string) []MenuItem {
 		return []MenuItem{
 			{"Dashboard", "/owner/dashboard"},
 			{"Create Client", "/owner/create_account"},
+			{"List Payments", "/owner/payments"},
 			{"Settings", "/owner/settings"},
 		}
 	}
