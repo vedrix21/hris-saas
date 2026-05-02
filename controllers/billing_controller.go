@@ -66,10 +66,12 @@ func BillingPage(c *gin.Context) {
         fmt.Printf("TYPE: %T\n", acc)
         fmt.Printf("PAYMENT: %v\n", payment)
 
+        account := c.MustGet("account").(models.Account)
+
     utils.Render(c, []string{
         "templates/billing.html",
     }, gin.H{
-        "account": acc, // ✅ ini harus struct
+        "account": account, // ✅ ini harus struct
         "payment": payment,
     })
 }
