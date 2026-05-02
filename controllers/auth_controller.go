@@ -185,9 +185,11 @@ func ResetPassword(c *gin.Context) {
 	}
 
 	utils.Render(c, []string{
-		"templates/login.html",
+		"templates/auth/login.html",
 	}, gin.H{
 		"success": "Password berhasil direset, silakan login",
+		"logo":  "/static/logo.png",
+		
 	})
 }
 
@@ -202,11 +204,11 @@ func renderLogin(c *gin.Context, errorMsg string) {
 	//})
 
 	utils.Render(c, []string{
-		"templates/login.html",
+		"templates/auth/login.html",
 	}, gin.H{
 		"error": errorMsg,
 		"logo":  "/static/logo.png",
-		"color": "#4F46E5",
+		
 	})
 }
 
