@@ -54,20 +54,14 @@ func UpgradePlan(c *gin.Context) {
 }
 
 func BillingPage(c *gin.Context) {
-    tenant, _ := c.Cookie("tenant")
+    accountCode, _ := c.Cookie("tenant")
 
     var acc models.Account
-    config.DB.Where("code = ?", tenant).First(&acc)
-
-    user := c.MustGet("user").(models.User)
-    menus := services.GetSidebar(user.Role, tenant)
+    config.DB.Where("code = ?", accountCode).First(&acc)
 
     utils.Render(c, []string{
         "templates/billing.html",
     }, gin.H{
-        "title":       "Billing",
-        "Menus":       menus,
-        "CurrentPath": c.Request.URL.Path,
-        "account":     acc,
+        "account": acc, // ✅ ini harus struct
     })
 }

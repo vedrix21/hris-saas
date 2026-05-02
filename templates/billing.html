@@ -7,7 +7,11 @@
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
             <p><b>Package:</b> {{.account.Package}}</p>
-            <p><b>Valid Until:</b> {{.account.SubscriptionEnd}}</p>
+            <p><b>Valid Until:</b> {{if .account.SubscriptionEnd}}
+                                        {{.account.SubscriptionEnd.Format "02 Jan 2006"}}
+                                    {{else}}
+                                        -
+                                    {{end}}</p>
         </div>
 
         {{if .account.IsLocked}}
