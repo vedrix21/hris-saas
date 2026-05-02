@@ -21,9 +21,9 @@ func CheckSubscriptions() {
 		}
 
 		// kalau belum pernah subscribe → skip
-		if acc.SubscriptionEnd == nil {
-			continue
-		}
+		// if acc.SubscriptionEnd == nil {
+		// 	continue
+		// }
 
 
 		daysLeft := int(acc.SubscriptionEnd.Sub(now).Hours() / 24)
