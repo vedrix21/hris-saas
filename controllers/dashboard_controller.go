@@ -6,7 +6,7 @@ import (
 	"hris/services"
 	"hris/services/modules"
 	"hris/utils"
-
+	"time"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,6 +18,8 @@ func Dashboard(c *gin.Context) {
 	user := c.MustGet("user").(models.User)
 	menus := services.GetSidebar(user.Role, tenant)
 
+	var account models.Account
+	config.DB.Where("code = ?", tenant).First(&account)
 	daysLeft := int(account.SubscriptionEnd.Sub(time.Now()).Hours() / 24)
 
 	warning := false

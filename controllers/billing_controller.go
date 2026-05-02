@@ -4,6 +4,7 @@ import (
 	
 	"hris/config"
 	"hris/models"
+    "time"
 	
 	
 
@@ -20,7 +21,7 @@ func UpgradePlan(c *gin.Context) {
 	// 🔥 ambil plan dari form
 	planID := c.PostForm("plan_id")
 
-	var plan models.SubscriptionPlan
+	var plan models.Subscriptionplan
 	config.DB.First(&plan, planID)
 
 	// 🔥 simpan plan lama sebelum diubah
