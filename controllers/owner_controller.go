@@ -20,7 +20,7 @@ func ShowCreateAccount(c *gin.Context) {
 	username := c.Query("user")
 	password := c.Query("pass")
 
-	var plans []models.SubscriptionPlan
+	var plans []models.Subscriptionplan
 	config.DB.Find(&plans)
 
 	utils.Render(c, []string{
