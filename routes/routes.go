@@ -52,6 +52,7 @@ func SetupRoutes(r *gin.Engine) {
 		// 🔥 billing WAJIB ADA
 		auth.GET("/billing", controllers.BillingPage)
 		auth.POST("/billing/upgrade", controllers.UpgradePlan)
+		auth.POST("/billing/upload", controllers.UploadPayment)
 	}
 
 	// =============================

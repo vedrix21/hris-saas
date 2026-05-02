@@ -51,7 +51,11 @@ func ApprovePayment(c *gin.Context) {
 
 func UploadPayment(c *gin.Context) {
 
-	file, _ := c.FormFile("proof")
+	file, err := c.FormFile("proof")
+	if err != nil {
+		c.JSON(400, gin.H{"error": "file required"})
+		return
+	}
 
 	filename := file.Filename
 	c.SaveUploadedFile(file, "static/uploads/"+filename)
