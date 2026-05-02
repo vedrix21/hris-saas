@@ -16,10 +16,17 @@ func PaymentList(c *gin.Context) {
 		Where("status = ?", "pending").
 		Find(&payments)
 
+	tenant, _ := c.Cookie("tenant")
+	user := c.MustGet("user").(models.User)
+	menus := services.GetSidebar(user.Role, tenant)
+
 	utils.Render(c, []string{
 		"templates/owner/payments.html",
 	}, gin.H{
 		"title":    "Approve Payments",
+		"Menus":         menus,
+		"CurrentPath":   c.Request.URL.Path,
+		"accounts":      accounts,
 		"payments": payments,
 	})
 }
