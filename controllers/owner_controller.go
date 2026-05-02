@@ -54,7 +54,7 @@ func CreateAccount(c *gin.Context) {
 	companyName := c.PostForm("company_name")
 	planID := c.PostForm("plan_id")
 	
-	var plan models.SubscriptionPlan
+	var plan models.Subscriptionplan
 	if err := config.DB.First(&plan, planID).Error; err != nil {
 		c.String(400, "Invalid plan")
 		return

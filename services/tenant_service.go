@@ -23,7 +23,7 @@ func GetAccountByCode(code string) (*models.Account, error) {
 }
 
 // 🔥 CORE FUNCTION
-func CreateTenant(companyName string, plan models.SubscriptionPlan) (*models.Account, string, string, error) {
+func CreateTenant(companyName string, plan models.Subscriptionplan) (*models.Account, string, string, error) {
     db := config.DB
 
     var code string
