@@ -184,17 +184,13 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	c.HTML(200, "templates/auth/login.html", gin.H{
-		"success": "Password berhasil direset, silakan login",
-		"logo":  "/static/logo.png",
-	})
+
+	renderLogin(c, "Password berhasil direset, silakan login")
 
 	// utils.Render(c, []string{
-	// 	"templates/auth/login.html",
+	// 	"templates/login.html",
 	// }, gin.H{
 	// 	"success": "Password berhasil direset, silakan login",
-	// 	"logo":  "/static/logo.png",
-		
 	// })
 }
 
@@ -202,22 +198,18 @@ func renderLogin(c *gin.Context, errorMsg string) {
 	// hash, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
 	// fmt.Println(string(hash))
     
-	//c.HTML(200, "login.html", gin.H{
-	//	"error": errorMsg,
-	//	"logo":  "/static/logo.png",
-	//	"color": "#4F46E5",
-	//})
-
-	c.HTML(200, "templates/auth/login.html", gin.H{
+	c.HTML(200, "login.html", gin.H{
 		"error": errorMsg,
+		"logo":  "/static/logo.png",
+		
 	})
 
 	// utils.Render(c, []string{
-	// 	"templates/auth/login.html",
+	// 	"templates/login.html",
 	// }, gin.H{
 	// 	"error": errorMsg,
 	// 	"logo":  "/static/logo.png",
-		
+	// 	"color": "#4F46E5",
 	// })
 }
 
