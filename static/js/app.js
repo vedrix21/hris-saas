@@ -75,3 +75,21 @@ function handleNav(e, url) {
         window.location.href = url;
     }, 700);
 }
+
+
+function showPlanDetail() {
+    const select = document.getElementById("planSelect");
+    const selected = select.options[select.selectedIndex];
+
+    if (!selected.value) {
+        document.getElementById("planDetail").style.display = "none";
+        return;
+    }
+
+    document.getElementById("planDetail").style.display = "block";
+
+    document.getElementById("planName").innerText = selected.dataset.name;
+    document.getElementById("planUsers").innerText = selected.dataset.users;
+    document.getElementById("planPrice").innerText = selected.dataset.price;
+    document.getElementById("planDesc").innerText = selected.dataset.desc;
+}

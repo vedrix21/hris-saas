@@ -23,7 +23,7 @@ func GetAccountByCode(code string) (*models.Account, error) {
 }
 
 // 🔥 CORE FUNCTION
-func CreateTenant(companyName string) (*models.Account, string, string, error) {
+func CreateTenant(companyName string, plan models.SubscriptionPlan) (*models.Account, string, string, error) {
     db := config.DB
 
     var code string
@@ -47,12 +47,12 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
 
     hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(rawPassword), bcrypt.DefaultCost)
 
-    plan := GetPlanConfig("basic")
+    planConfig := GetPlanConfig(plan.Code)
 
     var subplan models.Subscriptionplan
-    db.Model(&models.Subscriptionplan{}).Where("plan_name = ?", plan.Name).First(&subplan)
+    db.Model(&models.Subscriptionplan{}).Where("plan_name = ?", planConfig.Name).First(&subplan)
 
-    featuresJSON, _ := json.Marshal(plan.Features)
+    featuresJSON, _ := json.Marshal(planConfig.Features)
 
     // 🔥 create account
     account := models.Account{
@@ -60,7 +60,7 @@ func CreateTenant(companyName string) (*models.Account, string, string, error) {
         CompanyName: companyName,
         IsActive:    true,
         IsOwner:     false,
-        Package:     plan.Name,
+        Package:     planConfig.Name,
         Features:    string(featuresJSON),
         MonthlyFee:  subplan.Price,
         UserLimit:   subplan.Limituser,

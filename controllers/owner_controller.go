@@ -20,6 +20,9 @@ func ShowCreateAccount(c *gin.Context) {
 	username := c.Query("user")
 	password := c.Query("pass")
 
+	var plans []models.SubscriptionPlan
+	config.DB.Find(&plans)
+
 	utils.Render(c, []string{
 		"templates/owner/create_account.html",
 	}, gin.H{
@@ -30,6 +33,7 @@ func ShowCreateAccount(c *gin.Context) {
 		"accountCode": accountCode,
 		"username":    username,
 		"password":    password,
+		"plans": plans,
 	})
 }
 
@@ -48,8 +52,15 @@ func ShowSettings(c *gin.Context) {
 
 func CreateAccount(c *gin.Context) {
 	companyName := c.PostForm("company_name")
+	planID := c.PostForm("plan_id")
+	
+	var plan models.SubscriptionPlan
+	if err := config.DB.First(&plan, planID).Error; err != nil {
+		c.String(400, "Invalid plan")
+		return
+	}
 
-	account, username, password, err := services.CreateTenant(companyName)
+	account, username, password, err := services.CreateTenant(companyName, plan)
 	if err != nil {
 		c.String(500, "Failed create account")
 		return
