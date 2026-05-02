@@ -12,6 +12,7 @@ import (
 func PaymentList(c *gin.Context) {
 
 	var payments []models.Subscription
+	var accounts []models.Account
 
 	config.DB.Preload("Account").
 		Where("status = ?", "pending").
