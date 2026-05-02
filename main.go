@@ -4,7 +4,9 @@ import (
 	"hris/config"
 	"hris/routes"
 	"hris/utils"
+	"hris/services"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,17 +28,22 @@ func main() {
 	utils.SeedOwner()
 	routes.SetupRoutes(r)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	r.Run(":" + port)
-
 	go func() {
+		time.Sleep(10 * time.Second) // biar server ready dulu
+
 		for {
 			services.CheckSubscriptions()
 			time.Sleep(24 * time.Hour)
 		}
 	}()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	
+
+	r.Run(":" + port)
+
+	
 }

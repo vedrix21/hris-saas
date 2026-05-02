@@ -15,6 +15,17 @@ func CheckSubscriptions() {
 
 	for _, acc := range accounts {
 
+		// skip owner (biar gak ke lock)
+		if acc.IsOwner {
+			continue
+		}
+
+		// kalau belum pernah subscribe → skip
+		if acc.SubscriptionEnd == nil {
+			continue
+		}
+
+
 		daysLeft := int(acc.SubscriptionEnd.Sub(now).Hours() / 24)
 
 		// 🔥 H-7
