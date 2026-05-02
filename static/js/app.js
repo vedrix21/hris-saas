@@ -93,3 +93,15 @@ function showPlanDetail() {
     document.getElementById("planPrice").innerText = selected.dataset.price;
     document.getElementById("planDesc").innerText = selected.dataset.desc;
 }
+
+// ===== FILE UPLOAD PREVIEW =====
+document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("fileInput");
+
+    if (fileInput) {
+        fileInput.addEventListener("change", function () {
+            const name = this.files[0]?.name || "Choose file...";
+            document.getElementById("fileName").innerText = name;
+        });
+    }
+});

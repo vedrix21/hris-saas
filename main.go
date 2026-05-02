@@ -20,6 +20,8 @@ func main() {
 	// 🔥 load template HTML (WAJIB untuk login & dashboard)
 	// r.LoadHTMLGlob("templates/**/*")
 
+	
+
 	config.ConnectMasterDB()
 	utils.SeedOwner()
 	routes.SetupRoutes(r)
@@ -30,4 +32,11 @@ func main() {
 	}
 
 	r.Run(":" + port)
+
+	go func() {
+		for {
+			services.CheckSubscriptions()
+			time.Sleep(24 * time.Hour)
+		}
+	}()
 }

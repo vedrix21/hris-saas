@@ -18,6 +18,13 @@ func Dashboard(c *gin.Context) {
 	user := c.MustGet("user").(models.User)
 	menus := services.GetSidebar(user.Role, tenant)
 
+	daysLeft := int(account.SubscriptionEnd.Sub(time.Now()).Hours() / 24)
+
+	warning := false
+	if daysLeft <= 7 {
+		warning = true
+	}
+
 	utils.Render(c, []string{
 		"templates/admin/dashboard.html",
 	}, gin.H{
@@ -27,6 +34,8 @@ func Dashboard(c *gin.Context) {
 		"Menus":         menus,
 		"CurrentPath":   c.Request.URL.Path,
 		"User":          user,
+		"SubscriptionWarning": warning,
+    	"DaysLeft": daysLeft,
 	})
 }
 

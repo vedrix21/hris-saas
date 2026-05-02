@@ -1,0 +1,40 @@
+{{define "content"}}
+<div class="card">
+    <h2>Approve Payments</h2>
+
+    <table width="100%">
+        <tr>
+            <th>Company</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Proof</th>
+            <th>Action</th>
+        </tr>
+
+        {{range .payments}}
+        <tr>
+            <td>{{.Account.CompanyName}}</td>
+            <td>{{.ToPlan}}</td>
+            <td>{{.Status}}</td>
+
+            <td>
+                {{if .Proof}}
+                    <a href="/static/uploads/{{.Proof}}" target="_blank">View</a>
+                {{else}}
+                    -
+                {{end}}
+            </td>
+
+            <td>
+                {{if eq .Status "pending"}}
+                <form method="POST" action="/owner/approve-payment">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button>Approve</button>
+                </form>
+                {{end}}
+            </td>
+        </tr>
+        {{end}}
+    </table>
+</div>
+{{end}}

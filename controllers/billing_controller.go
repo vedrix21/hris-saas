@@ -12,20 +12,40 @@ import (
 )
 
 func UpgradePlan(c *gin.Context) {
-    accountCode, _ := c.Cookie("tenant")
+	accountCode, _ := c.Cookie("tenant")
 
-    var acc models.Account
-    config.DB.Where("code = ?", accountCode).First(&acc)
+	var acc models.Account
+	config.DB.Where("code = ?", accountCode).First(&acc)
 
-    newPlan := c.PostForm("plan")
+	// 🔥 ambil plan dari form
+	planID := c.PostForm("plan_id")
 
-    config.DB.Model(&acc).Update("package", newPlan)
+	var plan models.SubscriptionPlan
+	config.DB.First(&plan, planID)
 
-    config.DB.Create(&models.Subscription{
-        AccountID: acc.ID,
-        FromPlan:  acc.Package,
-        ToPlan:    newPlan,
-    })
+	// 🔥 simpan plan lama sebelum diubah
+	oldPlan := acc.Package
 
-    c.String(200, "Plan updated")
+	// 🔥 update account
+	now := time.Now()
+	end := now.AddDate(0, 1, 0) // 1 bulan
+
+	config.DB.Model(&acc).Updates(map[string]interface{}{
+		"package":             plan.PlanName,
+		"monthly_fee":         plan.Price,
+		"user_limit":          plan.Limituser,
+		"subscription_start":  now,
+		"subscription_end":    end,
+		"is_active":           false, // 🔥 belum aktif sampai bayar
+	})
+
+	// 🔥 simpan history subscription
+	config.DB.Create(&models.Subscription{
+		AccountID: acc.ID,
+		FromPlan:  oldPlan,
+		ToPlan:    plan.PlanName,
+		Status:    "pending", // 🔥 belum bayar
+	})
+
+	c.Redirect(302, "/billing")
 }

@@ -1,0 +1,63 @@
+package controllers
+
+import (
+	"hris/config"
+	"hris/models"
+	"hris/utils"
+
+	"github.com/gin-gonic/gin"
+)
+
+func PaymentList(c *gin.Context) {
+
+	var payments []models.Subscription
+
+	config.DB.Preload("Account").
+		Where("status = ?", "pending").
+		Find(&payments)
+
+	utils.Render(c, []string{
+		"templates/owner/payments.html",
+	}, gin.H{
+		"title":    "Approve Payments",
+		"payments": payments,
+	})
+}
+
+func ApprovePayment(c *gin.Context) {
+
+	id := c.PostForm("id")
+
+	var sub models.Subscription
+	config.DB.First(&sub, id)
+
+	// 🔥 update subscription
+	config.DB.Model(&sub).Update("status", "active")
+
+	// 🔥 aktifkan account
+	config.DB.Model(&models.Account{}).
+		Where("id = ?", sub.AccountID).
+		Update("is_active", true)
+
+	c.Redirect(302, "/owner/payments")
+}
+
+func UploadPayment(c *gin.Context) {
+
+	file, _ := c.FormFile("proof")
+
+	filename := file.Filename
+	c.SaveUploadedFile(file, "static/uploads/"+filename)
+
+	tenant, _ := c.Cookie("tenant")
+
+	var acc models.Account
+	config.DB.Where("code = ?", tenant).First(&acc)
+
+	// 🔥 update subscription terakhir
+	config.DB.Model(&models.Subscription{}).
+		Where("account_id = ? AND status = ?", acc.ID, "pending").
+		Update("proof", filename)
+
+	c.Redirect(302, "/billing")
+}

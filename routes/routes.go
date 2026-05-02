@@ -10,14 +10,13 @@ import (
 func SetupRoutes(r *gin.Engine) {
 
 	// =============================
-	// 🔓 PUBLIC (NO LOGIN)
+	// 🔓 PUBLIC
 	// =============================
 	r.GET("/", controllers.Home)
 
 	r.GET("/login", controllers.ShowLogin)
 	r.POST("/login", controllers.Login)
 
-	// 🔥 BEST PRACTICE: logout pakai POST
 	r.POST("/logout", controllers.Logout)
 
 	r.GET("/forgot-password", controllers.ShowForgotPassword)
@@ -27,16 +26,13 @@ func SetupRoutes(r *gin.Engine) {
 	r.POST("/reset-password", controllers.ResetPassword)
 
 	// =============================
-	// 🔐 AUTH (LOGIN REQUIRED)
+	// 🔐 AUTH
 	// =============================
 	auth := r.Group("/")
 	auth.Use(middlewares.AuthMiddleware())
+	auth.Use(middlewares.SubscriptionMiddleware())
 	{
-		// Dashboard
 		auth.GET("/dashboard", controllers.Dashboard)
-
-		// Env switch
-		// auth.GET("/switch-env/:env", controllers.SwitchEnv)
 
 		auth.GET("/employees",
 			middlewares.RequireFeature("employee"),
@@ -53,14 +49,13 @@ func SetupRoutes(r *gin.Engine) {
 			controllers.PayrollPage,
 		)
 
-		// =============================
-		// 💳 BILLING / SUBSCRIPTION
-		// =============================
+		// 🔥 billing WAJIB ADA
+		auth.GET("/billing", controllers.BillingPage)
 		auth.POST("/billing/upgrade", controllers.UpgradePlan)
 	}
 
 	// =============================
-	// 👑 OWNER (SUPER ADMIN)
+	// 👑 OWNER
 	// =============================
 	owner := r.Group("/owner")
 	owner.Use(middlewares.AuthMiddleware())
@@ -72,5 +67,8 @@ func SetupRoutes(r *gin.Engine) {
 		owner.POST("/create_account", controllers.CreateAccount)
 
 		owner.GET("/settings", controllers.ShowSettings)
+
+		owner.GET("/payments", controllers.PaymentList)
+		owner.POST("/approve-payment", controllers.ApprovePayment)
 	}
 }

@@ -13,6 +13,9 @@ type Account struct {
     UserLimit    int
     IsActive     bool
     IsOwner      bool
+    SubscriptionStart   time.Time
+    SubscriptionEnd     time.Time
+    LastReminderSent    *time.Time
 
     // 🔥 billing
     ExpiredAt    *time.Time

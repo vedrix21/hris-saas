@@ -9,6 +9,12 @@
 <body>
 
     {{template "sidebar" .}}
+    
+    {{if .SubscriptionWarning}}
+    <div style="background:#fef9c3;padding:10px;border-radius:8px;margin-bottom:15px;">
+        ⚠️ Subscription akan berakhir dalam {{.DaysLeft}} hari
+    </div>
+    {{end}}
 
     <div class="content">
         <!-- 🔥 TOP NAVBAR -->

@@ -1,0 +1,76 @@
+{{define "content"}}
+
+<!-- 🔥 SUBSCRIPTION STATUS -->
+<div class="card">
+    <h2>Subscription</h2>
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <p><b>Package:</b> {{.account.Package}}</p>
+            <p><b>Valid Until:</b> {{.account.SubscriptionEnd}}</p>
+        </div>
+
+        {{if .account.IsLocked}}
+            <span class="badge danger">Expired</span>
+        {{else}}
+            <span class="badge success">Active</span>
+        {{end}}
+    </div>
+
+    {{if .account.IsLocked}}
+        <div style="margin-top:15px; color:#b91c1c;">
+            ⚠️ Subscription Anda telah habis. Silakan lakukan pembayaran untuk mengaktifkan kembali.
+        </div>
+    {{end}}
+</div>
+
+<!-- 💳 PAYMENT INSTRUCTION -->
+<div class="card">
+    <h2>Payment</h2>
+
+    <div class="payment-box">
+        <p>Transfer ke:</p>
+
+        <div class="bank-card">
+            <b>Bank Mandiri</b>
+            <p>1550015738860</p>
+            <small>a.n FAUZAN AKBAR PRASETYATAMA</small>
+        </div>
+
+        <p style="margin-top:10px;">
+            Amount: <b>Rp {{.account.MonthlyFee}}</b>
+        </p>
+    </div>
+</div>
+
+<!-- 📤 UPLOAD PROOF -->
+<div class="card">
+    <h2>Upload Payment Proof</h2>
+
+    <form method="POST" action="/billing/upload" enctype="multipart/form-data">
+        
+        <div class="upload-box">
+            <input type="file" name="proof" id="fileInput" required>
+            <p id="fileName">Choose file...</p>
+        </div>
+
+        <button type="submit">Submit Payment</button>
+    </form>
+
+    {{if .payment}}
+        <div style="margin-top:15px;">
+            Status:
+            {{if eq .payment.Status "pending"}}
+                <span class="badge warning">Pending Review</span>
+            {{end}}
+            {{if eq .payment.Status "approved"}}
+                <span class="badge success">Approved</span>
+            {{end}}
+            {{if eq .payment.Status "rejected"}}
+                <span class="badge danger">Rejected</span>
+            {{end}}
+        </div>
+    {{end}}
+</div>
+
+{{end}}
