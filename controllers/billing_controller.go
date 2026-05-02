@@ -6,7 +6,6 @@ import (
 	"hris/models"
     "time"
     "hris/utils"
-    "fmt"
 	
 	
 
@@ -63,15 +62,12 @@ func BillingPage(c *gin.Context) {
     config.DB.Where("account_id = ?", acc.ID).
         Order("created_at desc").
         First(&payment)
-        fmt.Printf("TYPE: %T\n", acc)
-        fmt.Printf("PAYMENT: %v\n", payment)
-
-        account := c.MustGet("account").(models.Account)
+        
 
     utils.Render(c, []string{
         "templates/billing.html",
     }, gin.H{
-        "account": account, // ✅ ini harus struct
+        "account": acc, // ✅ ini harus struct
         "payment": payment,
     })
 }
