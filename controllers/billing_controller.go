@@ -75,5 +75,7 @@ func BillingPage(c *gin.Context) {
     }, gin.H{
         "account": acc, // ✅ ini harus struct
         "payment": payment,
+        "isLocked": islocked,
+        "daysLeft": utils.DaysLeft(acc),
     })
 }
