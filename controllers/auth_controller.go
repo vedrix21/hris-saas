@@ -184,13 +184,18 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	utils.Render(c, []string{
-		"templates/auth/login.html",
-	}, gin.H{
+	c.HTML(200, "templates/auth/login.html", gin.H{
 		"success": "Password berhasil direset, silakan login",
 		"logo":  "/static/logo.png",
-		
 	})
+
+	// utils.Render(c, []string{
+	// 	"templates/auth/login.html",
+	// }, gin.H{
+	// 	"success": "Password berhasil direset, silakan login",
+	// 	"logo":  "/static/logo.png",
+		
+	// })
 }
 
 func renderLogin(c *gin.Context, errorMsg string) {
@@ -203,13 +208,17 @@ func renderLogin(c *gin.Context, errorMsg string) {
 	//	"color": "#4F46E5",
 	//})
 
-	utils.Render(c, []string{
-		"templates/auth/login.html",
-	}, gin.H{
+	c.HTML(200, "templates/auth/login.html", gin.H{
 		"error": errorMsg,
-		"logo":  "/static/logo.png",
-		
 	})
+
+	// utils.Render(c, []string{
+	// 	"templates/auth/login.html",
+	// }, gin.H{
+	// 	"error": errorMsg,
+	// 	"logo":  "/static/logo.png",
+		
+	// })
 }
 
 func SwitchEnv(c *gin.Context) {
