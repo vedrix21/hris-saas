@@ -37,7 +37,7 @@ func Render(c *gin.Context, files []string, data gin.H) {
 	// gabungkan base + page
 	allFiles := append(baseFiles, files...)
 
-	tmpl, err := template.ParseFiles(allFiles...)
+	tmpl, err = template.ParseFiles(allFiles...)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
