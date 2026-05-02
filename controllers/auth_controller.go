@@ -196,7 +196,7 @@ func ResetPassword(c *gin.Context) {
 
 
 func renderLogin(c *gin.Context, errorMsg string) {
-	utils.Render(c, []string{
+	utils.RenderAuth(c, []string{
 		"templates/auth/login.html",
 	}, gin.H{
 		"error": errorMsg,
