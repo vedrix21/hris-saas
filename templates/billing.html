@@ -14,14 +14,15 @@
                                     {{end}}</p>
         </div>
 
-        {{if .account.IsLocked}}
+        
+        {{if .isLocked}}
             <span class="badge danger">Expired</span>
         {{else}}
             <span class="badge success">Active</span>
         {{end}}
     </div>
 
-    {{if .account.IsLocked}}
+    {{if .isLocked}}
         <div style="margin-top:15px; color:#b91c1c;">
             ⚠️ Subscription Anda telah habis. Silakan lakukan pembayaran untuk mengaktifkan kembali.
         </div>
