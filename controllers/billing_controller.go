@@ -5,6 +5,8 @@ import (
 	"hris/config"
 	"hris/models"
     "time"
+    "hris/services"
+    "hris/utils"
 	
 	
 
@@ -49,4 +51,23 @@ func UpgradePlan(c *gin.Context) {
 	})
 
 	c.Redirect(302, "/billing")
+}
+
+func BillingPage(c *gin.Context) {
+    tenant, _ := c.Cookie("tenant")
+
+    var acc models.Account
+    config.DB.Where("code = ?", tenant).First(&acc)
+
+    user := c.MustGet("user").(models.User)
+    menus := services.GetSidebar(user.Role, tenant)
+
+    utils.Render(c, []string{
+        "templates/billing.html",
+    }, gin.H{
+        "title":       "Billing",
+        "Menus":       menus,
+        "CurrentPath": c.Request.URL.Path,
+        "account":     acc,
+    })
 }
