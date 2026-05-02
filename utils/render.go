@@ -13,7 +13,7 @@ func Render(c *gin.Context, files []string, data gin.H) {
 	var err error
 
 	// 🔥 kalau cuma login (no base)
-	if len(files) == 1 && files[0] == "templates/login.html" {
+	if len(files) == 1 && files[0] == "templates/auth/login.html" {
 		tmpl, err = template.ParseFiles(files...)
 		if err != nil {
 			c.String(http.StatusInternalServerError, err.Error())
