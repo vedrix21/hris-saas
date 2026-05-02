@@ -62,7 +62,13 @@ func BillingPage(c *gin.Context) {
     config.DB.Where("account_id = ?", acc.ID).
         Order("created_at desc").
         First(&payment)
-        
+
+    islocked := utils.IsAccountLocked(acc)
+
+    if !islocked {
+        c.Redirect(302, "/dashboard")
+        return
+    }
 
     utils.Render(c, []string{
         "templates/billing.html",
