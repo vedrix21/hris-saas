@@ -11,8 +11,10 @@ import (
 
 func PaymentList(c *gin.Context) {
 
-	var payments []models.Subscription
+	var payments []models.Payment
 	var accounts []models.Account
+
+	config.DB.Where("is_owner = ?", false).Find(&accounts)
 
 	config.DB.Preload("Account").
 		Where("status = ?", "pending").
@@ -59,18 +61,39 @@ func UploadPayment(c *gin.Context) {
 		return
 	}
 
-	filename := file.Filename
-	c.SaveUploadedFile(file, "static/uploads/"+filename)
+	filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+	path := "static/uploads/" + filename
+
+	if err := c.SaveUploadedFile(file, path); err != nil {
+		c.JSON(500, gin.H{"error": "upload failed"})
+		return
+	}
 
 	tenant, _ := c.Cookie("tenant")
 
 	var acc models.Account
 	config.DB.Where("code = ?", tenant).First(&acc)
 
+	// 🔥 ambil subscription pending
+	var sub models.Subscription
+	config.DB.Where("account_id = ? AND status = ?", acc.ID, "pending").
+		Order("created_at desc").
+		First(&sub)
+
+	// 🔥 INSERT ke payments table (INI YANG KAMU BELUM ADA)
+	payment := models.Payment{
+		AccountID: acc.ID,
+		Amount:    acc.MonthlyFee,
+		Proof:     filename,
+		Status:    "pending",
+	}
+
+	config.DB.Create(&payment)
+
 	// 🔥 update subscription terakhir
-	config.DB.Model(&models.Subscription{}).
-		Where("account_id = ? AND status = ?", acc.ID, "pending").
-		Update("proof", filename)
+	// config.DB.Model(&models.Subscription{}).
+	// 	Where("account_id = ? AND status = ?", acc.ID, "pending").
+	// 	Update("proof", filename)
 
 	c.Redirect(302, "/billing")
 }
