@@ -77,5 +77,11 @@
         </div>
     {{end}}
 </div>
+<script>
+document.getElementById("fileInput").addEventListener("change", function() {
+    const fileName = this.files[0]?.name;
+    document.getElementById("fileName").innerText = fileName || "Choose file...";
+});
+</script>
 
 {{end}}
