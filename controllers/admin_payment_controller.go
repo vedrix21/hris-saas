@@ -67,7 +67,8 @@ func UploadPayment(c *gin.Context) {
 	path := "static/uploads/" + filename
 
 	if err := c.SaveUploadedFile(file, path); err != nil {
-		c.JSON(500, gin.H{"error": "upload failed"})
+		fmt.Println("UPLOAD ERROR:", err) // 🔥 WAJIB
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
