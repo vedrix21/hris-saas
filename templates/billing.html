@@ -54,7 +54,7 @@
 
     <form method="POST" action="/billing/upload" enctype="multipart/form-data">
         
-        <div class="upload-box">
+        <div class="upload-box" onclick="document.getElementById('fileInput').click()">
             <input type="file" name="proof" id="fileInput" required>
             <p id="fileName">Choose file...</p>
         </div>
@@ -77,11 +77,5 @@
         </div>
     {{end}}
 </div>
-<script>
-document.getElementById("fileInput").addEventListener("change", function() {
-    const fileName = this.files[0]?.name;
-    document.getElementById("fileName").innerText = fileName || "Choose file...";
-});
-</script>
 
 {{end}}
