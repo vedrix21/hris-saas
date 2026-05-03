@@ -77,10 +77,10 @@ func UploadPayment(c *gin.Context) {
 	config.DB.Where("code = ?", tenant).First(&acc)
 
 	// 🔥 ambil subscription pending
-	var sub models.Subscription
-	config.DB.Where("account_id = ? AND status = ?", acc.ID, "pending").
-		Order("created_at desc").
-		First(&sub)
+	// var sub models.Subscription
+	// config.DB.Where("account_id = ? AND status = ?", acc.ID, "pending").
+	// 	Order("created_at desc").
+	// 	First(&sub)
 
 	// 🔥 INSERT ke payments table (INI YANG KAMU BELUM ADA)
 	payment := models.Payment{
