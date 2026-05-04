@@ -18,6 +18,7 @@ func main() {
 
 	// 🔥 static file (css/js kalau ada)
 	r.Static("/static", "./static")
+	r.Static("/uploads", "./uploads")
 
 	// 🔥 load template HTML (WAJIB untuk login & dashboard)
 	// r.LoadHTMLGlob("templates/**/*")

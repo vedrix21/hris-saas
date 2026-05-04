@@ -86,33 +86,35 @@ func UploadPayment(c *gin.Context) {
 		return
 	}
 
-	filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
-	path := "static/uploads/" + filename
+    // 🔥 generate path
+    path, err := utils.SaveUpload(file, "payments")
+    if err != nil {
+        c.JSON(400, gin.H{"error": err.Error()})
+        return
+    }
 
-	if err := c.SaveUploadedFile(file, path); err != nil {
-		fmt.Println("UPLOAD ERROR:", err) // 🔥 WAJIB
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-	fmt.Println("UPLOAD SUCCESS")
+    // 💾 simpan file
+    if err := c.SaveUploadedFile(file, path); err != nil {
+        c.JSON(500, gin.H{"error": "failed to save file"})
+        return
+    }
 
-	// 🔥 INSERT ke payments table (INI YANG KAMU BELUM ADA)
-	payment := models.Payment{
-		AccountID: acc.ID,
-		Amount:    acc.MonthlyFee,
-		Proof:     filename,
-		Status:    "pending",
-	}
+    // 🌐 URL yang disimpan ke DB
+    url := "/" + path // penting!
 
-	result := config.DB.Create(&payment)
+    payment := models.Payment{
+        AccountID: accountID,
+        Amount:    amount,
+        Proof:     url,
+        Status:    "pending",
+    }
 
-	if result.Error != nil {
-		fmt.Println("DB ERROR:", result.Error)
-		c.JSON(500, gin.H{"error": result.Error.Error()})
-		return
-	}
+    config.DB.Create(&payment)
 
-	fmt.Println("INSERT SUCCESS, ID:", payment.ID)
+    c.JSON(200, gin.H{
+        "message": "upload success",
+        "url":     url,
+    })
 
 	subscription := models.Subscription{
 		AccountID: acc.ID,
