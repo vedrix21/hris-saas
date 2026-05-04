@@ -6,7 +6,9 @@
         <tr>
             <th>Company</th>
             <th>Plan</th>
+            <th>Amount</th>
             <th>Status</th>
+            <th>Upload Date</th>
             <th>Proof</th>
             <th>Action</th>
         </tr>
@@ -15,7 +17,9 @@
         <tr>
             <td>{{.Account.CompanyName}}</td>
             <td>{{.ToPlan}}</td>
+            <td>Rp {{.Amount}}</td>
             <td>{{.Status}}</td>
+            <td>{{.CreatedAt.Format "02 Jan 2006 15:04"}}</td>
 
             <td>
                 {{if .Proof}}
@@ -27,9 +31,11 @@
 
             <td>
                 {{if eq .Status "pending"}}
+                <span class="badge warning">Pending</span>
                 <form method="POST" action="/owner/approve-payment">
                     <input type="hidden" name="id" value="{{.ID}}">
                     <button>Approve</button>
+                    <button class="danger">Reject</button>
                 </form>
                 {{end}}
             </td>

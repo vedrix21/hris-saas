@@ -14,12 +14,16 @@ import (
 func PaymentList(c *gin.Context) {
 
 	var payments []models.Payment
-	var accounts []models.Account
+	
 
-	config.DB.Where("is_owner = ?", false).Find(&accounts)
+	// config.DB.Preload("Account").
+	// 	Where("status = ?", "pending").
+	// 	Find(&payments)
 
-	config.DB.Preload("Account").
-		Where("status = ?", "pending").
+		config.DB.
+		Preload("Account").
+		Joins("JOIN subscriptions ON subscriptions.account_id = payments.account_id").
+		Where("payments.status = ?", "pending").
 		Find(&payments)
 
 	tenant, _ := c.Cookie("tenant")
@@ -32,7 +36,6 @@ func PaymentList(c *gin.Context) {
 		"title":    "Approve Payments",
 		"Menus":         menus,
 		"CurrentPath":   c.Request.URL.Path,
-		"accounts":      accounts,
 		"payments": payments,
 	})
 }
@@ -41,15 +44,15 @@ func ApprovePayment(c *gin.Context) {
 
 	id := c.PostForm("id")
 
-	var sub models.Subscription
-	config.DB.First(&sub, id)
+	var payment models.Payment
+	config.DB.First(&payment, id)
 
-	// 🔥 update subscription
-	config.DB.Model(&sub).Update("status", "active")
+	// 🔥 update payment
+	config.DB.Model(&payment).Update("status", "approved")
 
 	// 🔥 aktifkan account
 	config.DB.Model(&models.Account{}).
-		Where("id = ?", sub.AccountID).
+		Where("id = ?", payment.AccountID).
 		Update("is_active", true)
 
 	c.Redirect(302, "/owner/payments")
