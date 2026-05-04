@@ -51,7 +51,7 @@
 <!-- 📤 UPLOAD PROOF -->
 <div class="card">
     <h2>Upload Payment Proof</h2>
-    {{if eq .payment.Status "pending"}}
+    {{if or (not .payment) (ne .payment.Status "pending")}}
         <form method="POST" action="/billing/upload" enctype="multipart/form-data">
             
             <div class="upload-box">
