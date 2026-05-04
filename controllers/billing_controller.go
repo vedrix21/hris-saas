@@ -109,12 +109,18 @@ func UploadPayment(c *gin.Context) {
         Status:    "pending",
     }
 
-    config.DB.Create(&payment)
+    result := config.DB.Create(&payment)
 
-    c.JSON(200, gin.H{
-        "message": "upload success",
-        "url":     url,
-    })
+    if result.Error != nil {
+		fmt.Println("DB ERROR:", result.Error)
+		c.JSON(500, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+    // c.JSON(200, gin.H{
+    //     "message": "upload success",
+    //     "url":     url,
+    // })
 
 	subscription := models.Subscription{
 		AccountID: acc.ID,
