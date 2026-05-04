@@ -129,7 +129,7 @@ func UploadPayment(c *gin.Context) {
 		Status:    "pending",
 	}
 
-	result := config.DB.Create(&subscription)
+	result = config.DB.Create(&subscription)
 
 	if result.Error != nil {
 		fmt.Println("DB ERROR:", result.Error)
