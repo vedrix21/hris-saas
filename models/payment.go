@@ -4,6 +4,7 @@ import "time"
 type Payment struct {
     ID        uint
     AccountID uint
+	Account   Account `gorm:"foreignKey:AccountID"`
 
     Amount    int
     Proof     string // path gambar
@@ -11,6 +12,4 @@ type Payment struct {
 	Note string
 
     CreatedAt time.Time
-
-	Account Account `gorm:"foreignKey:AccountID"`
 }

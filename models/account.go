@@ -15,7 +15,7 @@ type Account struct {
     IsOwner      bool
     SubscriptionStart   *time.Time
     SubscriptionEnd     *time.Time
-    subscription_status string // trial, active, pending, expired
+    SubscriptionStatus string // trial, active, pending, expired
     LastReminderSent    *time.Time
 
     // 🔥 billing

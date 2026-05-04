@@ -5,6 +5,8 @@ type Subscription struct {
     ID        uint
     AccountID uint
 
+    Account   Account `gorm:"foreignKey:AccountID"`
+
     FromPlan  string
     ToPlan    string
     Price     int
@@ -13,6 +15,4 @@ type Subscription struct {
 	Proof    string // 🔥 path bukti transfer
 
     CreatedAt time.Time
-
-    Account Account `gorm:"foreignKey:AccountID"`
 }
