@@ -12,9 +12,9 @@ import (
 func PaymentList(c *gin.Context) {
 
 	var payments []models.Payment
-	var accounts []models.Account
+	var Account []models.Account
 
-	config.DB.Where("is_owner = ?", false).Find(&accounts)
+	config.DB.Where("is_owner = ?", false).Find(&Account)
 
 	// config.DB.Preload("Account").
 	// 	Where("status = ?", "pending").
@@ -36,7 +36,7 @@ func PaymentList(c *gin.Context) {
 		"title":    "Approve Payments",
 		"Menus":         menus,
 		"CurrentPath":   c.Request.URL.Path,
-		"accounts":      accounts,
+		"Account":      Account,
 		"payments": payments,
 	})
 }
