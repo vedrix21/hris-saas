@@ -4,6 +4,7 @@ import (
 	"hris/config"
 	"hris/models"
 	"hris/utils"
+	
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,15 +17,19 @@ func SubscriptionMiddleware() gin.HandlerFunc {
 		var acc models.Account
 		config.DB.Where("code = ?", accountCode).First(&acc)
 
-		// 🔥 CEK SUBSCRIPTION
+		path := c.Request.URL.Path
+
 		if !utils.IsSubscriptionActive(acc) {
 
-			// biar gak loop ke billing
-			if c.Request.URL.Path != "/billing" {
-				c.Redirect(302, "/billing")
-				c.Abort()
+			// 🔥 allow semua billing route
+			if strings.HasPrefix(path, "/billing") {
+				c.Next()
 				return
 			}
+
+			c.Redirect(302, "/billing")
+			c.Abort()
+			return
 		}
 
 		c.Next()
