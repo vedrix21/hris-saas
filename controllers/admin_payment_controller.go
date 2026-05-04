@@ -5,7 +5,6 @@ import (
 	"hris/models"
 	"hris/utils"
 	"hris/services"
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -61,76 +60,3 @@ func ApprovePayment(c *gin.Context) {
 	c.Redirect(302, "/owner/payments")
 }
 
-func UploadPayment(c *gin.Context) {
-
-	fmt.Println("UPLOAD HIT")
-
-	file, err := c.FormFile("proof")
-	if err != nil {
-		c.JSON(400, gin.H{"error": "file required"})
-		return
-	}
-
-	filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
-	path := "static/uploads/" + filename
-
-	if err := c.SaveUploadedFile(file, path); err != nil {
-		fmt.Println("UPLOAD ERROR:", err) // 🔥 WAJIB
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-	fmt.Println("UPLOAD SUCCESS")
-
-	tenant, _ := c.Cookie("tenant")
-
-	var acc models.Account
-	config.DB.Where("code = ?", tenant).First(&acc)
-
-	// 🔥 ambil subscription pending
-	// var sub models.Subscription
-	// config.DB.Where("account_id = ? AND status = ?", acc.ID, "pending").
-	// 	Order("created_at desc").
-	// 	First(&sub)
-
-	// 🔥 INSERT ke payments table (INI YANG KAMU BELUM ADA)
-	payment := models.Payment{
-		AccountID: acc.ID,
-		Amount:    acc.MonthlyFee,
-		Proof:     filename,
-		Status:    "pending",
-	}
-
-	result := config.DB.Create(&payment)
-
-	if result.Error != nil {
-		fmt.Println("DB ERROR:", result.Error)
-		c.JSON(500, gin.H{"error": result.Error.Error()})
-		return
-	}
-
-	fmt.Println("INSERT SUCCESS, ID:", payment.ID)
-
-	subscription := models.Subscription{
-		AccountID: acc.ID,
-		FromPlan:  acc.Package,
-		ToPlan:    acc.Package,
-		Status:    "pending",
-	}
-
-	result = config.DB.Create(&subscription)
-
-	if result.Error != nil {
-		fmt.Println("DB ERROR:", result.Error)
-		c.JSON(500, gin.H{"error": result.Error.Error()})
-		return
-	}
-
-	fmt.Println("INSERT SUCCESS, ID:", subscription.ID)
-
-	// 🔥 update subscription terakhir
-	// config.DB.Model(&models.Subscription{}).
-	// 	Where("account_id = ? AND status = ?", acc.ID, "pending").
-	// 	Update("proof", filename)
-
-	c.Redirect(302, "/billing")
-}

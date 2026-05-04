@@ -51,17 +51,18 @@
 <!-- 📤 UPLOAD PROOF -->
 <div class="card">
     <h2>Upload Payment Proof</h2>
+    {{if eq .payment.Status "pending"}}
+        <form method="POST" action="/billing/upload" enctype="multipart/form-data">
+            
+            <div class="upload-box">
+                <!-- <div class="upload-box" onclick="document.getElementById('fileInput').click()"> -->
+                <input type="file" name="proof" id="fileInput" required>
+                <p id="fileName">Choose file...</p>
+            </div>
 
-    <form method="POST" action="/billing/upload" enctype="multipart/form-data">
-        
-        <div class="upload-box">
-            <!-- <div class="upload-box" onclick="document.getElementById('fileInput').click()"> -->
-            <input type="file" name="proof" id="fileInput" required>
-            <p id="fileName">Choose file...</p>
-        </div>
-
-        <button type="submit">Submit Payment</button>
-    </form>
+            <button type="submit">Submit Payment</button>
+        </form>
+    {{end}}
 
     {{if .payment}}
         <div style="margin-top:15px;">
