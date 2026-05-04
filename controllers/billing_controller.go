@@ -103,8 +103,8 @@ func UploadPayment(c *gin.Context) {
     url := "/" + path // penting!
 
     payment := models.Payment{
-        AccountID: accountID,
-        Amount:    amount,
+        AccountID: acc.ID,
+        Amount:    acc.MonthlyFee,
         Proof:     url,
         Status:    "pending",
     }
@@ -123,7 +123,7 @@ func UploadPayment(c *gin.Context) {
 		Status:    "pending",
 	}
 
-	result = config.DB.Create(&subscription)
+	result := config.DB.Create(&subscription)
 
 	if result.Error != nil {
 		fmt.Println("DB ERROR:", result.Error)
