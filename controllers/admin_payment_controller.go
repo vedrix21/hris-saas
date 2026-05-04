@@ -57,6 +57,8 @@ func ApprovePayment(c *gin.Context) {
 
 func UploadPayment(c *gin.Context) {
 
+	fmt.Println("UPLOAD HIT")
+
 	file, err := c.FormFile("proof")
 	if err != nil {
 		c.JSON(400, gin.H{"error": "file required"})
@@ -71,6 +73,7 @@ func UploadPayment(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println("UPLOAD SUCCESS")
 
 	tenant, _ := c.Cookie("tenant")
 

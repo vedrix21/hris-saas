@@ -33,7 +33,14 @@ function updateTime() {
         day: "numeric"
     })
 
-    const time = now.toLocaleTimeString("id-ID")
+    // const time = now.toLocaleTimeString("id-ID")
+
+    // 🔥 format manual biar pakai :
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    const seconds = String(now.getSeconds()).padStart(2, '0')
+
+    const time = `${hours}:${minutes}:${seconds}`
 
     document.getElementById("currentDate").innerText = date
     document.getElementById("currentTime").innerText = time
