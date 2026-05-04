@@ -14,7 +14,9 @@ import (
 func PaymentList(c *gin.Context) {
 
 	var payments []models.Payment
-	
+	var accounts []models.Account
+
+	config.DB.Where("is_owner = ?", false).Find(&accounts)
 
 	// config.DB.Preload("Account").
 	// 	Where("status = ?", "pending").
@@ -36,6 +38,7 @@ func PaymentList(c *gin.Context) {
 		"title":    "Approve Payments",
 		"Menus":         menus,
 		"CurrentPath":   c.Request.URL.Path,
+		"accounts":      accounts,
 		"payments": payments,
 	})
 }
@@ -106,6 +109,23 @@ func UploadPayment(c *gin.Context) {
 	}
 
 	fmt.Println("INSERT SUCCESS, ID:", payment.ID)
+
+	subscription := models.Subscription{
+		AccountID: acc.ID,
+		FromPlan:  acc.Package,
+		ToPlan:    acc.Package,
+		Status:    "pending",
+	}
+
+	result = config.DB.Create(&subscription)
+
+	if result.Error != nil {
+		fmt.Println("DB ERROR:", result.Error)
+		c.JSON(500, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	fmt.Println("INSERT SUCCESS, ID:", subscription.ID)
 
 	// 🔥 update subscription terakhir
 	// config.DB.Model(&models.Subscription{}).
