@@ -77,6 +77,11 @@
                 <span class="badge danger">Rejected</span>
             {{end}}
         </div>
+        {{if eq .payment.Status "rejected"}}
+            <div class="badge danger">
+                Ditolak: {{.payment.Note}}
+            </div>
+        {{end}}
     {{end}}
 </div>
 

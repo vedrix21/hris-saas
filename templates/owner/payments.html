@@ -14,11 +14,37 @@
         </tr>
 
         {{range .payments}}
+        {{$sub := index $.subs .AccountID}}
+
         <tr>
             <td>{{.Account.CompanyName}}</td>
-            <td>{{.ToPlan}}</td>
+
+            <td>
+                {{if $sub}}
+                    {{if eq $sub.FromPlan $sub.ToPlan}}
+                        {{$sub.ToPlan}} (Extend)
+                    {{else}}
+                        {{$sub.FromPlan}} → {{$sub.ToPlan}}
+                    {{end}}
+                {{else}}
+                    -
+                {{end}}
+            </td>
+
             <td>Rp {{.Amount}}</td>
-            <td>{{.Status}}</td>
+
+            <td>
+                {{if eq .Status "pending"}}
+                    <span class="badge warning">Pending</span>
+                {{end}}
+                {{if eq .Status "approved"}}
+                    <span class="badge success">Approved</span>
+                {{end}}
+                {{if eq .Status "rejected"}}
+                    <span class="badge danger">Rejected</span>
+                {{end}}
+            </td>
+
             <td>{{.CreatedAt.Format "02 Jan 2006 15:04"}}</td>
 
             <td>
@@ -31,12 +57,20 @@
 
             <td>
                 {{if eq .Status "pending"}}
-                <span class="badge warning">Pending</span>
+
+                <!-- APPROVE -->
                 <form method="POST" action="/owner/approve-payment">
                     <input type="hidden" name="id" value="{{.ID}}">
                     <button>Approve</button>
+                </form>
+
+                <!-- REJECT -->
+                <form method="POST" action="/owner/reject-payment">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <input type="text" name="note" placeholder="Reason..." required>
                     <button class="danger">Reject</button>
                 </form>
+
                 {{end}}
             </td>
         </tr>

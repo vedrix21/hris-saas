@@ -7,8 +7,10 @@ type Payment struct {
 
     Amount    int
     Proof     string // path gambar
-
     Status    string // pending, approved, rejected
+	Note string
 
     CreatedAt time.Time
+
+	Account Account `gorm:"foreignKey:AccountID"`
 }

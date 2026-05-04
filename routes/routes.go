@@ -71,5 +71,6 @@ func SetupRoutes(r *gin.Engine) {
 
 		owner.GET("/payments", controllers.PaymentList)
 		owner.POST("/approve-payment", controllers.ApprovePayment)
+		owner.POST("/reject-payment", controllers.RejectPayment)
 	}
 }

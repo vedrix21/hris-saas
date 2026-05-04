@@ -12,19 +12,25 @@ import (
 func PaymentList(c *gin.Context) {
 
 	var payments []models.Payment
-	var Account []models.Account
 
-	config.DB.Where("is_owner = ?", false).Find(&Account)
-
-	// config.DB.Preload("Account").
-	// 	Where("status = ?", "pending").
-	// 	Find(&payments)
-
-		config.DB.
+	// 🔥 ambil payment + account
+	config.DB.
 		Preload("Account").
-		Joins("JOIN subscriptions ON subscriptions.account_id = payments.account_id").
-		Where("payments.status = ?", "pending").
+		Where("status = ?", "pending").
+		Order("created_at desc").
 		Find(&payments)
+
+	// 🔥 ambil semua subscription pending
+	var subs []models.Subscription
+	config.DB.
+		Where("status = ?", "pending").
+		Find(&subs)
+
+	// 🔥 mapping accountID -> subscription
+	subMap := make(map[uint]models.Subscription)
+	for _, s := range subs {
+		subMap[s.AccountID] = s
+	}
 
 	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
@@ -33,11 +39,11 @@ func PaymentList(c *gin.Context) {
 	utils.Render(c, []string{
 		"templates/owner/payments.html",
 	}, gin.H{
-		"title":    "Approve Payments",
-		"Menus":         menus,
-		"CurrentPath":   c.Request.URL.Path,
-		"Account":      Account,
-		"payments": payments,
+		"title":       "Approve Payments",
+		"Menus":       menus,
+		"CurrentPath": c.Request.URL.Path,
+		"payments":    payments,
+		"subs":        subMap,
 	})
 }
 
@@ -59,3 +65,25 @@ func ApprovePayment(c *gin.Context) {
 	c.Redirect(302, "/owner/payments")
 }
 
+func RejectPayment(c *gin.Context) {
+
+	id := c.PostForm("id")
+	note := c.PostForm("note")
+
+	var payment models.Payment
+	config.DB.First(&payment, id)
+
+	config.DB.Model(&payment).Updates(map[string]interface{}{
+		"status": "rejected",
+		"note":   note,
+	})
+
+	// 🔥 simpan note ke subscription (opsional)
+	config.DB.Model(&models.Subscription{}).
+		Where("account_id = ? AND status = ?", payment.AccountID, "pending").
+		Update("status", "rejected")
+
+	// TODO: simpan note ke table lain kalau mau
+
+	c.Redirect(302, "/owner/payments")
+}

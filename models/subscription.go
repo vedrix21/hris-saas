@@ -10,8 +10,9 @@ type Subscription struct {
     Price     int
 
     Status   string // pending, active
-
 	Proof    string // 🔥 path bukti transfer
 
     CreatedAt time.Time
+
+    Account Account `gorm:"foreignKey:AccountID"`
 }
