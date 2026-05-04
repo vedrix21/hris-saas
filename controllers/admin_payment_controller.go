@@ -94,7 +94,15 @@ func UploadPayment(c *gin.Context) {
 		Status:    "pending",
 	}
 
-	config.DB.Create(&payment)
+	result := config.DB.Create(&payment)
+
+	if result.Error != nil {
+		fmt.Println("DB ERROR:", result.Error)
+		c.JSON(500, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	fmt.Println("INSERT SUCCESS, ID:", payment.ID)
 
 	// 🔥 update subscription terakhir
 	// config.DB.Model(&models.Subscription{}).
