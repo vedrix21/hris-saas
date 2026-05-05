@@ -73,7 +73,7 @@ func SaveUpload(file *multipart.FileHeader, folder string) (string, error) {
 }
 
 func NewS3Client() *s3.Client {
-	endpoint := os.Getenv("AWS_ENDPOINT")
+	endpoint := os.Getenv("AWS_ENDPOINT_URL")
 
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion("auto"),
@@ -89,12 +89,12 @@ func NewS3Client() *s3.Client {
 
 func UploadToS3(file io.Reader, filename string, contentType string) (string, error) {
 	client := NewS3Client()
-	bucket := os.Getenv("AWS_BUCKET")
+	bucket := os.Getenv("AWS_S3_BUCKET_NAME")
 
 	key := fmt.Sprintf("payments/%d_%s", time.Now().Unix(), filename)
 
-	fmt.Println("ENDPOINT:", os.Getenv("AWS_ENDPOINT"))
-	fmt.Println("BUCKET:", os.Getenv("AWS_BUCKET"))
+	fmt.Println("ENDPOINT:", os.Getenv("AWS_ENDPOINT_URL"))
+	fmt.Println("BUCKET:", os.Getenv("AWS_S3_BUCKET_NAME"))
 
 	_, err := client.PutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket:      aws.String(bucket),
@@ -112,7 +112,7 @@ func UploadToS3(file io.Reader, filename string, contentType string) (string, er
 
 func GeneratePresignedURL(key string) (string, error) {
 	client := NewS3Client()
-	bucket := os.Getenv("AWS_BUCKET")
+	bucket := os.Getenv("AWS_S3_BUCKET_NAME")
 
 	presignClient := s3.NewPresignClient(client)
 
