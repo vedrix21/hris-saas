@@ -44,7 +44,7 @@ func PaymentList(c *gin.Context) {
 		"title":       "Approve Payments",
 		"Menus":       menus,
 		"CurrentPath": c.Request.URL.Path,
-		"Payments":    payments,
+		"payments":    payments,
 		"subs":        subMap,
 	})
 }
