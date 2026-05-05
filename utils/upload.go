@@ -93,6 +93,9 @@ func UploadToS3(file io.Reader, filename string, contentType string) (string, er
 
 	key := fmt.Sprintf("payments/%d_%s", time.Now().Unix(), filename)
 
+	fmt.Println("ENDPOINT:", os.Getenv("AWS_ENDPOINT"))
+	fmt.Println("BUCKET:", os.Getenv("AWS_BUCKET"))
+
 	_, err := client.PutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket:      aws.String(bucket),
 		Key:         aws.String(key),
