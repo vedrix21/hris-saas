@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function openModal(id) {
-    fetch("/payment/proof/" + id)
+    fetch("/owner/payment/proof/" + id)
     .then(res => res.json())
     .then(data => {
         if (data.url) {
