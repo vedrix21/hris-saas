@@ -32,6 +32,8 @@ func PaymentList(c *gin.Context) {
 		subMap[s.AccountID] = s
 	}
 
+	
+
 	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
 	menus := services.GetSidebar(user.Role, tenant)
@@ -86,4 +88,26 @@ func RejectPayment(c *gin.Context) {
 	// TODO: simpan note ke table lain kalau mau
 
 	c.Redirect(302, "/owner/payments")
+}
+
+
+func GetPaymentProof(c *gin.Context) {
+	id := c.Param("id")
+
+	var payment models.Payment
+	err := config.DB.First(&payment, id).Error
+	if err != nil {
+		c.JSON(404, gin.H{"error": "not found"})
+		return
+	}
+
+	url, err := utils.GeneratePresignedURL(payment.Proof)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "failed generate url"})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"url": url,
+	})
 }

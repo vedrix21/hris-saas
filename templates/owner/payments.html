@@ -9,8 +9,8 @@
             <th>Amount</th>
             <th>Status</th>
             <th>Upload Date</th>
-            <th>Proof</th>
-            <th>Action</th>
+            <th colspan="2">Proof</th>
+            <th colspan="2">Action</th>
         </tr>
 
         {{range .payments}}
@@ -47,34 +47,55 @@
 
             <td>{{.CreatedAt.Format "02 Jan 2006 15:04"}}</td>
 
-            <td>
+            
                 {{if .Proof}}
-                    <a href="/static/uploads/{{.Proof}}" target="_blank">View</a>
+                    
+                    <td colspan="2">
+                        <button onclick="openModal({{ .ID }})">
+                            Lihat Bukti
+                        </button>
+                    </td>
                 {{else}}
-                    -
+                    <td colspan="2">-</td>
                 {{end}}
-            </td>
+            
 
-            <td>
+            
                 {{if eq .Status "pending"}}
-
-                <!-- APPROVE -->
-                <form method="POST" action="/owner/approve-payment">
-                    <input type="hidden" name="id" value="{{.ID}}">
-                    <button>Approve</button>
-                </form>
-
-                <!-- REJECT -->
-                <form method="POST" action="/owner/reject-payment">
-                    <input type="hidden" name="id" value="{{.ID}}">
-                    <input type="text" name="note" placeholder="Reason..." required>
-                    <button class="danger">Reject</button>
-                </form>
-
+                <td>
+                    <!-- APPROVE -->
+                    <form method="POST" action="/owner/approve-payment">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <button>Approve</button>
+                    </form>
+                </td>
+                
+                <td>
+                    <!-- REJECT -->
+                    <form method="POST" action="/owner/reject-payment">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <input type="text" name="note" placeholder="Reason..." required>
+                        <button class="danger">Reject</button>
+                    </form>
+                </td>
                 {{end}}
-            </td>
+            
         </tr>
         {{end}}
     </table>
+</div>
+<!-- 🔥 MODAL GLOBAL -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h3>Bukti Pembayaran</h3>
+
+        <img id="previewImg" class="preview-img">
+
+        <p id="noImageText" style="display:none;">
+            Belum ada bukti pembayaran
+        </p>
+    </div>
 </div>
 {{end}}

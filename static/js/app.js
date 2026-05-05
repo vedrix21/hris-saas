@@ -14,11 +14,18 @@ function toggleDropdown() {
         menu.style.display = "block";
     }
 }
-// klik luar nutup dropdown
+// klik luar nutup dropdown dan klik luar modal = close
 window.onclick = function(e) {
+    // dropdown
     if (!e.target.closest(".user-dropdown")) {
         const menu = document.getElementById("dropdownMenu");
         if (menu) menu.style.display = "none";
+    }
+
+    // modal
+    let modal = document.getElementById("paymentModal");
+    if (e.target == modal) {
+        modal.style.display = "none";
     }
 }
 
@@ -112,3 +119,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
+function openModal(id) {
+    fetch("/payment/proof/" + id)
+    .then(res => res.json())
+    .then(data => {
+        if (data.url) {
+            document.getElementById("previewImg").src = data.url
+            document.getElementById("previewImg").style.display = "block"
+            document.getElementById("noImageText").style.display = "none"
+        } else {
+            document.getElementById("previewImg").style.display = "none"
+            document.getElementById("noImageText").style.display = "block"
+        }
+
+        document.getElementById("paymentModal").style.display = "block"
+    })
+}
+
+function closeModal() {
+    document.getElementById("paymentModal").style.display = "none";
+}
+

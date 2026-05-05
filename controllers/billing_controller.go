@@ -87,25 +87,41 @@ func UploadPayment(c *gin.Context) {
 	}
 
     // 🔥 generate path
-    path, err := utils.SaveUpload(file, "payments")
-    if err != nil {
-        c.JSON(400, gin.H{"error": err.Error()})
-        return
-    }
+    // path, err := utils.SaveUpload(file, "payments")
+    // if err != nil {
+    //     c.JSON(400, gin.H{"error": err.Error()})
+    //     return
+    // }
 
-    // 💾 simpan file
-    if err := c.SaveUploadedFile(file, path); err != nil {
-        c.JSON(500, gin.H{"error": "failed to save file"})
-        return
-    }
+    // // 💾 simpan file
+    // if err := c.SaveUploadedFile(file, path); err != nil {
+    //     c.JSON(500, gin.H{"error": "failed to save file"})
+    //     return
+    // }
 
     // 🌐 URL yang disimpan ke DB
-    url := "/" + path // penting!
+    // url := "/" + path // penting!
+
+    src, err := file.Open()
+	if err != nil {
+		c.JSON(500, gin.H{"error": "failed to read file"})
+		return
+	}
+	defer src.Close()
+
+
+    // 🔥 upload ke S3 (Railway Bucket)
+	key, err := utils.UploadToS3(src, file.Filename, file.Header.Get("Content-Type"))
+	if err != nil {
+		fmt.Println("S3 ERROR:", err)
+		c.JSON(500, gin.H{"error": "failed to upload file"})
+		return
+	}
 
     payment := models.Payment{
         AccountID: acc.ID,
         Amount:    acc.MonthlyFee,
-        Proof:     url,
+        Proof:     key, // 🔥 simpan key S3, bukan path lokal
         Status:    "pending",
     }
 
