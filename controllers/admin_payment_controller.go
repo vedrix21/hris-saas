@@ -121,7 +121,7 @@ func ApprovePayment(c *gin.Context) {
 		body,
 	)
 	if err != nil {
-		c.String(500, "Account created but email failed")
+		c.String(500, "Approval successful but email failed")
 		return
 	}
 
