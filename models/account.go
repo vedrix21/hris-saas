@@ -6,6 +6,9 @@ type Account struct {
     Code string `gorm:"type:varchar(20);uniqueIndex:idx_accounts_code"`
 
     CompanyName string
+    PicEmail    string
+    PicName     string
+    PicPhone    string
 
     // 🔥 subscription
     Package      string // basic, pro, premium

@@ -98,7 +98,7 @@ func ApprovePayment(c *gin.Context) {
 	// 🔥 kirim email
 	// 🔥 Email content
 	body := `
-	Halo ` + acc.CompanyName + `,
+	Halo ` + acc.PicName + `,
 	<br>
 	<br>
 	<p>Pembayaran Anda telah berhasil diverifikasi.</p>
@@ -115,7 +115,7 @@ func ApprovePayment(c *gin.Context) {
 	`
 
 	// 🔥 kirim ke email kamu
-	err = services.SendEmailHTML(
+	err := services.SendEmailHTML(
 		acc.PicEmail,
 		"[AitherHR] Verifikasi Pembayaran Berhasil",
 		body,
