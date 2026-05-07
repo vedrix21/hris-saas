@@ -242,7 +242,7 @@ const togglePassword =
 document.getElementById("togglePassword");
 
 const passwordInput =
-document.getElementById("password");
+document.getElementById("passwordInput");
 
 if(togglePassword && passwordInput){
 
