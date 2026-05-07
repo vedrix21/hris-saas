@@ -30,39 +30,118 @@ body{
 
 /* WEATHER BOX */
 .weather-box{
+
     position:absolute;
+
     top:30px;
     left:30px;
+
     z-index:20;
 
+    min-width:540px;
+
     background:rgba(255,255,255,0.08);
+
     border:1px solid rgba(255,255,255,0.1);
 
     backdrop-filter:blur(20px);
 
-    padding:16px 20px;
-    border-radius:20px;
+    padding:18px 24px;
+
+    border-radius:24px;
 
     color:white;
 
     display:flex;
     align-items:center;
-    gap:15px;
+    justify-content:space-between;
+
+    gap:24px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.2);
 }
 
-.weather-box h4{
-    font-size:15px;
-    margin-bottom:4px;
+/* LEFT */
+.weather-left{
+    display:flex;
+    align-items:center;
+    gap:16px;
 }
 
-.weather-box p{
-    font-size:12px;
-    opacity:0.7;
+.weather-icon{
+    font-size:42px;
 }
 
-#weatherIcon{
-    font-size:28px;
+.weather-info h4{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:6px;
 }
+
+.weather-info p{
+    font-size:14px;
+    opacity:0.75;
+}
+
+/* DIVIDER */
+.weather-divider{
+
+    width:1px;
+    height:55px;
+
+    background:
+    rgba(255,255,255,0.12);
+}
+
+/* RIGHT */
+.weather-right{
+    text-align:right;
+}
+
+.live-time{
+    font-size:34px;
+    font-weight:700;
+    line-height:1;
+}
+
+.live-date{
+    margin-top:8px;
+    font-size:14px;
+    opacity:0.75;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .weather-box{
+
+        min-width:auto;
+
+        width:calc(100% - 30px);
+
+        left:15px;
+        right:15px;
+
+        flex-direction:column;
+        align-items:flex-start;
+
+        gap:16px;
+    }
+
+    .weather-divider{
+        display:none;
+    }
+
+    .weather-right{
+        text-align:left;
+    }
+
+    .live-time{
+        font-size:26px;
+    }
+}
+
 
 /* CLOUDS */
 .clouds{
@@ -394,11 +473,14 @@ body.rainy .sky{
     }
 }
 
-.date-time-login{
-    margin-top:15px;
+.weather-info{
+    min-width:180px;
 }
 
-.date-time-login span {
-    font-size: 14px;
-    color: #64748b;
+.live-date{
+    white-space:nowrap;
+}
+
+.live-time{
+    letter-spacing:1px;
 }

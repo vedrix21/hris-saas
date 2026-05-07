@@ -31,15 +31,44 @@
 
     <!-- WEATHER INFO -->
     <div class="weather-box">
-        <div id="weatherIcon">☁️</div>
-        <div>
-            <h4 id="weatherText">Loading weather...</h4>
-            <p id="weatherLocation">Detecting location...</p>
+
+        <!-- LEFT -->
+        <div class="weather-left">
+
+            <div id="weatherIcon" class="weather-icon">
+                ☁️
+            </div>
+
+            <div class="weather-info">
+
+                <h4 id="weatherText">
+                    Loading weather...
+                </h4>
+
+                <p id="weatherLocation">
+                    Detecting location...
+                </p>
+
+            </div>
+
         </div>
-        <div class="date-time-login">
-            <span id="currentDateLogin"></span>
-            <span id="currentTimeLogin"></span>
+
+        <!-- DIVIDER -->
+        <div class="weather-divider"></div>
+
+        <!-- RIGHT -->
+        <div class="weather-right">
+
+            <div id="currentTimeLogin" class="live-time">
+                00:00:00
+            </div>
+
+            <div id="currentDateLogin" class="live-date">
+                Loading date...
+            </div>
+
         </div>
+
     </div>
 
     <!-- LOGIN -->

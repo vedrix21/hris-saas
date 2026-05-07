@@ -17,20 +17,26 @@ async function loadWeather(lat, lon) {
     try {
 
         const res = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`
-        );
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`,
+        {
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json"
+            }
+        });
+
+        if(!res.ok){
+            throw new Error("Weather API failed");
+        }
 
         const data = await res.json();
 
-        const code = data.current.weather_code;
+        const code = data.current?.weather_code || 0;
 
         // const code = 99; // TESTING
         let weather = "Cloudy";
         let icon = "☁️";
 
-        // HIDE LIGHTNING TOGGLE
-        document.getElementById("effectToggle")
-        .style.display = "none";
 
         if(code === 0){
             weather = "Clear Sky";
@@ -57,9 +63,12 @@ async function loadWeather(lat, lon) {
 
         }
 
+        const temp =
+        data.current?.temperature_2m ?? "--";
+
         document.getElementById("weatherText")
         .innerText =
-        `${weather} • ${data.current.temperature_2m}°C`;
+        `${weather} • ${temp}°C`;
 
         document.getElementById("weatherIcon")
         .innerText = icon;
@@ -167,18 +176,25 @@ setDayMode();
 // RAIN EFFECT
 function createRain(){
 
+    // jangan double rain
+    if(document.querySelector(".rain")){
+        return;
+    }
+
     for(let i=0;i<80;i++){
 
         const rain = document.createElement("div");
 
         rain.classList.add("rain");
 
-        rain.style.left = Math.random() * 100 + "vw";
+        rain.style.left =
+        Math.random() * 100 + "vw";
 
         rain.style.animationDuration =
         (Math.random() * 1 + 0.5) + "s";
 
-        rain.style.opacity = Math.random();
+        rain.style.opacity =
+        Math.random();
 
         rain.style.height =
         (Math.random() * 50 + 30) + "px";
@@ -189,29 +205,33 @@ function createRain(){
 
 
 
-// ===== REALTIME CLOCK =====
-function updateTime() {
-    const now = new Date()
+// REALTIME CLOCK
+function updateLoginClock(){
 
-    const date = now.toLocaleDateString("id-ID", {
+    const now = new Date();
+
+    const time =
+    now.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
+    const date =
+    now.toLocaleDateString("id-ID", {
         weekday: "long",
-        year: "numeric",
+        day: "numeric",
         month: "long",
-        day: "numeric"
-    })
+        year: "numeric"
+    });
 
-    // const time = now.toLocaleTimeString("id-ID")
+    document.getElementById("currentTimeLogin")
+    .innerText = time;
 
-    // 🔥 format manual biar pakai :
-    const hours = String(now.getHours()).padStart(2, '0')
-    const minutes = String(now.getMinutes()).padStart(2, '0')
-    const seconds = String(now.getSeconds()).padStart(2, '0')
-
-    const time = `${hours}:${minutes}:${seconds}`
-
-    document.getElementById("currentDateLogin").innerText = date
-    document.getElementById("currentTimeLogin").innerText = time
+    document.getElementById("currentDateLogin")
+    .innerText = date;
 }
 
-setInterval(updateTime, 1000)
-updateTime()
+updateLoginClock();
+
+setInterval(updateLoginClock, 1000);
