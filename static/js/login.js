@@ -1,3 +1,4 @@
+let lightningEnabled = false;
 // LOGIN LOADING
 const form = document.getElementById("loginForm");
 const btn = document.getElementById("loginBtn");
@@ -46,6 +47,15 @@ async function loadWeather(lat, lon) {
         else if(code <= 99){
             weather = "Storm";
             icon = "⛈️";
+
+            document.body.classList.add("rainy");
+
+            createRain();
+
+            if(lightningEnabled){
+
+                createLightning();
+            }
         }
 
         document.getElementById("weatherText")
@@ -64,36 +74,38 @@ async function loadWeather(lat, lon) {
     }
 }
 
-// LOCATION
-if(navigator.geolocation){
+// LOCATION + CITY
+if (navigator.geolocation) {
 
     navigator.geolocation.getCurrentPosition(
 
-        async (position)=>{
+        async (position) => {
 
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
 
+            // LOAD WEATHER
             loadWeather(lat, lon);
 
-            // GET CITY
-            try{
+            // LOAD CITY
+            try {
 
                 const res = await fetch(
-                    `https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`
+                    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=id`
                 );
 
                 const data = await res.json();
 
-                document.getElementById("weatherLocation")
-                .innerText =
-                data.address.city ||
-                data.address.town ||
-                data.address.village ||
-                data.address.state ||
-                "Indonesia";
+                const city =
+                    data.city ||
+                    data.locality ||
+                    data.principalSubdivision ||
+                    "Indonesia";
 
-            }catch(e){
+                document.getElementById("weatherLocation")
+                .innerText = city;
+
+            } catch (e) {
 
                 console.log(e);
 
@@ -103,14 +115,21 @@ if(navigator.geolocation){
 
         },
 
-        ()=>{
+        () => {
 
             document.getElementById("weatherText")
-            .innerText =
-            "Location denied";
+            .innerText = "Location denied";
 
+            document.getElementById("weatherLocation")
+            .innerText = "Indonesia";
         }
+
     );
+
+} else {
+
+    document.getElementById("weatherLocation")
+    .innerText = "Indonesia";
 }
 
 
@@ -168,3 +187,49 @@ function createRain(){
         document.body.appendChild(rain);
     }
 }
+
+// LIGHTNING EFFECT
+function createLightning(){
+
+    const flash = document.createElement("div");
+
+    flash.classList.add("lightning");
+
+    document.body.appendChild(flash);
+
+    setInterval(()=>{
+
+        flash.style.opacity = Math.random() * 0.7;
+
+        setTimeout(()=>{
+            flash.style.opacity = 0;
+        },100);
+
+    }, Math.random() * 6000 + 3000);
+}
+
+// TOGGLE LIGHTNING
+const lightningToggle =
+document.getElementById("lightningToggle");
+
+// LOAD SAVED
+const saved =
+localStorage.getItem("lightningEffect");
+
+if(saved === "true"){
+
+    lightningEnabled = true;
+
+    lightningToggle.checked = true;
+}
+
+lightningToggle.addEventListener("change", ()=>{
+
+    lightningEnabled =
+    lightningToggle.checked;
+
+    localStorage.setItem(
+        "lightningEffect",
+        lightningEnabled
+    );
+});
