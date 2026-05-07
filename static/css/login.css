@@ -557,3 +557,35 @@ body.rainy .sky{
 .live-time{
     letter-spacing:1px;
 }
+
+/* PASSWORD TOGGLE */
+.password-group{
+    position:relative;
+}
+
+.toggle-password{
+
+    position:absolute;
+
+    right:16px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    cursor:pointer;
+
+    color:rgba(255,255,255,0.5);
+
+    transition:.2s;
+
+    font-size:15px;
+}
+
+.toggle-password:hover{
+    color:white;
+}
+
+/* kasih space kanan utk icon mata */
+.password-group input{
+    padding-right:46px;
+}

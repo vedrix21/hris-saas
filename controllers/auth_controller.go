@@ -33,7 +33,6 @@ func Home(c *gin.Context) {
 	c.Redirect(302, "/dashboard")
 }
 
-
 func ShowLogin(c *gin.Context) {
 	// user, err := c.Cookie("user")
 	// fmt.Println("Masuk ke show login")
@@ -65,7 +64,7 @@ func Login(c *gin.Context) {
 	user, account, err := services.Login(accountCode, username, password)
 	if err != nil {
 		// fmt.Println("LOGIN ERROR:", err.Error()) // 🔥 log ke terminal
-    	// renderLogin(c, err.Error())              // 🔥 tampilkan ke UI
+		// renderLogin(c, err.Error())              // 🔥 tampilkan ke UI
 		renderLogin(c, "Invalid Credential")
 		return
 	}
@@ -99,7 +98,7 @@ func Logout(c *gin.Context) {
 }
 
 func ShowForgotPassword(c *gin.Context) {
-	utils.Render(c, []string{
+	utils.RenderAuth(c, []string{
 		"templates/forgot_password.html",
 	}, gin.H{})
 }
@@ -184,7 +183,6 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-
 	renderLogin(c, "Password berhasil direset, silakan login")
 
 	// utils.Render(c, []string{
@@ -193,7 +191,6 @@ func ResetPassword(c *gin.Context) {
 	// 	"success": "Password berhasil direset, silakan login",
 	// })
 }
-
 
 func renderLogin(c *gin.Context, errorMsg string) {
 	utils.RenderAuth(c, []string{
