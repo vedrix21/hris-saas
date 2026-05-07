@@ -24,7 +24,7 @@ async function loadWeather(lat, lon) {
 
         // const code = data.current.weather_code;
 
-        const code = 67; // TESTING
+        const code = 99; // TESTING
         let weather = "Cloudy";
         let icon = "☁️";
 
