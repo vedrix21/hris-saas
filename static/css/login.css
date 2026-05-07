@@ -442,7 +442,7 @@ body.rainy .sky{
 
 /* EFFECT TOGGLE */
 .effect-toggle{
-
+    display:none;
     position:absolute;
 
     top:110px;
@@ -450,7 +450,7 @@ body.rainy .sky{
 
     z-index:20;
 
-    display:flex;
+    
     align-items:center;
     gap:12px;
 

@@ -1,4 +1,5 @@
 let lightningEnabled = false;
+let lightningInterval = null;
 // LOGIN LOADING
 const form = document.getElementById("loginForm");
 const btn = document.getElementById("loginBtn");
@@ -29,6 +30,10 @@ async function loadWeather(lat, lon) {
         let weather = "Cloudy";
         let icon = "☁️";
 
+        // HIDE LIGHTNING TOGGLE
+        document.getElementById("effectToggle")
+        .style.display = "none";
+
         if(code === 0){
             weather = "Clear Sky";
             icon = "☀️";
@@ -51,6 +56,10 @@ async function loadWeather(lat, lon) {
             document.body.classList.add("rainy");
 
             createRain();
+
+            // SHOW TOGGLE
+            document.getElementById("effectToggle")
+            .style.display = "flex";
 
             if(lightningEnabled){
 
@@ -191,13 +200,23 @@ function createRain(){
 // LIGHTNING EFFECT
 function createLightning(){
 
+    // jangan double interval
+    if(lightningInterval) return;
+
     const flash = document.createElement("div");
 
     flash.classList.add("lightning");
 
     document.body.appendChild(flash);
 
-    setInterval(()=>{
+    lightningInterval = setInterval(()=>{
+
+        // kalau toggle OFF
+        if(!lightningEnabled){
+
+            flash.style.opacity = 0;
+            return;
+        }
 
         flash.style.opacity = Math.random() * 0.7;
 
@@ -205,7 +224,20 @@ function createLightning(){
             flash.style.opacity = 0;
         },100);
 
-    }, Math.random() * 6000 + 3000);
+    }, Math.random() * 5000 + 3000);
+}
+
+function stopLightning(){
+
+    if(lightningInterval){
+
+        clearInterval(lightningInterval);
+
+        lightningInterval = null;
+    }
+
+    document.querySelectorAll(".lightning")
+    .forEach(el => el.remove());
 }
 
 // TOGGLE LIGHTNING
@@ -232,4 +264,13 @@ lightningToggle.addEventListener("change", ()=>{
         "lightningEffect",
         lightningEnabled
     );
+
+    if(lightningEnabled){
+
+        createLightning();
+
+    }else{
+
+        stopLightning();
+    }
 });
