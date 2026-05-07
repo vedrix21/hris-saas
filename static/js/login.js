@@ -211,7 +211,7 @@ function updateLoginClock(){
     const now = new Date();
 
     const time =
-    now.toLocaleTimeString("id-ID", {
+    now.toLocaleTimeString("en-GB", {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit"

@@ -33,12 +33,14 @@ body{
 
     position:absolute;
 
-    top:30px;
-    left:30px;
+    top:20px;
+    left:20px;
 
     z-index:20;
 
-    min-width:540px;
+    min-width:unset;
+    width:auto;
+    max-width:420px;
 
     background:rgba(255,255,255,0.08);
 
@@ -46,9 +48,9 @@ body{
 
     backdrop-filter:blur(20px);
 
-    padding:18px 24px;
+    padding:14px 18px;
 
-    border-radius:24px;
+    border-radius:22px;
 
     color:white;
 
@@ -56,7 +58,7 @@ body{
     align-items:center;
     justify-content:space-between;
 
-    gap:24px;
+    gap:18px;
 
     box-shadow:
     0 10px 30px rgba(0,0,0,0.2);
@@ -66,21 +68,25 @@ body{
 .weather-left{
     display:flex;
     align-items:center;
-    gap:16px;
+    gap:12px;
 }
 
 .weather-icon{
-    font-size:42px;
+    font-size:32px;
+}
+
+.weather-info{
+    min-width:auto;
 }
 
 .weather-info h4{
-    font-size:20px;
+    font-size:16px;
     font-weight:700;
-    margin-bottom:6px;
+    margin-bottom:4px;
 }
 
 .weather-info p{
-    font-size:14px;
+    font-size:13px;
     opacity:0.75;
 }
 
@@ -88,7 +94,7 @@ body{
 .weather-divider{
 
     width:1px;
-    height:55px;
+    height:42px;
 
     background:
     rgba(255,255,255,0.12);
@@ -97,48 +103,101 @@ body{
 /* RIGHT */
 .weather-right{
     text-align:right;
+
+    min-width:140px;
+    width:140px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
 }
 
+/* JAM */
 .live-time{
-    font-size:34px;
+    font-size:24px;
     font-weight:700;
     line-height:1;
+
+    letter-spacing:1px;
+
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+
+    min-width:120px;
+    text-align:right;
 }
 
+/* TANGGAL */
 .live-date{
-    margin-top:8px;
-    font-size:14px;
+    margin-top:6px;
+    font-size:12px;
     opacity:0.75;
+
+    white-space:nowrap;
+
+    min-width:120px;
+    text-align:right;
 }
 
 /* MOBILE */
-@media(max-width:468px){
+@media(max-width:768px){
+
+    body{
+        align-items:flex-start;
+        padding-top:140px;
+    }
 
     .weather-box{
 
-        min-width:auto;
-
-        width:calc(100% - 30px);
-
+        top:15px;
         left:15px;
         right:15px;
 
-        flex-direction:column;
-        align-items:flex-start;
+        width:calc(100% - 30px);
+        max-width:none;
 
-        gap:16px;
+        flex-direction:row;
+
+        gap:14px;
+
+        padding:12px 14px;
     }
 
     .weather-divider{
         display:none;
     }
 
-    .weather-right{
-        text-align:left;
+    .weather-icon{
+        font-size:28px;
+    }
+
+    .weather-info h4{
+        font-size:14px;
+    }
+
+    .weather-info p{
+        font-size:12px;
     }
 
     .live-time{
-        font-size:16px;
+        font-size:18px;
+    }
+
+    .live-date{
+        font-size:11px;
+    }
+
+    .login-container{
+        width:100%;
+        padding:16px;
+    }
+
+    .login-card{
+        padding:26px;
+    }
+
+    .login-card h1{
+        font-size:28px;
     }
 }
 
