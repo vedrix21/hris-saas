@@ -20,10 +20,13 @@ func Employees(c *gin.Context) {
 	utils.Render(c, []string{
 		"templates/employee/index.html",
 	}, gin.H{
-		"Title":     "Employees",
-		"Menus":     menus,
-		"employees": employees,
-		"Role":      user.Role,
+		"Title":       "Employees",
+		"tenant":      tenant,
+		"Menus":       menus,
+		"employees":   employees,
+		"Role":        user.Role,
+		"CurrentPath": c.Request.URL.Path,
+		"User":        user,
 	})
 }
 
