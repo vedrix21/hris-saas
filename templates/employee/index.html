@@ -2,41 +2,56 @@
 
 <div class="employee-page">
 
-    <!-- <div class="topbar">
-        <div class="search-box">
-            <input type="text" placeholder="Search employees...">
-        </div>
-
-        <div class="welcome-text">
-            Welcome, {{.company_name}}
-        </div>
-    </div> -->
-
     <div class="employee-card">
 
+        <!-- HEADER -->
         <div class="employee-header">
-            <h2>Employee Management</h2>
 
-            {{ if eq .Role "superadmin" }}
-            <button class="btn-primary" onclick="openEmployeeModal()">
-                + Add Employee
+            <div>
+                <h2>Employee Management</h2>
+                <p class="employee-subtitle">
+                    Manage employee data and information
+                </p>
+            </div>
+
+            {{if eq .Role "superadmin"}}
+            <button class="btn-primary"
+            onclick="openEmployeeModal()">
+                <i class="fa-solid fa-plus"></i>
+                Add Employee
             </button>
-            {{ end }}
+            {{end}}
+
         </div>
 
+        <!-- STATS -->
         <div class="stats-grid">
+
             <div class="stat-box">
-                <div class="stat-label">Total Employees</div>
-                <div class="stat-number">{{len .employees}}</div>
+                <div class="stat-label">
+                    Total Employees
+                </div>
+
+                <div class="stat-number">
+                    {{len .employees}}
+                </div>
             </div>
 
             <div class="stat-box">
-                <div class="stat-label">Active Employees</div>
-                <div class="stat-number">{{len .employees}}</div>
+                <div class="stat-label">
+                    Active Employees
+                </div>
+
+                <div class="stat-number">
+                    {{len .employees}}
+                </div>
             </div>
+
         </div>
 
+        <!-- FILTER -->
         <div class="filters">
+
             <select>
                 <option>All Departments</option>
             </select>
@@ -52,15 +67,17 @@
             <button class="btn-export">
                 Export
             </button>
+
         </div>
 
+        <!-- TABLE -->
         <div class="table-wrapper">
 
             <table class="employee-table">
 
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Employee</th>
                         <th>Email</th>
                         <th>Position</th>
                         <th>Status</th>
@@ -73,6 +90,7 @@
                     <tr>
 
                         <td>
+
                             <div class="employee-info">
 
                                 <div class="employee-avatar">
@@ -80,6 +98,7 @@
                                 </div>
 
                                 <div>
+
                                     <div class="employee-name">
                                         {{.Name}}
                                     </div>
@@ -87,9 +106,11 @@
                                     <div class="employee-email">
                                         {{.Email}}
                                     </div>
+
                                 </div>
 
                             </div>
+
                         </td>
 
                         <td>{{.Email}}</td>
@@ -111,101 +132,242 @@
 
         </div>
 
-        <div class="pagination">
-
-            <div class="pagination-info">
-                Showing {{len .employees}} employees
-            </div>
-
-            <div class="pagination-buttons">
-                <button>‹</button>
-                <button class="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>›</button>
-            </div>
-
-        </div>
-
     </div>
 
 </div>
 
-<!-- EMPLOYEE MODAL -->
-                    </select>
+<!-- MODAL -->
+<div class="modal-overlay"
+id="employeeModal">
+
+    <div class="employee-modal">
+
+        <!-- HEADER -->
+        <div class="modal-header">
+
+            <div>
+                <h3>Add Employee</h3>
+
+                <p>
+                    Complete employee information
+                </p>
+            </div>
+
+            <button class="modal-close"
+            onclick="closeEmployeeModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <!-- FORM -->
+        <form id="employeeForm"
+        method="POST"
+        action="/employees/create">
+
+            <div class="modal-body">
+
+                <!-- PERSONAL -->
+                <div class="form-section">
+
+                    <h4>
+                        Personal Information
+                    </h4>
+
+                    <div class="form-grid">
+
+                        <!-- FIRST NAME -->
+                        <div class="form-group">
+                            <label>First Name</label>
+
+                            <input type="text"
+                            name="first_name"
+                            id="first_name"
+                            required>
+                        </div>
+
+                        <!-- MIDDLE -->
+                        <div class="form-group">
+                            <label>Middle Name</label>
+
+                            <input type="text"
+                            name="middle_name"
+                            id="middle_name">
+                        </div>
+
+                        <!-- LAST -->
+                        <div class="form-group">
+                            <label>Last Name</label>
+
+                            <input type="text"
+                            name="last_name"
+                            id="last_name">
+                        </div>
+
+                        <!-- GENDER -->
+                        <div class="form-group">
+                            <label>Gender</label>
+
+                            <select name="gender"
+                            id="gender">
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+                                <option value="Male">
+                                    Male
+                                </option>
+
+                                <option value="Female">
+                                    Female
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <!-- RELIGION -->
+                        <div class="form-group">
+                            <label>Religion</label>
+
+                            <select name="religion"
+                            id="religion">
+
+                                <option value="">
+                                    Select Religion
+                                </option>
+
+                                <option>Islam</option>
+                                <option>Christian</option>
+                                <option>Catholic</option>
+                                <option>Hindu</option>
+                                <option>Buddhist</option>
+                                <option>Confucian</option>
+
+                            </select>
+                        </div>
+
+                        <!-- PLACE -->
+                        <div class="form-group">
+                            <label>Place of Birth</label>
+
+                            <input type="text"
+                            name="birth_place"
+                            id="birth_place">
+                        </div>
+
+                        <!-- DATE -->
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+
+                            <input type="date"
+                            name="birth_date"
+                            id="birth_date">
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="form-group">
+                            <label>Email</label>
+
+                            <input type="email"
+                            name="email"
+                            id="email">
+                        </div>
+
+                        <!-- PHONE -->
+                        <div class="form-group">
+                            <label>Phone Number</label>
+
+                            <input type="text"
+                            name="phone"
+                            id="phone">
+                        </div>
+
+                        <!-- ADDRESS -->
+                        <div class="form-group full-width">
+                            <label>Address</label>
+
+                            <textarea
+                            name="address"
+                            id="address"
+                            rows="4"></textarea>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <!-- EMAIL -->
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email"
-                    name="email"
-                    id="email">
-                </div>
+                <!-- JOB -->
+                <div class="form-section">
 
-                <!-- PHONE -->
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="text"
-                    name="phone"
-                    id="phone">
-                </div>
+                    <h4>
+                        Employment Information
+                    </h4>
 
-                <!-- ADDRESS -->
-                <div class="form-group full-width">
-                    <label>Address</label>
-                    <textarea
-                    name="address"
-                    id="address"
-                    rows="3"></textarea>
-                </div>
-                <!-- EMPLOYEE CODE -->
-                <div class="form-group">
-                    <label>Employee Code/Number</label>
-                    <input type="text"
-                    name="employee_code"
-                    id="employee_code">
-                </div>
+                    <div class="form-grid">
 
-                <!-- POSITION -->
-                <div class="form-group">
-                    <label>Position</label>
-                    <input type="text"
-                    name="position"
-                    id="position">
-                </div>
+                        <!-- CODE -->
+                        <div class="form-group">
+                            <label>Employee Code</label>
 
-                <!-- DEPARTMENT -->
-                <div class="form-group">
-                    <label>Department</label>
-                    <input type="text"
-                    name="department"
-                    id="department">
-                </div>
+                            <input type="text"
+                            name="employee_code"
+                            id="employee_code">
+                        </div>
 
-                <!-- JOIN DATE -->
-                <div class="form-group">
-                    <label>Join Date</label>
-                    <input type="date"
-                    name="join_date"
-                    id="join_date">
-                </div>
+                        <!-- POSITION -->
+                        <div class="form-group">
+                            <label>Position</label>
 
-                <!-- EMPLOYMENT STATUS -->
-                <div class="form-group">
-                    <label>Employment Status</label>
-                    <select name="employment_status"
-                    id="employment_status">
-                        <option value="">Select Status</option>
-                        <option>Permanent</option>
-                        <option>Contract</option>
-                        <option>Intern</option>
-                        <option>Freelance</option>
-                    </select>
+                            <input type="text"
+                            name="position"
+                            id="position">
+                        </div>
+
+                        <!-- DEPARTMENT -->
+                        <div class="form-group">
+                            <label>Department</label>
+
+                            <input type="text"
+                            name="department"
+                            id="department">
+                        </div>
+
+                        <!-- JOIN DATE -->
+                        <div class="form-group">
+                            <label>Join Date</label>
+
+                            <input type="date"
+                            name="join_date"
+                            id="join_date">
+                        </div>
+
+                        <!-- STATUS -->
+                        <div class="form-group">
+                            <label>Employment Status</label>
+
+                            <select name="employment_status"
+                            id="employment_status">
+
+                                <option value="">
+                                    Select Status
+                                </option>
+
+                                <option>Permanent</option>
+                                <option>Contract</option>
+                                <option>Intern</option>
+                                <option>Freelance</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
 
+            <!-- ACTION -->
             <div class="modal-actions">
 
                 <button type="button"
@@ -217,7 +379,11 @@
                 <button type="submit"
                 class="btn-save"
                 id="saveEmployeeBtn">
-                    Save Employee
+
+                    <span id="saveText">
+                        Save Employee
+                    </span>
+
                 </button>
 
             </div>
@@ -227,5 +393,77 @@
     </div>
 
 </div>
+
+<script>
+
+// OPEN MODAL
+function openEmployeeModal(){
+
+    document.getElementById("employeeModal")
+    .classList.add("active");
+}
+
+// CLOSE MODAL
+function closeEmployeeModal(){
+
+    document.getElementById("employeeModal")
+    .classList.remove("active");
+}
+
+// AUTO SAVE FORM
+const employeeForm =
+document.getElementById("employeeForm");
+
+const inputs =
+employeeForm.querySelectorAll(
+    "input, textarea, select"
+);
+
+// LOAD SAVED
+window.addEventListener("DOMContentLoaded", ()=>{
+
+    inputs.forEach(input=>{
+
+        const saved =
+        localStorage.getItem(input.id);
+
+        if(saved){
+            input.value = saved;
+        }
+    });
+});
+
+// SAVE REALTIME
+inputs.forEach(input=>{
+
+    input.addEventListener("input", ()=>{
+
+        localStorage.setItem(
+            input.id,
+            input.value
+        );
+    });
+});
+
+// SUBMIT
+employeeForm.addEventListener("submit", ()=>{
+
+    const btn =
+    document.getElementById("saveEmployeeBtn");
+
+    btn.disabled = true;
+
+    btn.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Saving...
+    `;
+
+    // CLEAR STORAGE
+    inputs.forEach(input=>{
+        localStorage.removeItem(input.id);
+    });
+});
+
+</script>
 
 {{end}}
