@@ -1,5 +1,3 @@
-let lightningEnabled = false;
-let lightningInterval = null;
 // LOGIN LOADING
 const form = document.getElementById("loginForm");
 const btn = document.getElementById("loginBtn");
@@ -24,9 +22,9 @@ async function loadWeather(lat, lon) {
 
         const data = await res.json();
 
-        // const code = data.current.weather_code;
+        const code = data.current.weather_code;
 
-        const code = 99; // TESTING
+        // const code = 99; // TESTING
         let weather = "Cloudy";
         let icon = "☁️";
 
@@ -57,14 +55,6 @@ async function loadWeather(lat, lon) {
 
             createRain();
 
-            // SHOW TOGGLE
-            document.getElementById("effectToggle")
-            .style.display = "flex";
-
-            if(lightningEnabled){
-
-                createLightning();
-            }
         }
 
         document.getElementById("weatherText")
@@ -197,80 +187,31 @@ function createRain(){
     }
 }
 
-// LIGHTNING EFFECT
-function createLightning(){
 
-    // jangan double interval
-    if(lightningInterval) return;
 
-    const flash = document.createElement("div");
+// ===== REALTIME CLOCK =====
+function updateTime() {
+    const now = new Date()
 
-    flash.classList.add("lightning");
+    const date = now.toLocaleDateString("id-ID", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    })
 
-    document.body.appendChild(flash);
+    // const time = now.toLocaleTimeString("id-ID")
 
-    lightningInterval = setInterval(()=>{
+    // 🔥 format manual biar pakai :
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    const seconds = String(now.getSeconds()).padStart(2, '0')
 
-        // kalau toggle OFF
-        if(!lightningEnabled){
+    const time = `${hours}:${minutes}:${seconds}`
 
-            flash.style.opacity = 0;
-            return;
-        }
-
-        flash.style.opacity = Math.random() * 0.7;
-
-        setTimeout(()=>{
-            flash.style.opacity = 0;
-        },100);
-
-    }, Math.random() * 5000 + 3000);
+    document.getElementById("currentDateLogin").innerText = date
+    document.getElementById("currentTimeLogin").innerText = time
 }
 
-function stopLightning(){
-
-    if(lightningInterval){
-
-        clearInterval(lightningInterval);
-
-        lightningInterval = null;
-    }
-
-    document.querySelectorAll(".lightning")
-    .forEach(el => el.remove());
-}
-
-// TOGGLE LIGHTNING
-const lightningToggle =
-document.getElementById("lightningToggle");
-
-// LOAD SAVED
-const saved =
-localStorage.getItem("lightningEffect");
-
-if(saved === "true"){
-
-    lightningEnabled = true;
-
-    lightningToggle.checked = true;
-}
-
-lightningToggle.addEventListener("change", ()=>{
-
-    lightningEnabled =
-    lightningToggle.checked;
-
-    localStorage.setItem(
-        "lightningEffect",
-        lightningEnabled
-    );
-
-    if(lightningEnabled){
-
-        createLightning();
-
-    }else{
-
-        stopLightning();
-    }
-});
+setInterval(updateTime, 1000)
+updateTime()
