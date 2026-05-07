@@ -1,9 +1,26 @@
 package models
 
+import "time"
+
 type Employee struct {
-    ID        uint
-    Name      string
-	Email      string
-    Position  string
-    CreatedAt int64
+	ID               uint
+	EmployeeID       string // e.g. "EMP001"
+	EmployeeCode     string // e.g. "E001"
+	FirstName        string
+	MiddleName       string
+	LastName         string
+	FullName         string
+	BirthPlace       string
+	BirthDate        string
+	Gender           string
+	Religion         string
+	Phone            string
+	Email            string
+	Address          string
+	Position         string
+	Department       string
+	JoinDate         time.Time
+	EmploymentStatus string // e.g. "Contract", "Permanent"
+	EmployeeStatus   string // e.g. "Active", "Inactive"
+	CreatedAt        int64
 }

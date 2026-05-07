@@ -944,3 +944,181 @@ table th {
         font-size: 24px;
     }
 }
+
+/* MODAL OVERLAY */
+.modal-overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(15,23,42,0.7);
+
+    backdrop-filter:blur(6px);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+
+    padding:20px;
+}
+
+.modal-overlay.active{
+    display:flex;
+}
+
+/* MODAL */
+.employee-modal{
+    width:100%;
+    max-width:900px;
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    max-height:90vh;
+    overflow-y:auto;
+
+    animation:fadeModal .25s ease;
+}
+
+@keyframes fadeModal{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* HEADER */
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:24px;
+}
+
+.modal-header h2{
+    font-size:24px;
+    color:#0f172a;
+}
+
+.close-btn{
+    border:none;
+    background:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* GRID */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+    color:#334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    height:50px;
+
+    border:1px solid #dbeafe;
+
+    border-radius:14px;
+
+    padding:0 14px;
+
+    font-size:14px;
+
+    transition:.2s;
+}
+
+.form-group textarea{
+    height:auto;
+    padding:14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,0.12);
+}
+
+.full-width{
+    grid-column:1 / -1;
+}
+
+/* ACTIONS */
+.modal-actions{
+    margin-top:28px;
+
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+}
+
+.btn-cancel,
+.btn-save{
+    height:50px;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:0 22px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.btn-cancel{
+    background:#e2e8f0;
+    color:#0f172a;
+}
+
+.btn-save{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-save.loading{
+    opacity:.7;
+    pointer-events:none;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .employee-modal{
+        padding:20px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+}

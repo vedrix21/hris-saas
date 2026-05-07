@@ -1,42 +1,45 @@
 package config
 
 import (
-    "fmt"
-    "os"
+	"fmt"
+	"os"
 
-    // "hris/models"
+	"hris/models"
 
-    "gorm.io/driver/mysql"
-    "gorm.io/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
 func ConnectMasterDB() {
-    host := os.Getenv("MYSQLHOST")
-    port := os.Getenv("MYSQLPORT")
-    user := os.Getenv("MYSQLUSER")
-    password := os.Getenv("MYSQLPASSWORD")
-    dbname := os.Getenv("MYSQLDATABASE")
+	host := os.Getenv("MYSQLHOST")
+	port := os.Getenv("MYSQLPORT")
+	user := os.Getenv("MYSQLUSER")
+	password := os.Getenv("MYSQLPASSWORD")
+	dbname := os.Getenv("MYSQLDATABASE")
 
-    dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-        user, password, host, port, dbname,
-    )
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		user, password, host, port, dbname,
+	)
 
-    database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-    if err != nil {
-        panic("failed to connect database: " + err.Error())
-    }
+	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database: " + err.Error())
+	}
 
-    DB = database
+	DB = database
+	err = DB.AutoMigrate(&models.Employee{})
+	if err != nil {
+		panic("❌ migration failed: " + err.Error())
+	}
 
-    
-    // err = DB.AutoMigrate(&models.User{},&models.Company{},&models.Subscription{},&models.Payroll{},&models.Attendance{},&models.Employee{},&models.Subscriptionplan{},&models.Payment{})
+	// err = DB.AutoMigrate(&models.User{},&models.Company{},&models.Subscription{},&models.Payroll{},&models.Attendance{},&models.Employee{},&models.Subscriptionplan{},&models.Payment{})
 
-    // if err != nil {
-    //     panic("❌ migration failed: " + err.Error())
-    // }
+	// if err != nil {
+	//     panic("❌ migration failed: " + err.Error())
+	// }
 
-    fmt.Println("✅ Database connected & migrated")
+	fmt.Println("✅ Database connected & migrated")
 
 }
