@@ -5,6 +5,7 @@ import (
 	"hris/models"
 	"hris/utils"
 	"hris/services"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -95,7 +96,34 @@ func ApprovePayment(c *gin.Context) {
 		Update("status", "approved")
 
 	// 🔥 kirim email
-	go utils.SendPaymentApprovedEmail(acc.PicEmail, acc.CompanyName, newEnd)
+	// 🔥 Email content
+	body := `
+	Halo ` + acc.CompanyName + `,
+	<br>
+	<br>
+	<p>Pembayaran Anda telah berhasil diverifikasi.</p>
+
+	<p>Akun Anda sudah aktif kembali dan berlaku sampai: ` + newEnd.Format("02 Jan 2006") + `</p>
+	<p>Terima kasih telah menggunakan AitherHR 🚀 </p>
+
+	<br>
+	<a href="https://app.aitherhr.com">Login AitherHR</a>
+	<br>
+	<br>
+	Regards,
+	AitherHR Team
+	`
+
+	// 🔥 kirim ke email kamu
+	err = services.SendEmailHTML(
+		acc.PicEmail,
+		"[AitherHR] Verifikasi Pembayaran Berhasil",
+		body,
+	)
+	if err != nil {
+		c.String(500, "Account created but email failed")
+		return
+	}
 
 	c.Redirect(302, "/owner/payments")
 }
