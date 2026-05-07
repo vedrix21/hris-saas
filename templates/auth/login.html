@@ -1,114 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login AitherHR</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AitherHR</title>
 
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #4F46E5, #9333EA);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    <!-- FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            width: 340px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: fadeIn 0.5s ease;
-        }
+    <!-- ICON -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        .logo {
-            max-width: 160px;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #4F46E5;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button.loading {
-            background: #999;
-            cursor: not-allowed;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            animation: spin 1s linear infinite;
-            margin: auto;
-        }
-
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-    </style>
+    <!-- LOGIN CSS -->
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 
 <body>
 
-<div class="card">
-    <img src="{{.logo}}" class="logo">
+    <!-- SKY -->
+    <div class="sky"></div>
 
-    <h2>Welcome Back</h2>
+    <!-- CLOUDS -->
+    <div class="clouds">
+        <div class="cloud x1"></div>
+        <div class="cloud x2"></div>
+        <div class="cloud x3"></div>
+        <div class="cloud x4"></div>
+    </div>
 
-    <form id="loginForm" method="POST" action="/login">
-        <input type="text" name="account_code" placeholder="Account Code" required>
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+    <!-- WEATHER INFO -->
+    <div class="weather-box">
+        <div id="weatherIcon">☁️</div>
+        <div>
+            <h4 id="weatherText">Loading weather...</h4>
+            <p id="weatherLocation">Detecting location...</p>
+        </div>
+    </div>
 
-        <button id="loginBtn" type="submit">Login</button>
-    </form>
+    <!-- LOGIN -->
+    <div class="login-container">
 
-    <a href="/forgot-password">Lupa password?</a>
+        <div class="login-card">
 
-    {{if .error}}
-    <div class="error">{{.error}}</div>
-    {{end}}
-</div>
+            <img src="{{.logo}}" class="logo">
 
-<script>
-    const form = document.getElementById('loginForm');
-    const btn = document.getElementById('loginBtn');
+            <h1>Welcome Back</h1>
+            <p class="subtitle">
+                Smart HR Management System
+            </p>
 
-    form.addEventListener('submit', function() {
-        btn.classList.add('loading');
-        btn.innerHTML = '<div class="spinner"></div>';
-    });
-</script>
+            <form id="loginForm" method="POST" action="/login">
+
+                <div class="input-group">
+                    <i class="fa-solid fa-building"></i>
+                    <input type="text"
+                    name="account_code"
+                    placeholder="Account Code"
+                    required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text"
+                    name="username"
+                    placeholder="Username"
+                    required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password"
+                    name="password"
+                    placeholder="Password"
+                    required>
+                </div>
+
+                <button id="loginBtn" type="submit">
+                    Sign In
+                </button>
+
+            </form>
+
+            <a href="/forgot-password" class="forgot">
+                Forgot Password?
+            </a>
+
+            {{if .error}}
+            <div class="error">
+                {{.error}}
+            </div>
+            {{end}}
+
+        </div>
+
+    </div>
+
+    <!-- LOGIN JS -->
+    <script src="/static/js/login.js"></script>
 
 </body>
 </html>
