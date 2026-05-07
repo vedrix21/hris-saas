@@ -242,17 +242,20 @@ const togglePassword =
 document.getElementById("togglePassword");
 
 const passwordInput =
-document.getElementById("passwordInput");
+document.getElementById("password");
 
-togglePassword.addEventListener("click", ()=>{
+if(togglePassword && passwordInput){
 
-    const isPassword =
-    passwordInput.type === "password";
+    togglePassword.addEventListener("click", ()=>{
 
-    passwordInput.type =
-    isPassword ? "text" : "password";
+        const isPassword =
+        passwordInput.type === "password";
 
-    togglePassword.innerHTML = isPassword
-    ? '<i class="fa-solid fa-eye-slash"></i>'
-    : '<i class="fa-solid fa-eye"></i>';
-});
+        passwordInput.type =
+        isPassword ? "text" : "password";
+
+        togglePassword.innerHTML = isPassword
+        ? '<i class="fa-solid fa-eye-slash"></i>'
+        : '<i class="fa-solid fa-eye"></i>';
+    });
+}
