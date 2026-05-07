@@ -184,7 +184,8 @@ body{
 
 .logo{
     max-width:170px;
-    margin-bottom:25px;
+    margin:0 auto 25px;
+    display:block;
 }
 
 .login-card h1{
@@ -310,5 +311,85 @@ button.loading{
 
     .login-card h1{
         font-size:28px;
+    }
+}
+
+/* PAGI */
+body.morning .sky{
+    background:
+    linear-gradient(
+        180deg,
+        #f59e0b 0%,
+        #fbbf24 35%,
+        #60a5fa 100%
+    );
+}
+
+/* SIANG */
+body.afternoon .sky{
+    background:
+    linear-gradient(
+        180deg,
+        #2563eb 0%,
+        #60a5fa 100%
+    );
+}
+
+/* SORE */
+body.evening .sky{
+    background:
+    linear-gradient(
+        180deg,
+        #f97316 0%,
+        #ea580c 35%,
+        #7c3aed 100%
+    );
+}
+
+/* MALAM */
+body.night .sky{
+    background:
+    linear-gradient(
+        180deg,
+        #020617 0%,
+        #0f172a 40%,
+        #1e3a8a 100%
+    );
+}
+
+/* HUJAN */
+body.rainy .sky{
+    background:
+    linear-gradient(
+        180deg,
+        #334155 0%,
+        #1e293b 100%
+    );
+}
+
+/* RAIN EFFECT */
+.rain{
+    position:absolute;
+    width:2px;
+    height:80px;
+
+    background:
+    linear-gradient(
+        transparent,
+        rgba(255,255,255,0.5)
+    );
+
+    animation:rainFall linear infinite;
+
+    z-index:4;
+}
+
+@keyframes rainFall{
+    from{
+        transform:translateY(-100px);
+    }
+
+    to{
+        transform:translateY(120vh);
     }
 }

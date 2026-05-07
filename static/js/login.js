@@ -22,8 +22,9 @@ async function loadWeather(lat, lon) {
 
         const data = await res.json();
 
-        const code = data.current.weather_code;
+        // const code = data.current.weather_code;
 
+        const code = 67; // TESTING
         let weather = "Cloudy";
         let icon = "☁️";
 
@@ -40,6 +41,7 @@ async function loadWeather(lat, lon) {
             icon = "🌧️";
 
             document.body.classList.add("rainy");
+            createRain();
         }
         else if(code <= 99){
             weather = "Storm";
@@ -86,11 +88,17 @@ if(navigator.geolocation){
                 document.getElementById("weatherLocation")
                 .innerText =
                 data.address.city ||
+                data.address.town ||
+                data.address.village ||
                 data.address.state ||
-                "Unknown Location";
+                "Indonesia";
 
             }catch(e){
+
                 console.log(e);
+
+                document.getElementById("weatherLocation")
+                .innerText = "Indonesia";
             }
 
         },
@@ -103,4 +111,60 @@ if(navigator.geolocation){
 
         }
     );
+}
+
+
+// AUTO DAY MODE
+function setDayMode(){
+
+    const hour = new Date().getHours();
+
+    document.body.classList.remove(
+        "morning",
+        "afternoon",
+        "evening",
+        "night"
+    );
+
+    if(hour >= 5 && hour < 11){
+
+        document.body.classList.add("morning");
+
+    }else if(hour >= 11 && hour < 16){
+
+        document.body.classList.add("afternoon");
+
+    }else if(hour >= 16 && hour < 19){
+
+        document.body.classList.add("evening");
+
+    }else{
+
+        document.body.classList.add("night");
+    }
+}
+
+setDayMode();
+
+// RAIN EFFECT
+function createRain(){
+
+    for(let i=0;i<80;i++){
+
+        const rain = document.createElement("div");
+
+        rain.classList.add("rain");
+
+        rain.style.left = Math.random() * 100 + "vw";
+
+        rain.style.animationDuration =
+        (Math.random() * 1 + 0.5) + "s";
+
+        rain.style.opacity = Math.random();
+
+        rain.style.height =
+        (Math.random() * 50 + 30) + "px";
+
+        document.body.appendChild(rain);
+    }
 }
