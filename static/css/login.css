@@ -112,7 +112,7 @@ body{
 }
 
 /* MOBILE */
-@media(max-width:768px){
+@media(max-width:468px){
 
     .weather-box{
 
@@ -138,7 +138,7 @@ body{
     }
 
     .live-time{
-        font-size:26px;
+        font-size:16px;
     }
 }
 
@@ -376,7 +376,7 @@ button.loading{
 }
 
 /* MOBILE */
-@media(max-width:768px){
+@media(max-width:468px){
 
     .weather-box{
         top:15px;
