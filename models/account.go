@@ -16,6 +16,7 @@ type Account struct {
     SubscriptionStart   *time.Time
     SubscriptionEnd     *time.Time
     SubscriptionStatus string // trial, active, pending, expired
+    IsLocked bool
     LastReminderSent    *time.Time
 
     // 🔥 billing

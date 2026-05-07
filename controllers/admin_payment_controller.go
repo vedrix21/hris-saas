@@ -54,15 +54,48 @@ func ApprovePayment(c *gin.Context) {
 	id := c.PostForm("id")
 
 	var payment models.Payment
-	config.DB.First(&payment, id)
+	if err := config.DB.First(&payment, id).Error; err != nil {
+		c.String(404, "payment not found")
+		return
+	}
+
+	// 🔥 ambil account
+	var acc models.Account
+	if err := config.DB.First(&acc, payment.AccountID).Error; err != nil {
+		c.String(404, "account not found")
+		return
+	}
+
+	// 🔥 hitung tanggal subscription baru
+	now := time.Now()
+
+	var newEnd time.Time
+
+	// kalau masih aktif → extend dari end lama
+	if acc.SubscriptionEnd.After(now) {
+		newEnd = acc.SubscriptionEnd.AddDate(0, 1, 0)
+	} else {
+		// kalau sudah expired → mulai dari sekarang
+		newEnd = now.AddDate(0, 1, 0)
+	}
 
 	// 🔥 update payment
 	config.DB.Model(&payment).Update("status", "approved")
 
-	// 🔥 aktifkan account
-	config.DB.Model(&models.Account{}).
-		Where("id = ?", payment.AccountID).
-		Update("is_active", true)
+	// 🔥 update account
+	config.DB.Model(&acc).Updates(map[string]interface{}{
+		"is_active":        true,
+		"is_locked":        false,
+		"subscription_end": newEnd,
+	})
+
+	// 🔥 update subscription terakhir (optional tapi recommended)
+	config.DB.Model(&models.Subscription{}).
+		Where("account_id = ? AND status = ?", acc.ID, "pending").
+		Update("status", "approved")
+
+	// 🔥 kirim email
+	go utils.SendPaymentApprovedEmail(acc.PicEmail, acc.CompanyName, newEnd)
 
 	c.Redirect(302, "/owner/payments")
 }
@@ -73,7 +106,10 @@ func RejectPayment(c *gin.Context) {
 	note := c.PostForm("note")
 
 	var payment models.Payment
-	config.DB.First(&payment, id)
+	if err := config.DB.First(&payment, id).Error; err != nil {
+		c.String(404, "payment not found")
+		return
+	}
 
 	config.DB.Model(&payment).Updates(map[string]interface{}{
 		"status": "rejected",

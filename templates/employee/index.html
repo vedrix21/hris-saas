@@ -1,42 +1,133 @@
 {{define "content"}}
 
-<div class="card">
+<div class="employee-page">
 
-    {{ if eq .Role "superadmin" }}
-        <div class="card-header">
-            <h2>Employee Management</h2>
-            <button class="btn-primary">+ Add Employee</button>
+    <div class="topbar">
+        <div class="search-box">
+            <input type="text" placeholder="Search employees...">
         </div>
-    {{ end }}
 
-    
-
-    <div class="toolbar">
-        <input type="text" placeholder="Search employee..." class="input-search">
+        <div class="welcome-text">
+            Welcome, {{.company_name}}
+        </div>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Position</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .employees}}
-            <tr>
-                <td>{{.Name}}</td>
-                <td>{{.Email}}</td>
-                <td>{{.Position}}</td>
-                <td>
-                    <span class="badge active">Active</span>
-                </td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
+    <div class="employee-card">
+
+        <div class="employee-header">
+            <h2>Employee Management</h2>
+
+            {{ if eq .Role "superadmin" }}
+            <button class="btn-primary">
+                + Add Employee
+            </button>
+            {{ end }}
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Total Employees</div>
+                <div class="stat-number">{{len .employees}}</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">Active Employees</div>
+                <div class="stat-number">{{len .employees}}</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <select>
+                <option>All Departments</option>
+            </select>
+
+            <select>
+                <option>All Status</option>
+            </select>
+
+            <button class="btn-filter">
+                Filter
+            </button>
+
+            <button class="btn-export">
+                Export
+            </button>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table class="employee-table">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {{range .employees}}
+                    <tr>
+
+                        <td>
+                            <div class="employee-info">
+
+                                <div class="employee-avatar">
+                                    {{printf "%.1s" .Name}}
+                                </div>
+
+                                <div>
+                                    <div class="employee-name">
+                                        {{.Name}}
+                                    </div>
+
+                                    <div class="employee-email">
+                                        {{.Email}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>{{.Email}}</td>
+
+                        <td>{{.Position}}</td>
+
+                        <td>
+                            <span class="badge badge-active">
+                                Active
+                            </span>
+                        </td>
+
+                    </tr>
+                    {{end}}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="pagination">
+
+            <div class="pagination-info">
+                Showing {{len .employees}} employees
+            </div>
+
+            <div class="pagination-buttons">
+                <button>‹</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>›</button>
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 

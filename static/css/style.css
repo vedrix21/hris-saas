@@ -696,3 +696,251 @@ table th {
     font-size: 22px;
     cursor: pointer;
 }
+
+/* ===== EMPLOYEE PAGE ===== */
+
+.employee-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.search-box input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.welcome-text {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+
+.employee-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.employee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.employee-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat-box {
+    background: #f9fafb;
+    border: 1px solid #f1f5f9;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 38px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filters select,
+.filters button {
+    width: auto;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: 14px;
+}
+
+.btn-filter {
+    background: #6366f1 !important;
+    color: white;
+    border: none !important;
+    font-weight: 600;
+}
+
+.btn-export {
+    color: #111827;
+    font-weight: 600;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    border: 1px solid #f1f5f9;
+    border-radius: 18px;
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+.employee-table thead {
+    background: #f9fafb;
+}
+
+.employee-table th {
+    text-align: left;
+    padding: 18px;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.employee-table td {
+    padding: 18px;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 14px;
+    color: #111827;
+    vertical-align: middle;
+}
+
+.employee-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* khusus employee avatar */
+.employee-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.employee-name {
+    font-weight: 600;
+    color: #111827;
+}
+
+.employee-email {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.badge-active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-leave {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.badge-suspended {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pagination-info {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.pagination-buttons button {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: #111827;
+}
+
+.pagination-buttons .active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+@media(max-width: 768px) {
+    .employee-card {
+        padding: 18px;
+    }
+
+    .employee-header h2 {
+        font-size: 24px;
+    }
+}
