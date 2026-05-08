@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"hris/config"
 	"hris/models"
 	"hris/services"
@@ -62,7 +63,7 @@ func CreateAccount(c *gin.Context) {
 
 	account, username, password, err := services.CreateTenant(companyName, plan)
 	if err != nil {
-		c.String(500, "Failed create account")
+		c.String(500, fmt.Sprintf("ERROR: %v", err))
 		return
 	}
 
