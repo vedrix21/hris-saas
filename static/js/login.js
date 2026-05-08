@@ -153,11 +153,11 @@ function setDayMode(){
         "night"
     );
 
-    if(hour >= 5 && hour < 11){
+    if(hour >= 5 && hour < 9){
 
         document.body.classList.add("morning");
 
-    }else if(hour >= 11 && hour < 16){
+    }else if(hour >= 9 && hour < 16){
 
         document.body.classList.add("afternoon");
 
