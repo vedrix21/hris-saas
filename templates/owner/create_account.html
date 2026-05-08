@@ -31,6 +31,8 @@
 
     <form method="POST" action="/owner/create_account">
         <input type="text" name="company_name" placeholder="Company Name" required>
+        <input type="text" name="picname" placeholder="PIC Name" required>
+        <input type="email" name="picemail" placeholder="PIC Email" required>
         <select name="plan_id" id="planSelect" onchange="showPlanDetail()" required>
             <option value="">-- Pilih Paket --</option>
             {{range .plans}}
