@@ -33,14 +33,12 @@ body{
 
     position:absolute;
 
-    top:20px;
-    left:20px;
+    top:2%;
+    left:2%;
 
     z-index:20;
 
-    min-width:unset;
-    width:auto;
-    max-width:520px;
+    width:clamp(280px, 38vw, 520px);
 
     background:rgba(255,255,255,0.08);
 
@@ -48,7 +46,7 @@ body{
 
     backdrop-filter:blur(20px);
 
-    padding:14px 18px;
+    padding:1rem 1.2rem;
 
     border-radius:22px;
 
@@ -58,7 +56,7 @@ body{
     align-items:center;
     justify-content:space-between;
 
-    gap:18px;
+    gap:1rem;
 
     box-shadow:
     0 10px 30px rgba(0,0,0,0.2);
@@ -285,27 +283,40 @@ body{
 .login-container{
     position:relative;
     z-index:10;
-    width:100%;
-    max-width:420px;
+
+    width:min(92%, 420px);
+
+    margin:auto;
+
     padding:20px;
 }
 
 .login-card{
-    background:rgba(255,255,255,0.08);
 
-    border:1px solid rgba(255,255,255,0.1);
+    background:
+    linear-gradient(
+        180deg,
+        rgba(15,23,42,0.72),
+        rgba(15,23,42,0.58)
+    );
 
-    backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(28px);
+
+    -webkit-backdrop-filter:blur(28px);
 
     padding:40px;
+
     border-radius:28px;
 
     box-shadow:
-    0 10px 40px rgba(0,0,0,0.3);
+    0 10px 40px rgba(0,0,0,0.35);
 
     color:white;
 
     animation:fadeUp .8s ease;
+
     text-align:center;
 }
 
@@ -353,7 +364,7 @@ form{
     margin-bottom:18px;
 }
 
-.input-group i{
+.input-group > i{
     position:absolute;
     left:16px;
     top:50%;
@@ -362,14 +373,15 @@ form{
 }
 
 .input-group input{
+
     width:100%;
     height:54px;
 
     border-radius:16px;
 
-    border:1px solid rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.12);
 
-    background:rgba(255,255,255,0.06);
+    background:rgba(15,23,42,0.35);
 
     color:white;
 
@@ -394,6 +406,7 @@ form{
 }
 
 button{
+
     width:100%;
     height:54px;
 
@@ -411,11 +424,14 @@ button{
     color:white;
 
     font-size:15px;
-    font-weight:600;
+    font-weight:700;
 
     cursor:pointer;
 
     transition:.3s;
+
+    box-shadow:
+    0 8px 25px rgba(37,99,235,0.35);
 }
 
 button:hover{
@@ -572,13 +588,18 @@ body.rainy .sky{
 
     transform:translateY(-50%);
 
+    width:20px;
+    height:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     cursor:pointer;
 
     color:rgba(255,255,255,0.55);
 
-    font-size:15px;
-
-    transition:.2s;
+    z-index:5;
 }
 
 .toggle-password:hover{
@@ -588,4 +609,30 @@ body.rainy .sky{
 /* kasih space kanan utk icon mata */
 .password-group input{
     padding-right:46px;
+}
+
+@media(max-width:900px){
+
+    body{
+        align-items:flex-start;
+        padding-top:160px;
+    }
+
+    .weather-box{
+
+        position:fixed;
+
+        top:15px;
+        left:50%;
+
+        transform:translateX(-50%);
+
+        width:92%;
+
+        max-width:500px;
+    }
+
+    .login-container{
+        margin-top:20px;
+    }
 }
