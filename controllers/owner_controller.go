@@ -53,6 +53,8 @@ func ShowSettings(c *gin.Context) {
 
 func CreateAccount(c *gin.Context) {
 	companyName := c.PostForm("company_name")
+	picname := c.PostForm("picname")
+	picemail := c.PostForm("picemail")
 	planID := c.PostForm("plan_id")
 
 	var plan models.Subscriptionplan
@@ -61,7 +63,7 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-	account, username, password, err := services.CreateTenant(companyName, plan)
+	account, username, password, err := services.CreateTenant(companyName, plan, picname, picemail)
 	if err != nil {
 		c.String(500, fmt.Sprintf("ERROR: %v", err))
 		return
