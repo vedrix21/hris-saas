@@ -173,6 +173,9 @@ function setDayMode(){
 
 setDayMode();
 
+// cek tiap 10 detik
+setInterval(setDayMode, 10000);
+
 // RAIN EFFECT
 function createRain(){
 
