@@ -33,7 +33,7 @@ func ShowCreateAccount(c *gin.Context) {
 		"accountCode": accountCode,
 		"username":    username,
 		"password":    password,
-		"plans": plans,
+		"plans":       plans,
 	})
 }
 
@@ -53,9 +53,10 @@ func ShowSettings(c *gin.Context) {
 func CreateAccount(c *gin.Context) {
 	companyName := c.PostForm("company_name")
 	planID := c.PostForm("plan_id")
-	
+
 	var plan models.Subscriptionplan
-	if err := config.DB.First(&plan, planID).Error; err != nil {
+
+	if err := config.DB.Where("code = ?", planID).First(&plan); err != nil {
 		c.String(400, "Invalid plan")
 		return
 	}
@@ -117,11 +118,11 @@ func OwnerDashboard(c *gin.Context) {
 	utils.Render(c, []string{
 		"templates/owner/dashboard.html",
 	}, gin.H{
-		"title":         "Owner Dashboard",
-		"Menus":         menus,
-		"CurrentPath":   c.Request.URL.Path,
-		"accounts":      accounts,
-		"success":       success,
+		"title":        "Owner Dashboard",
+		"Menus":        menus,
+		"CurrentPath":  c.Request.URL.Path,
+		"accounts":     accounts,
+		"success":      success,
 		"TotalClients": totalClients,
 	})
 }
