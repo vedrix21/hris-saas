@@ -146,35 +146,40 @@ function setDayMode(){
 
     const hour = new Date().getHours();
 
-    document.body.classList.remove(
+    const body = document.body;
+
+    body.classList.remove(
         "morning",
         "afternoon",
         "evening",
         "night"
     );
 
-    if(hour >= 5 && hour < 9){
+    if(hour >= 5 && hour < 10){
 
-        document.body.classList.add("morning");
+        body.classList.add("morning");
 
-    }else if(hour >= 9 && hour < 16){
+    }
+    else if(hour >= 10 && hour < 16){
 
-        document.body.classList.add("afternoon");
+        body.classList.add("afternoon");
 
-    }else if(hour >= 16 && hour < 19){
+    }
+    else if(hour >= 16 && hour < 18){
 
-        document.body.classList.add("evening");
+        body.classList.add("evening");
 
-    }else{
+    }
+    else{
 
-        document.body.classList.add("night");
+        body.classList.add("night");
     }
 }
 
 setDayMode();
 
 // cek tiap 10 detik
-setInterval(setDayMode, 10000);
+setInterval(setDayMode, 60000);
 
 // RAIN EFFECT
 function createRain(){
