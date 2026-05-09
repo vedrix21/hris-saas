@@ -124,6 +124,7 @@ func OwnerDashboard(c *gin.Context) {
 		"Menus":        menus,
 		"CurrentPath":  c.Request.URL.Path,
 		"accounts":     accounts,
+		"user":         user,
 		"success":      success,
 		"TotalClients": totalClients,
 	})

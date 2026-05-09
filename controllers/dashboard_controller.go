@@ -7,6 +7,7 @@ import (
 	"hris/services/modules"
 	"hris/utils"
 	"time"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,14 +31,14 @@ func Dashboard(c *gin.Context) {
 	utils.Render(c, []string{
 		"templates/admin/dashboard.html",
 	}, gin.H{
-		"title":         "Dashboard",
-		"tenant":        tenant,
-		"totalEmployee": totalEmployee,
-		"Menus":         menus,
-		"CurrentPath":   c.Request.URL.Path,
-		"User":          user,
+		"title":               "Dashboard",
+		"tenant":              tenant,
+		"totalEmployee":       totalEmployee,
+		"Menus":               menus,
+		"CurrentPath":         c.Request.URL.Path,
+		"User":                user,
 		"SubscriptionWarning": warning,
-    	"DaysLeft": daysLeft,
+		"DaysLeft":            daysLeft,
 	})
 }
 
