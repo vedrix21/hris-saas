@@ -52,7 +52,8 @@ func ShowLogin(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	accountCode := strings.ToLower(c.PostForm("account_code"))
+	// accountCode := strings.ToLower(c.PostForm("account_code"))
+	accountCode := c.PostForm("account_code")
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
