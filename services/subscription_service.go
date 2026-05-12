@@ -26,9 +26,9 @@ func CheckSubscriptions() {
 		// }
 
 		if acc.SubscriptionEnd.Before(now) {
-			config.DB.Model(&acc).Update("is_locked", true)
+			config.DB.Model(&acc).Update("islocked", true)
 		} else {
-			config.DB.Model(&acc).Update("is_locked", false)
+			config.DB.Model(&acc).Update("islocked", false)
 		}
 
 		daysLeft := int(acc.SubscriptionEnd.Sub(now).Hours() / 24)
