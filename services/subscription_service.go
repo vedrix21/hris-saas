@@ -21,9 +21,9 @@ func CheckSubscriptions() {
 		}
 
 		// kalau belum pernah subscribe → skip
-		// if acc.SubscriptionEnd == nil {
-		// 	continue
-		// }
+		if acc.SubscriptionEnd == nil {
+			continue
+		}
 
 		if acc.SubscriptionEnd.Before(now) {
 			config.DB.Model(&acc).Update("IsLocked", true)
@@ -34,12 +34,12 @@ func CheckSubscriptions() {
 		daysLeft := int(acc.SubscriptionEnd.Sub(now).Hours() / 24)
 
 		// 🔥 H-7
-		if daysLeft == 7 {
+		if daysLeft == 7 && !AlreadySentToday(acc) {
 			SendReminder(acc, "7")
 		}
 
 		// 🔥 H-3
-		if daysLeft == 3 {
+		if daysLeft == 3 && !AlreadySentToday(acc) {
 			SendReminder(acc, "3")
 		}
 
@@ -63,4 +63,19 @@ func SendReminder(acc models.Account, day string) {
 
 	// 🔥 (optional) log ke DB
 	config.DB.Model(&acc).Update("last_reminder_sent", time.Now())
+}
+
+
+func AlreadySentToday(acc models.Account) bool {
+
+	if acc.LastReminderSent == nil {
+		return false
+	}
+
+	now := time.Now()
+
+	y1, m1, d1 := now.Date()
+	y2, m2, d2 := acc.LastReminderSent.Date()
+
+	return y1 == y2 && m1 == m2 && d1 == d2
 }
