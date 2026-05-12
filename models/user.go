@@ -11,4 +11,5 @@ type User struct {
 	ResetToken     string
 	ResetTokenExp *time.Time
 	Email          string `gorm:"type:varchar(100);index"`
+	FullName       string
 }
