@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"hris/config"
 	"hris/models"
 	"hris/services"
@@ -17,6 +18,10 @@ func Dashboard(c *gin.Context) {
 	config.DB.Model(&models.Employee{}).Count(&totalEmployee)
 	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
+
+	fmt.Printf("User %s with role %s accessed the dashboard\n", user.Username, user.Role)
+	fmt.Printf("FullName: %s, Email: %s\n", user.FullName, user.Email)
+
 	menus := services.GetSidebar(user.Role, tenant)
 
 	var account models.Account

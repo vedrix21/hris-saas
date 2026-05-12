@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"hris/models"
 	"os"
 
 	"gorm.io/driver/mysql"
@@ -31,7 +30,7 @@ func ConnectMasterDB() {
 
 	// err = DB.AutoMigrate(&models.User{}, &models.Company{}, &models.Subscription{}, &models.Payroll{}, &models.Attendance{}, &models.Employee{}, &models.Subscriptionplan{}, &models.Payment{})
 
-	err = DB.AutoMigrate(&models.User{})
+	// err = DB.AutoMigrate(&models.User{})
 
 	if err != nil {
 		panic("❌ migration failed: " + err.Error())
