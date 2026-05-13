@@ -19,14 +19,15 @@ func Dashboard(c *gin.Context) {
 	tenant, _ := c.Cookie("tenant")
 	user := c.MustGet("user").(models.User)
 
-	fmt.Printf("User %s with role %s accessed the dashboard\n", user.Username, user.Role)
-	fmt.Printf("FullName: %s, Email: %s\n", user.FullName, user.Email)
-
 	menus := services.GetSidebar(user.Role, tenant)
 
 	var account models.Account
 	config.DB.Where("code = ?", tenant).First(&account)
 	daysLeft := int(account.SubscriptionEnd.Sub(time.Now()).Hours() / 24)
+
+	var userdb models.User
+	config.DB.Where("account_id = ? and username = ?", account.ID, user.Username).First(&userdb)
+	fmt.Printf("User from DB: %s, Email: %s\n", userdb.FullName, userdb.Email)
 
 	warning := false
 	if daysLeft <= 7 {
@@ -44,6 +45,7 @@ func Dashboard(c *gin.Context) {
 		"User":                user,
 		"SubscriptionWarning": warning,
 		"DaysLeft":            daysLeft,
+		"UserDB":              userdb,
 	})
 }
 
