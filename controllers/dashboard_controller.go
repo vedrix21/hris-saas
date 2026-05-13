@@ -25,10 +25,14 @@ func Dashboard(c *gin.Context) {
 	config.DB.Where("code = ?", tenant).First(&account)
 	daysLeft := int(account.SubscriptionEnd.Sub(time.Now()).Hours() / 24)
 
-	fmt.Printf("Account ID : %s\n", account.ID)
+	fmt.Printf("Account ID : %d\n", account.ID)
 
 	var userdb models.User
-	config.DB.Where("account_id = ? and username = ?", account.ID, user.Username).First(&userdb)
+	err := config.DB.Where("account_id = ? and username = ?", account.ID, user.Username).First(&userdb)
+	if err != nil {
+		fmt.Printf("Error fetching user from DB: %v\n", err)
+	}
+
 	fmt.Printf("User from DB: %s, Email: %s\n", userdb.FullName, userdb.Email)
 
 	warning := false
