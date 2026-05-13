@@ -1,15 +1,16 @@
 package controllers
 
 import (
-	
+	"errors"
+	"fmt"
 	"hris/config"
 	"hris/models"
-    "time"
-    "hris/utils"
-    "fmt"
+	"hris/utils"
+	"time"
+
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
-	
 )
 
 func UpgradePlan(c *gin.Context) {
@@ -32,12 +33,12 @@ func UpgradePlan(c *gin.Context) {
 	end := now.AddDate(0, 1, 0) // 1 bulan
 
 	config.DB.Model(&acc).Updates(map[string]interface{}{
-		"package":             plan.PlanName,
-		"monthly_fee":         plan.Price,
-		"user_limit":          plan.Limituser,
-		"subscription_start":  now,
-		"subscription_end":    end,
-		"is_active":           false, // 🔥 belum aktif sampai bayar
+		"package":            plan.PlanName,
+		"monthly_fee":        plan.Price,
+		"user_limit":         plan.Limituser,
+		"subscription_start": now,
+		"subscription_end":   end,
+		"is_active":          false, // 🔥 belum aktif sampai bayar
 	})
 
 	// 🔥 simpan history subscription
@@ -66,51 +67,50 @@ func UploadPayment(c *gin.Context) {
 	// 	Order("created_at desc").
 	// 	First(&sub)
 
-    var existing models.Payment
+	var existing models.Payment
 
-    err := config.DB.
-        Where("account_id = ? AND status = ?", acc.ID, "pending").
-        First(&existing).Error
+	err := config.DB.
+		Where("account_id = ? AND status = ?", acc.ID, "pending").
+		First(&existing).Error
 
-    if err == nil {
-        // 🔥 masih ada pending payment
-        c.JSON(400, gin.H{
-            "error": "Masih ada pembayaran yang sedang direview. Harap tunggu approval.",
-        })
-        return
-    }
+	if err == nil {
+		// 🔥 masih ada pending payment
+		c.JSON(400, gin.H{
+			"error": "Masih ada pembayaran yang sedang direview. Harap tunggu approval.",
+		})
+		return
+	}
 
-    file, err := c.FormFile("proof")
+	file, err := c.FormFile("proof")
 	if err != nil {
 		c.JSON(400, gin.H{"error": "file required"})
 		return
 	}
 
-    // 🔥 generate path
-    // path, err := utils.SaveUpload(file, "payments")
-    // if err != nil {
-    //     c.JSON(400, gin.H{"error": err.Error()})
-    //     return
-    // }
+	// 🔥 generate path
+	// path, err := utils.SaveUpload(file, "payments")
+	// if err != nil {
+	//     c.JSON(400, gin.H{"error": err.Error()})
+	//     return
+	// }
 
-    // // 💾 simpan file
-    // if err := c.SaveUploadedFile(file, path); err != nil {
-    //     c.JSON(500, gin.H{"error": "failed to save file"})
-    //     return
-    // }
+	// // 💾 simpan file
+	// if err := c.SaveUploadedFile(file, path); err != nil {
+	//     c.JSON(500, gin.H{"error": "failed to save file"})
+	//     return
+	// }
 
-    // 🌐 URL yang disimpan ke DB
-    // url := "/" + path // penting!
+	// 🌐 URL yang disimpan ke DB
+	// url := "/" + path // penting!
 
-    src, err := file.Open()
+	src, err := file.Open()
 	if err != nil {
 		c.JSON(500, gin.H{"error": "failed to read file"})
 		return
 	}
 	defer src.Close()
 
-
-    // 🔥 upload ke S3 (Railway Bucket)
+	// 🔥 upload ke S3 (Railway Bucket)
 	key, err := utils.UploadToS3(src, file.Filename, file.Header.Get("Content-Type"))
 	if err != nil {
 		fmt.Println("S3 ERROR:", err)
@@ -118,25 +118,25 @@ func UploadPayment(c *gin.Context) {
 		return
 	}
 
-    payment := models.Payment{
-        AccountID: acc.ID,
-        Amount:    acc.MonthlyFee,
-        Proof:     key, // 🔥 simpan key S3, bukan path lokal
-        Status:    "pending",
-    }
+	payment := models.Payment{
+		AccountID: acc.ID,
+		Amount:    acc.MonthlyFee,
+		Proof:     key, // 🔥 simpan key S3, bukan path lokal
+		Status:    "pending",
+	}
 
-    result := config.DB.Create(&payment)
+	result := config.DB.Create(&payment)
 
-    if result.Error != nil {
+	if result.Error != nil {
 		fmt.Println("DB ERROR:", result.Error)
 		c.JSON(500, gin.H{"error": result.Error.Error()})
 		return
 	}
 
-    // c.JSON(200, gin.H{
-    //     "message": "upload success",
-    //     "url":     url,
-    // })
+	// c.JSON(200, gin.H{
+	//     "message": "upload success",
+	//     "url":     url,
+	// })
 
 	subscription := models.Subscription{
 		AccountID: acc.ID,
@@ -164,29 +164,37 @@ func UploadPayment(c *gin.Context) {
 }
 
 func BillingPage(c *gin.Context) {
-    accountCode, _ := c.Cookie("tenant")
+	accountCode, _ := c.Cookie("tenant")
 
-    var acc models.Account
-    config.DB.Where("code = ?", accountCode).First(&acc)
+	var acc models.Account
+	config.DB.Where("code = ?", accountCode).First(&acc)
 
-    var payment models.Payment
-    config.DB.Where("account_id = ?", acc.ID).
-        Order("created_at desc").
-        First(&payment)
+	var payment models.Payment
+	err := config.DB.Where("account_id = ?", acc.ID).
+		Order("created_at desc").
+		First(&payment).Error
 
-    islocked := utils.IsAccountLocked(acc)
+	// ✅ kalau belum ada payment, jangan dianggap error
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 
-    if !islocked {
-        c.Redirect(302, "/dashboard")
-        return
-    }
+	islocked := utils.IsAccountLocked(acc)
 
-    utils.Render(c, []string{
-        "templates/billing.html",
-    }, gin.H{
-        "account": acc, // ✅ ini harus struct
-        "payment": payment,
-        "isLocked": islocked,
-        "daysLeft": utils.DaysLeft(acc),
-    })
+	if !islocked {
+		c.Redirect(302, "/dashboard")
+		return
+	}
+
+	utils.Render(c, []string{
+		"templates/billing.html",
+	}, gin.H{
+		"account":  acc, // ✅ ini harus struct
+		"payment":  payment,
+		"isLocked": islocked,
+		"daysLeft": utils.DaysLeft(acc),
+	})
 }
