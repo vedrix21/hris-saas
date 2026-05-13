@@ -174,12 +174,14 @@ func BillingPage(c *gin.Context) {
 		Order("created_at desc").
 		First(&payment).Error
 
-	// ✅ kalau belum ada payment, jangan dianggap error
-	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(500, gin.H{
-			"error": err.Error(),
-		})
-		return
+	if err != nil {
+		// ✅ abaikan kalau memang belum ada payment
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(500, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
 	}
 
 	islocked := utils.IsAccountLocked(acc)
