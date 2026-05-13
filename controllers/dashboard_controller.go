@@ -26,7 +26,7 @@ func Dashboard(c *gin.Context) {
 	daysLeft := int(account.SubscriptionEnd.Sub(time.Now()).Hours() / 24)
 
 	fmt.Printf("Account ID : %d\n", account.ID)
-	fmt.Print("Username : ", user.Username)
+	fmt.Print("Username : \n", user.Username)
 
 	var userdb models.User
 	err := config.DB.Where("account_id = ? and username = ?", account.ID, user.Username).First(&userdb)
