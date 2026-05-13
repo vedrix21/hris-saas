@@ -25,6 +25,8 @@ func Dashboard(c *gin.Context) {
 	config.DB.Where("code = ?", tenant).First(&account)
 	daysLeft := int(account.SubscriptionEnd.Sub(time.Now()).Hours() / 24)
 
+	fmt.Printf("Account ID : %s\n", account.ID)
+
 	var userdb models.User
 	config.DB.Where("account_id = ? and username = ?", account.ID, user.Username).First(&userdb)
 	fmt.Printf("User from DB: %s, Email: %s\n", userdb.FullName, userdb.Email)

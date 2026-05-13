@@ -3,9 +3,12 @@ package services
 import (
 	// "fmt"
 	"encoding/json"
+	"fmt"
 	"hris/config"
 	"hris/models"
 	"hris/utils"
+	"strconv"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -22,7 +25,7 @@ func GetAccountByCode(code string) (*models.Account, error) {
 }
 
 // 🔥 CORE FUNCTION
-func CreateTenant(companyName string, plan models.Subscriptionplan, picname string, picemail string) (*models.Account, string, string, error) {
+func CreateTenant(companyName string, plan models.Subscriptionplan, picname string, picemail string, monthofsubs string) (*models.Account, string, string, error) {
 	db := config.DB
 
 	var code string
@@ -53,18 +56,38 @@ func CreateTenant(companyName string, plan models.Subscriptionplan, picname stri
 
 	featuresJSON, _ := json.Marshal(planConfig.Features)
 
+	subscriptionstart := time.Now()
+
+	months := 1 // 🔥 default 1 bulan
+
+	if monthofsubs != "" {
+		parsedMonths, err := strconv.Atoi(monthofsubs)
+		if err == nil && parsedMonths > 0 {
+			months = parsedMonths
+		}
+	}
+
+	months, err := strconv.Atoi(monthofsubs)
+	if err != nil || months <= 0 {
+		return nil, "", "", fmt.Errorf("invalid subscription duration")
+	}
+
+	subscriptionend := subscriptionstart.AddDate(0, months, 0)
+
 	// 🔥 create account
 	account := models.Account{
-		Code:        code,
-		CompanyName: companyName,
-		IsActive:    true,
-		IsOwner:     false,
-		Package:     planConfig.Name,
-		Features:    string(featuresJSON),
-		MonthlyFee:  subplan.Price,
-		UserLimit:   subplan.Limituser,
-		PicName:     picname,
-		PicEmail:    picemail,
+		Code:              code,
+		CompanyName:       companyName,
+		IsActive:          true,
+		IsOwner:           false,
+		Package:           planConfig.Name,
+		Features:          string(featuresJSON),
+		MonthlyFee:        subplan.Price,
+		UserLimit:         subplan.Limituser,
+		SubscriptionStart: &subscriptionstart,
+		SubscriptionEnd:   &subscriptionend,
+		PicName:           picname,
+		PicEmail:          picemail,
 	}
 
 	if err := db.Create(&account).Error; err != nil {
