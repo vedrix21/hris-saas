@@ -100,6 +100,8 @@ func CreateTenant(companyName string, plan models.Subscriptionplan, picname stri
 		Password:  string(hashedPassword),
 		Role:      "superadmin",
 		AccountID: account.ID,
+		FullName:  picname,
+		Email:     picemail,
 	}
 
 	if err := db.Create(&user).Error; err != nil {
