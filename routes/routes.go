@@ -34,10 +34,29 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		auth.GET("/dashboard", controllers.Dashboard)
 
-		auth.GET("/employees",
+		employee := auth.Group("/employees")
+		employee.Use(
 			middlewares.RequireFeature("employee"),
-			controllers.Employees,
 		)
+		{
+			employee.GET("", controllers.Employees)
+
+			employee.POST("/create",
+				controllers.CreateEmployee,
+			)
+
+			employee.POST("/update/:id",
+				controllers.UpdateEmployee,
+			)
+
+			employee.POST("/delete/:id",
+				controllers.DeleteEmployee,
+			)
+
+			employee.GET("/json/:id",
+				controllers.GetEmployeeJSON,
+			)
+		}
 
 		auth.GET("/attendance",
 			middlewares.RequireFeature("attendance"),

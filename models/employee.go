@@ -22,5 +22,11 @@ type Employee struct {
 	JoinDate         time.Time
 	EmploymentStatus string // e.g. "Contract", "Permanent"
 	EmployeeStatus   string // e.g. "Active", "Inactive"
-	CreatedAt        int64
+	EmergencyContactName  string
+	EmergencyContactPhone string
+	MaritalStatus         string
+	Nationality           string
+	Photo                 string
+	CreatedAt             time.Time
+	UpdatedAt             time.Time
 }

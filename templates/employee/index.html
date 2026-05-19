@@ -77,10 +77,12 @@
 
                 <thead>
                     <tr>
+                        <th>Action</th>
                         <th>Employee</th>
                         <th>Email</th>
                         <th>Position</th>
                         <th>Status</th>
+                        
                     </tr>
                 </thead>
 
@@ -88,19 +90,46 @@
 
                     {{range .employees}}
                     <tr>
+                        <td>
+
+                            <div class="table-actions">
+
+                                <button class="btn-edit"
+                                onclick="editEmployee('{{.ID}}')">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </button>
+
+                                <form method="POST"
+                                action="/employees/delete/{{.ID}}"
+                                onsubmit="return confirm('Delete employee?')">
+
+                                    <button type="submit"
+                                    class="btn-delete">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
 
                         <td>
 
                             <div class="employee-info">
 
                                 <div class="employee-avatar">
-                                    {{printf "%.1s" .Name}}
+                                    {{printf "%.1s" .FullName}}
                                 </div>
 
                                 <div>
 
                                     <div class="employee-name">
-                                        {{.Name}}
+                                        {{.FullName}}
                                     </div>
 
                                     <div class="employee-email">
@@ -119,7 +148,7 @@
 
                         <td>
                             <span class="badge badge-active">
-                                Active
+                                {{.EmployeeStatus}}
                             </span>
                         </td>
 
@@ -164,6 +193,8 @@ id="employeeModal">
         <form id="employeeForm"
         method="POST"
         action="/employees/create">
+            
+            <input type="hidden" name="id" id="employee_id">
 
             <div class="modal-body">
 
