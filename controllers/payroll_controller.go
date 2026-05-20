@@ -26,7 +26,7 @@ func RunPayroll(c *gin.Context) {
 }
 
 func PayrollPage(c *gin.Context) {
-    var payrolls []models.Payroll
+    var payrolls []models.EmployeePayroll
     config.DB.Find(&payrolls)
 
     c.HTML(200, "payroll.html", gin.H{
