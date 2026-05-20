@@ -94,7 +94,7 @@
 
                             <div class="table-actions">
 
-                                <button class="btn-edit"
+                                <button type="button" class="btn-edit"
                                 onclick="editEmployee('{{.ID}}')">
 
                                     <i class="fa-solid fa-pen"></i>
@@ -103,7 +103,7 @@
 
                                 <form method="POST"
                                 action="/employees/delete/{{.ID}}"
-                                onsubmit="return confirm('Delete employee?')">
+                                data-confirm="Delete employee?">
 
                                     <button type="submit"
                                     class="btn-delete">

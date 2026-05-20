@@ -170,3 +170,4 @@ employeeForm.addEventListener("submit", ()=>{
     // CLEAR DRAFT
     localStorage.removeItem(draftKey);
 });
+

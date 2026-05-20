@@ -72,12 +72,39 @@ function hideLoading() {
 
 // auto trigger saat submit form
 document.addEventListener("DOMContentLoaded", function () {
+
     document.querySelectorAll("form").forEach(form => {
-        form.addEventListener("submit", () => {
-            showLoading()
-        })
-    })
-})
+
+        form.addEventListener("submit", function(e){
+
+            // skip loading
+            if(form.classList.contains("no-loading")){
+                return;
+            }
+
+            // confirm delete
+            const confirmMessage =
+            form.dataset.confirm;
+
+            if(confirmMessage){
+
+                const confirmed =
+                confirm(confirmMessage);
+
+                if(!confirmed){
+
+                    e.preventDefault();
+
+                    return false;
+                }
+            }
+
+            showLoading();
+        });
+
+    });
+
+});
 
 // NAVIGATION HANDLER
 function handleNav(e, url) {
