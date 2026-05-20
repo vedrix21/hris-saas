@@ -35,6 +35,8 @@ func Employees(c *gin.Context) {
 
 func CreateEmployee(c *gin.Context) {
 
+	tenant, _ := c.Cookie("tenant")
+
     joinDate, _ := time.Parse(
         "2006-01-02",
         c.PostForm("join_date"),
@@ -55,6 +57,7 @@ func CreateEmployee(c *gin.Context) {
     }
 
     employee := models.Employee{
+		AccountCode:      tenant,
         FirstName:        firstName,
         MiddleName:       middleName,
         LastName:         lastName,
@@ -129,4 +132,19 @@ func UpdateEmployee(c *gin.Context) {
     config.DB.Save(&employee)
 
     c.Redirect(302, "/employees")
+}
+
+func GetEmployeeJSON(c *gin.Context) {
+
+    tenant, _ := c.Cookie("tenant")
+
+    id := c.Param("id")
+
+    var employee models.Employee
+
+    config.DB.
+        Where("account_code = ?", tenant).
+        First(&employee, id)
+
+    c.JSON(200, employee)
 }
