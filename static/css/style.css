@@ -1122,3 +1122,62 @@ table th {
     }
 
 }
+
+/* ===== EMPLOYEE ACTION BUTTONS ===== */
+
+.table-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.table-actions form{
+    margin:0;
+}
+
+.table-actions button{
+    width:38px !important;
+    height:38px !important;
+
+    padding:0 !important;
+
+    border:none;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.table-actions button i{
+    font-size:14px;
+}
+
+.btn-edit{
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #7c3aed
+    ) !important;
+
+    color:white;
+}
+
+.btn-delete{
+    background:linear-gradient(
+        135deg,
+        #ef4444,
+        #dc2626
+    ) !important;
+
+    color:white;
+}
+
+.table-actions button:hover{
+    transform:translateY(-2px);
+}
