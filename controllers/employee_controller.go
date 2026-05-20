@@ -18,6 +18,8 @@ func Employees(c *gin.Context) {
 	var employees []models.Employee
 	config.DB.Find(&employees)
 
+	config.DB.Where("account_code = ?", tenant).Find(&employees)
+
 	utils.Render(c, []string{
 		"templates/employee/index.html",
 	}, gin.H{
@@ -70,7 +72,6 @@ func CreateEmployee(c *gin.Context) {
         JoinDate:         joinDate,
         EmploymentStatus: c.PostForm("employment_status"),
         EmployeeStatus:   "Active",
-        CreatedAt:        time.Now().Unix(),
     }
 
     config.DB.Create(&employee)

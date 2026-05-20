@@ -4,6 +4,7 @@ import "time"
 
 type Employee struct {
 	ID               uint
+	AccountCode      string // e.g. "TENANT001"
 	EmployeeID       string // e.g. "EMP001"
 	EmployeeCode     string // e.g. "E001"
 	FirstName        string
