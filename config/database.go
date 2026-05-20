@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
-
+	"hris-saas/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
