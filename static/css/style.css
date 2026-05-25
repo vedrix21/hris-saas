@@ -20,7 +20,8 @@ body {
     padding: 20px;
     position: fixed;
     transition: all 0.3s ease;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     top: 0;
     left: 0;
     display: flex;
@@ -1226,7 +1227,8 @@ table th {
 }
 
 .submenu-item {
-    padding: 10px 12px !important;
+    padding: 8px 12px !important;
+    margin: 2px 0 !important;
 
     border-radius: 10px;
 
@@ -1255,4 +1257,23 @@ table th {
 .submenu-arrow {
     font-size: 12px;
     opacity: .7;
+}
+
+/* CUSTOM SIDEBAR SCROLLBAR */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.25);
 }
