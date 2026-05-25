@@ -11,20 +11,68 @@
     <!-- MENU -->
     <div class="menu">
         {{ range .Menus }}
-        <a href="{{ .Link }}" 
+
+            {{ if .Children }}
+
+            <!-- MENU WITH SUBMENU -->
+            <div class="menu-group">
+
+                <div class="menu-parent"
+                    onclick="toggleSubmenu(this)">
+
+                    <div class="menu-left">
+
+                        <span class="icon">
+                            {{ if eq .Name "Settings" }}⚙️{{ end }}
+                        </span>
+
+                        <span class="text">{{ .Name }}</span>
+
+                    </div>
+
+                    <span class="submenu-arrow">⌄</span>
+
+                </div>
+
+                <!-- SUBMENU -->
+                <div class="submenu">
+
+                    {{ range .Children }}
+
+                    <a href="{{ .Link }}"
+                    onclick="handleNav(event, '{{ .Link }}')"
+                    class="submenu-item {{ if eq $.CurrentPath .Link }}active{{ end }}">
+
+                        {{ .Name }}
+
+                    </a>
+
+                    {{ end }}
+
+                </div>
+
+            </div>
+
+            {{ else }}
+
+            <!-- NORMAL MENU -->
+            <a href="{{ .Link }}"
             onclick="handleNav(event, '{{ .Link }}')"
             class="{{ if eq $.CurrentPath .Link }}active{{ end }}">
-            
-            <span class="icon">
-                {{ if eq .Name "Dashboard" }}🏠{{ end }}
-                {{ if eq .Name "Employees" }}👥{{ end }}
-                {{ if eq .Name "Attendance" }}⏱️{{ end }}
-                {{ if eq .Name "Payroll" }}💰{{ end }}
-                {{ if eq .Name "Settings" }}⚙️{{ end }}
-            </span>
 
-            <span class="text">{{ .Name }}</span>
-        </a>
+                <span class="icon">
+                    {{ if eq .Name "Dashboard" }}🏠{{ end }}
+                    {{ if eq .Name "Employees" }}👥{{ end }}
+                    {{ if eq .Name "Attendance" }}⏱️{{ end }}
+                    {{ if eq .Name "Payroll" }}💰{{ end }}
+                </span>
+
+                <span class="text">{{ .Name }}</span>
+
+            </a>
+
+            {{ end }}
+
         {{ end }}
     </div>
 

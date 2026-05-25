@@ -1181,3 +1181,78 @@ table th {
 .table-actions button:hover{
     transform:translateY(-2px);
 }
+
+/* ===== SUBMENU ===== */
+
+.menu-parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px;
+    margin: 6px 0;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: #cbd5e1;
+
+    transition: all .25s ease;
+}
+
+.menu-parent:hover {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.menu-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.submenu {
+    display: none;
+
+    flex-direction: column;
+
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.submenu.open {
+    display: flex;
+}
+
+.submenu-item {
+    padding: 10px 12px !important;
+
+    border-radius: 10px;
+
+    font-size: 14px !important;
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    transition: .2s;
+}
+
+.submenu-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: white;
+}
+
+.submenu-item.active {
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+
+    color: white;
+
+    box-shadow: 0 4px 15px rgba(79,70,229,0.4);
+}
+
+.submenu-arrow {
+    font-size: 12px;
+    opacity: .7;
+}

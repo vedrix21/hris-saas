@@ -169,3 +169,12 @@ function closeModal() {
     document.getElementById("paymentModal").style.display = "none";
 }
 
+
+
+function toggleSubmenu(element) {
+
+    const submenu = element.nextElementSibling;
+
+    submenu.classList.toggle("open");
+
+}
