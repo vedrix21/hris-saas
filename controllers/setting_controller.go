@@ -1,9 +1,10 @@
+package controllers
+
 import (
-	"hris/config"
+	
 	"hris/models"
 	"hris/services"
 	"hris/utils"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
