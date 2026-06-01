@@ -1,0 +1,77 @@
+{{define "content"}}
+
+<div class="container-fluid">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">Data Migration</h4>
+        </div>
+
+        <div class="card-body">
+
+            <p class="text-muted">
+                Select the master data you want to migrate into the system.
+            </p>
+
+            <form method="POST" action="/settings/data_migration/import" enctype="multipart/form-data">
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+                        <label class="card p-3 h-100">
+                            <input type="checkbox" name="migration_type" value="employee">
+                            <h5>👤 Employee</h5>
+                            <small>Employee master data</small>
+                        </label>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="card p-3 h-100">
+                            <input type="checkbox" name="migration_type" value="leave">
+                            <h5>🏖 Leave</h5>
+                            <small>Leave balances & history</small>
+                        </label>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="card p-3 h-100">
+                            <input type="checkbox" name="migration_type" value="position">
+                            <h5>💼 Position</h5>
+                            <small>Job positions</small>
+                        </label>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="card p-3 h-100">
+                            <input type="checkbox" name="migration_type" value="org_unit">
+                            <h5>🏢 Org Unit</h5>
+                            <small>Organization structure</small>
+                        </label>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Upload Excel File
+                    </label>
+                    <input type="file"
+                           name="file"
+                           class="form-control"
+                           accept=".xlsx,.xls,.csv">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Import Selected Data
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{{end}}
+
+{{template "base" .}}

@@ -95,7 +95,7 @@ func GetSidebar(role string, tenant string) []MenuItem {
 	if role == "superadmin" {
 		settingsChildren = append(settingsChildren, MenuItem{
 			Name: "Data Migration",
-			Link: "/settings/data-migration",
+			Link: "/settings/data_migration",
 		})
 	}
 

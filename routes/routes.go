@@ -67,6 +67,10 @@ func SetupRoutes(r *gin.Engine) {
 			middlewares.RequireFeature("payroll"),
 			controllers.PayrollPage,
 		)
+		auth.GET("/settings/data_migration",
+			middlewares.RequireFeature("Data Migration"),
+			controllers.MigrationPage,
+		)
 
 		// 🔥 billing WAJIB ADA
 		auth.GET("/billing", controllers.BillingPage)
