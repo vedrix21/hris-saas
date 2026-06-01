@@ -68,7 +68,7 @@ func SetupRoutes(r *gin.Engine) {
 			controllers.PayrollPage,
 		)
 		auth.GET("/settings/data_migration",
-			middlewares.RequireFeature("Data Migration"),
+			middlewares.SuperAdminOnly(),
 			controllers.MigrationPage,
 		)
 

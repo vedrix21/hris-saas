@@ -2,6 +2,7 @@ package middlewares
 
 import (
     "net/http"
+    "hris/models"
 
     "github.com/gin-gonic/gin"
 )
@@ -19,4 +20,20 @@ func OwnerOnly() gin.HandlerFunc {
 
         c.Next()
     }
+}
+
+func SuperAdminOnly() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		user := c.MustGet("user").(models.User)
+
+		if user.Role != "superadmin" {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
+				"error": "Access denied",
+			})
+			return
+		}
+
+		c.Next()
+	}
 }
