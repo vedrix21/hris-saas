@@ -1,76 +1,107 @@
 {{define "content"}}
 
-<div class="container-fluid">
-    <div class="card shadow-sm">
-        <div class="card-header">
-            <h4 class="mb-0">Data Migration</h4>
+<div class="card">
+
+    <h2>Data Migration</h2>
+
+    <p style="color:#64748b;margin-top:10px;">
+        Select data to import into AitherHR.
+    </p>
+
+    <form method="POST"
+          action="/settings/data_migration/import"
+          enctype="multipart/form-data">
+
+        <div class="migration-grid">
+
+            <label class="migration-item">
+                <input type="checkbox" name="migration_type" value="employee">
+                <div>
+                    <h3>👤 Employee Data</h3>
+                    <p>Employee master data</p>
+                </div>
+            </label>
+
+            <label class="migration-item">
+                <input type="checkbox" name="migration_type" value="leave">
+                <div>
+                    <h3>🏖 Leave Data</h3>
+                    <p>Leave balances & history</p>
+                </div>
+            </label>
+
+            <label class="migration-item">
+                <input type="checkbox" name="migration_type" value="position">
+                <div>
+                    <h3>💼 Position Data</h3>
+                    <p>Job positions</p>
+                </div>
+            </label>
+
+            <label class="migration-item">
+                <input type="checkbox" name="migration_type" value="org_unit">
+                <div>
+                    <h3>🏢 Organization Unit</h3>
+                    <p>Organization structure</p>
+                </div>
+            </label>
+
         </div>
 
-        <div class="card-body">
-
-            <p class="text-muted">
-                Select the master data you want to migrate into the system.
-            </p>
-
-            <form method="POST" action="/settings/data_migration/import" enctype="multipart/form-data">
-
-                <div class="row">
-
-                    <div class="col-md-3 mb-3">
-                        <label class="card p-3 h-100">
-                            <input type="checkbox" name="migration_type" value="employee">
-                            <h5>👤 Employee</h5>
-                            <small>Employee master data</small>
-                        </label>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <label class="card p-3 h-100">
-                            <input type="checkbox" name="migration_type" value="leave">
-                            <h5>🏖 Leave</h5>
-                            <small>Leave balances & history</small>
-                        </label>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <label class="card p-3 h-100">
-                            <input type="checkbox" name="migration_type" value="position">
-                            <h5>💼 Position</h5>
-                            <small>Job positions</small>
-                        </label>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <label class="card p-3 h-100">
-                            <input type="checkbox" name="migration_type" value="org_unit">
-                            <h5>🏢 Org Unit</h5>
-                            <small>Organization structure</small>
-                        </label>
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <div class="mb-3">
-                    <label class="form-label">
-                        Upload Excel File
-                    </label>
-                    <input type="file"
-                           name="file"
-                           class="form-control"
-                           accept=".xlsx,.xls,.csv">
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Import Selected Data
-                </button>
-
-            </form>
-
+        <div style="margin-top:25px;">
+            <label>Upload Excel File</label>
+            <input type="file"
+                   name="file"
+                   accept=".xlsx,.xls,.csv">
         </div>
-    </div>
+
+        <button type="submit" style="margin-top:20px;">
+            Import Selected Data
+        </button>
+
+    </form>
+
 </div>
+
+<style>
+.migration-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.migration-item{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:18px;
+    display:flex;
+    gap:15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.migration-item:hover{
+    border-color:#6366f1;
+    box-shadow:0 6px 20px rgba(99,102,241,.12);
+}
+
+.migration-item input{
+    width:auto;
+    margin-top:4px;
+}
+
+.migration-item h3{
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.migration-item p{
+    color:#64748b;
+    font-size:13px;
+}
+</style>
 
 {{end}}
 
