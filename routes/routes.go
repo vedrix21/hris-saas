@@ -81,25 +81,25 @@ func SetupRoutes(r *gin.Engine) {
 		auth.POST(
 			"/settings/data_migration/import/employee",
 			middlewares.SuperAdminOnly(),
-			controllers.ImportEmployee,
+			controllers.ImportEmployeeData,
 		)
 
 		auth.POST(
 			"/settings/data_migration/import/leave",
 			middlewares.SuperAdminOnly(),
-			controllers.ImportLeave,
+			controllers.ImportLeaveData,
 		)
 
 		auth.POST(
 			"/settings/data_migration/import/position",
 			middlewares.SuperAdminOnly(),
-			controllers.ImportPosition,
+			controllers.ImportPositionData,
 		)
 
 		auth.POST(
 			"/settings/data_migration/import/org_unit",
 			middlewares.SuperAdminOnly(),
-			controllers.ImportOrgUnit,
+			controllers.ImportOrgUnitData,
 		)
 
 		// 🔥 billing WAJIB ADA
