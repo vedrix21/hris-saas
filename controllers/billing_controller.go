@@ -165,6 +165,9 @@ func UploadPayment(c *gin.Context) {
 
 func BillingPage(c *gin.Context) {
 	accountCode, _ := c.Cookie("tenant")
+	
+	user := c.MustGet("user").(models.User)
+	
 
 	var acc models.Account
 	config.DB.Where("code = ?", accountCode).First(&acc)
@@ -198,5 +201,6 @@ func BillingPage(c *gin.Context) {
 		"payment":  payment,
 		"isLocked": islocked,
 		"daysLeft": utils.DaysLeft(acc),
+		"User":        user,
 	})
 }

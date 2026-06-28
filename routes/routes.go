@@ -72,6 +72,36 @@ func SetupRoutes(r *gin.Engine) {
 			controllers.MigrationPage,
 		)
 
+		auth.GET(
+			"/settings/data_migration/template/:type",
+			middlewares.SuperAdminOnly(),
+			controllers.DownloadMigrationTemplate,
+		)
+
+		auth.POST(
+			"/settings/data_migration/import/employee",
+			middlewares.SuperAdminOnly(),
+			controllers.ImportEmployee,
+		)
+
+		auth.POST(
+			"/settings/data_migration/import/leave",
+			middlewares.SuperAdminOnly(),
+			controllers.ImportLeave,
+		)
+
+		auth.POST(
+			"/settings/data_migration/import/position",
+			middlewares.SuperAdminOnly(),
+			controllers.ImportPosition,
+		)
+
+		auth.POST(
+			"/settings/data_migration/import/org_unit",
+			middlewares.SuperAdminOnly(),
+			controllers.ImportOrgUnit,
+		)
+
 		// 🔥 billing WAJIB ADA
 		auth.GET("/billing", controllers.BillingPage)
 		auth.POST("/billing/upgrade", controllers.UpgradePlan)
