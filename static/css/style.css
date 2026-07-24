@@ -621,18 +621,48 @@ table th {
 /* ===== BILLING UI ===== */
 
 .payment-box {
-    background: #f8fafc;
+    /* background: #f8fafc;
     padding: 15px;
-    border-radius: 12px;
+    border-radius: 12px; */
+    margin-top:15px;
 }
 
 .bank-card {
-    background: white;
+    /* background: white;
     border: 1px solid #e2e8f0;
     padding: 15px;
     border-radius: 12px;
     margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); */
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:18px;
+    background:#f8fafc;
+}
+
+.bank-card b{
+    font-size:18px;
+}
+
+.bank-card p{
+    font-size:22px;
+    font-weight:700;
+    margin:8px 0;
+    letter-spacing:1px;
+}
+
+.copy-btn{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:8px 14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.copy-btn:hover{
+    background:#1d4ed8;
 }
 
 /* Upload box */

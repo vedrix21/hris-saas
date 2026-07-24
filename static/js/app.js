@@ -178,3 +178,11 @@ function toggleSubmenu(element) {
     submenu.classList.toggle("open");
 
 }
+
+function copyAccountNumber() {
+    const accountNumber = document.getElementById("accountNumber").innerText;
+
+    navigator.clipboard.writeText(accountNumber).then(() => {
+        alert("Nomor rekening berhasil disalin.");
+    });
+}

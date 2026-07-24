@@ -34,17 +34,25 @@
     <h2>Payment</h2>
 
     <div class="payment-box">
-        <p>Transfer ke:</p>
+        <p>Please transfer to the following bank account:</p>
 
         <div class="bank-card">
-            <b>Bank Mandiri</b>
-            <p>1550015738860</p>
+            <div style="display:flex;justify-content:space-between;align-items:center;"></div>
+            <b>BCA</b>
+            <p id="accountNumber" style="margin:5px 0;">6560289195</p>
             <small>a.n FAUZAN AKBAR PRASETYATAMA</small>
+            <button type="button" class="copy-btn" onclick="copyAccountNumber()">
+                Copy
+            </button>
+            </div>
         </div>
 
-        <p style="margin-top:10px;">
-            Amount: <b>Rp {{.account.MonthlyFee}}</b>
-        </p>
+        <div style="margin-top:20px;">
+            <small>Total Pembayaran</small>
+            <h2 style="margin:5px 0;color:#2563eb;">
+                Rp {{.account.MonthlyFee}}
+            </h2>
+        </div>
     </div>
 </div>
 

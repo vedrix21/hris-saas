@@ -51,34 +51,37 @@ func DownloadMigrationTemplate(c *gin.Context) {
 	
 }
 func ImportEmployeeData(c *gin.Context) {
-	// Handle file upload
-	file, err := c.FormFile("file")
-	if err != nil {
-		c.JSON(400, gin.H{"error": "File upload failed"})
-		return
-	}
+    if _, err := c.FormFile("file"); err != nil {
+        c.JSON(400, gin.H{"error": "File upload failed"})
+        return
+    }
+
+    c.JSON(200, gin.H{"message": "Import employee belum diimplementasikan"})
 }
+
 func ImportLeaveData(c *gin.Context) {
-	// Handle file upload
-	file, err := c.FormFile("file")
-	if err != nil {
-		c.JSON(400, gin.H{"error": "File upload failed"})
-		return
-	}
+    if _, err := c.FormFile("file"); err != nil {
+        c.JSON(400, gin.H{"error": "File upload failed"})
+        return
+    }
+
+    c.JSON(200, gin.H{"message": "Import leave belum diimplementasikan"})
 }
+
 func ImportPositionData(c *gin.Context) {
-	// Handle file upload
-	file, err := c.FormFile("file")
-	if err != nil {
-		c.JSON(400, gin.H{"error": "File upload failed"})
-		return
-	}
+    if _, err := c.FormFile("file"); err != nil {
+        c.JSON(400, gin.H{"error": "File upload failed"})
+        return
+    }
+
+    c.JSON(200, gin.H{"message": "Import position belum diimplementasikan"})
 }
+
 func ImportOrgUnitData(c *gin.Context) {
-	// Handle file upload
-	file, err := c.FormFile("file")
-	if err != nil {
-		c.JSON(400, gin.H{"error": "File upload failed"})
-		return
-	}
+    if _, err := c.FormFile("file"); err != nil {
+        c.JSON(400, gin.H{"error": "File upload failed"})
+        return
+    }
+
+    c.JSON(200, gin.H{"message": "Import org unit belum diimplementasikan"})
 }
